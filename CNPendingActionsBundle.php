@@ -1,6 +1,6 @@
 <?php
 
-namespace CNPendingActionsBundle;
+namespace ClaviculaNox\CNPendingActionsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
