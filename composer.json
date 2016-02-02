@@ -1,21 +1,31 @@
 {
-  "name": "clavicula-nox/pendingactions-bundle",
-  "type": "symfony-bundle",
-  "description": "Symfony CNPendingActionsBundle",
-  "homepage": "http://www.clavicula-nox.com",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Adrien Lochon",
-      "email": "lochonadrien@gmail.com"
-    }
-  ],
-  "autoload": {
-    "psr-0": { "CN\\PendingActionsBundle\\": "" }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "0.1"
-    }
-  }
+    "name": "clavicula-nox/pendingactions-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony CNPendingActionsBundle",
+    "homepage": "http://www.clavicula-nox.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrien Lochon",
+            "email": "lochonadrien@gmail.com"
+        }
+    ],
+
+    "require": {
+        "php":                            "^5.3.9|~7.0",
+        "symfony/framework-bundle":       "~2.8|~3.0"
+    },
+
+    "autoload": {
+        "psr-0": { "ClaviculaNox\\CNPendingActionsBundle\\": "" }
+    },
+
+    "extra": {
+        "branch-alias":
+        {
+            "dev-master": "0.1"
+        }
+    },
+
+    "target-dir": "ClaviculaNox/CNPendingActionsBundle"
 }

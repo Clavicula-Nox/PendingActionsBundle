@@ -47,7 +47,7 @@ class PendingAction
     protected $state;
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -55,7 +55,7 @@ class PendingAction
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
     public function setId($id)
     {
@@ -63,7 +63,7 @@ class PendingAction
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAction()
     {
@@ -71,7 +71,7 @@ class PendingAction
     }
 
     /**
-     * @param mixed $action
+     * @param string $action
      */
     public function setAction($action)
     {
@@ -79,7 +79,7 @@ class PendingAction
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getParams()
     {
@@ -87,7 +87,7 @@ class PendingAction
     }
 
     /**
-     * @param mixed $params
+     * @param string $params
      */
     public function setParams($params)
     {
@@ -95,7 +95,7 @@ class PendingAction
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getGroup()
     {
@@ -103,7 +103,7 @@ class PendingAction
     }
 
     /**
-     * @param mixed $group
+     * @param string $group
      */
     public function setGroup($group)
     {
@@ -111,7 +111,7 @@ class PendingAction
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getState()
     {
@@ -119,7 +119,7 @@ class PendingAction
     }
 
     /**
-     * @param mixed $state
+     * @param int $state
      */
     public function setState($state)
     {
