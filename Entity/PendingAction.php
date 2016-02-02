@@ -9,8 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity(repositoryClass="ClaviculaNox\CNPendingActionsBundle\Entity\Repository\PendingActionRepository")
  * @ORM\Table(name="pending_actions")
- *
- * @TODO : Maybe add an execution date for process ?
  */
 class PendingAction
 {
@@ -91,6 +89,13 @@ class PendingAction
      */
     public function setParams($params)
     {
+        if (is_array($params)) {
+            $params = json_encode($params);
+        }
+
+        if (!json_decode($params)) {
+            $params = '';
+        }
         $this->params = $params;
     }
 

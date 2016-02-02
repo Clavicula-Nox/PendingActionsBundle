@@ -22,8 +22,28 @@ class PendingActionsService
         $this->EntityManager = $EntityManager;
     }
 
+    /**
+     * @param null|string $group
+     * @return array
+     */
     public function getPendingActions($group = null)
     {
         return $this->EntityManager->getRepository('CNPendingActionsBundle:PendingAction')->get($group, PendingAction::STATE_WAITING);
+    }
+
+    /**
+     * @param string $action
+     * @param array $params
+     * @param null|string $group
+     */
+    public function register($action, $params = array(), $group = null)
+    {
+        $PendingAction = new PendingAction();
+        $PendingAction->setAction($action);
+        $PendingAction->setParams($params);
+        $PendingAction->setGroup($group);
+        $PendingAction->setState(PendingAction::STATE_WAITING);
+        $this->EntityManager->persist($PendingAction);
+        $this->EntityManager->flush($PendingAction);
     }
 }
