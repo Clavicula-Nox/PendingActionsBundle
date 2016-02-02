@@ -23,7 +23,13 @@ before_install:
 install:
   - composer install
 
-#script: phpunit -c tests/
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+script: phpunit -c tests/
 
 notifications:
   email:
