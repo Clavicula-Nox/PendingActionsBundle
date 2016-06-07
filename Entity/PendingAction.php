@@ -96,6 +96,7 @@ class PendingAction
         if (!json_decode($params)) {
             $params = '';
         }
+        
         $this->params = $params;
     }
 
