@@ -32,12 +32,12 @@ class PendingAction
     /**
      * @ORM\Column(type="string", length=500, options={"default":""})
      */
-    protected $params = '';
+    protected $actionParams = '';
 
     /**
      * @ORM\Column(type="string", length=500, options={"default":""})
      */
-    protected $group = '';
+    protected $actionGroup = '';
 
     /**
      * @ORM\Column(type="integer")
@@ -77,43 +77,43 @@ class PendingAction
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getParams()
+    public function getActionParams()
     {
-        return $this->params;
+        return $this->actionParams;
     }
 
     /**
-     * @param string $params
+     * @param array|string $actionParams
      */
-    public function setParams($params)
+    public function setActionParams($actionParams)
     {
-        if (is_array($params)) {
-            $params = json_encode($params);
+        if (is_array($actionParams)) {
+            $actionParams = json_encode($actionParams);
         }
 
-        if (!json_decode($params)) {
-            $params = '';
+        if (!json_decode($actionParams)) {
+            $actionParams = '';
         }
-        
-        $this->params = $params;
+
+        $this->actionParams = $actionParams;
     }
 
     /**
      * @return string
      */
-    public function getGroup()
+    public function getActionGroup()
     {
-        return $this->group;
+        return $this->actionGroup;
     }
 
     /**
-     * @param string $group
+     * @param string $actionGroup
      */
-    public function setGroup($group)
+    public function setActionGroup($actionGroup)
     {
-        $this->group = $group;
+        $this->actionGroup = $actionGroup;
     }
 
     /**
@@ -131,6 +131,4 @@ class PendingAction
     {
         $this->state = $state;
     }
-
-
 }

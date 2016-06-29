@@ -40,10 +40,10 @@ class PendingActionsService
     {
         $PendingAction = new PendingAction();
         $PendingAction->setAction($action);
-        $PendingAction->setParams($params);
-        $PendingAction->setGroup($group);
+        $PendingAction->setActionParams($params);
+        $PendingAction->setActionGroup($group);
         $PendingAction->setState(PendingAction::STATE_WAITING);
         $this->EntityManager->persist($PendingAction);
-        $this->EntityManager->flush($PendingAction);
+        $this->EntityManager->flush();
     }
 }
