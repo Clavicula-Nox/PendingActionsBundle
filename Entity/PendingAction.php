@@ -79,8 +79,11 @@ class PendingAction
     /**
      * @return mixed
      */
-    public function getActionParams()
+    public function getActionParams($asArray = false)
     {
+        if ($asArray) {
+            return json_decode($this->actionParams, true);
+        }
         return $this->actionParams;
     }
 
