@@ -84,6 +84,7 @@ class PendingAction
         if ($asArray) {
             return json_decode($this->actionParams, true);
         }
+
         return $this->actionParams;
     }
 

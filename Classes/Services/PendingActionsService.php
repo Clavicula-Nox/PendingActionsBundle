@@ -26,9 +26,30 @@ class PendingActionsService
      * @param null|string $group
      * @return array
      */
-    public function getPendingActions($group = null)
+    public function getPendingActions($group = null, $groupSimilarAction = false)
     {
-        return $this->EntityManager->getRepository('CNPendingActionsBundle:PendingAction')->get($group, PendingAction::STATE_WAITING);
+        $actions = $this->EntityManager->getRepository('CNPendingActionsBundle:PendingAction')->get($group, PendingAction::STATE_WAITING);
+
+        if ($groupSimilarAction) {
+            $returnActions = array();
+
+            foreach ($actions as $action)
+            {
+                /* @var PendingAction $action */
+                $key = sha1($action->getAction() . $action->getActionGroup() . json_encode($action->getAction()));
+                if (array_key_exists($key, $returnActions)) {
+                    $this->EntityManager->remove($action);
+                } else {
+                    $returnActions[$key] = $action;
+                }
+            }
+            $this->EntityManager->flush();
+            $returnActions = array_values($returnActions);
+
+            return $returnActions;
+        }
+
+        return $actions;
     }
 
     /**
