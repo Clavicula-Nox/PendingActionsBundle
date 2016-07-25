@@ -2,7 +2,7 @@
     "name": "clavicula-nox/pendingactions-bundle",
     "type": "symfony-bundle",
     "description": "Symfony CNPendingActionsBundle",
-    "homepage": "http://www.clavicula-nox.com",
+    "homepage": "https://www.claviculanox.io",
     "license": "MIT",
     "authors": [
         {

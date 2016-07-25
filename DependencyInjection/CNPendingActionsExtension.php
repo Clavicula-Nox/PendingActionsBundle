@@ -7,6 +7,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
+/**
+ * Class CNPendingActionsExtension
+ * @package ClaviculaNox\CNPendingActionsBundle\DependencyInjection
+ */
 class CNPendingActionsExtension extends Extension
 {
     /**

@@ -77,7 +77,7 @@ class PendingAction
     }
 
     /**
-     * @return mixed
+     * @return array|string
      */
     public function getActionParams($asArray = false)
     {
