@@ -1,7 +1,0 @@
-Donner la possibilité ou pas de supprimer l'action une fois traitée (défaut : supprimer)
-Ajouter notion offset / limit en params (défaut 0, 10) pour la commande d'execution
-Donner la possibilité de vérifier si une action est déjà dans la liste (via un hash action/params/group)
-Faire des tests unitaires
-Dans le service, prévoir une méthode de mise à jour du status de l'action et une pour supprimer
-Grouper les actions identiques en une seule
-Ajouter une dépendance vers CNToolboxBundle pour la gestion du cache et du lock command
