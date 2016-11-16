@@ -7,13 +7,13 @@
     "authors": [
         {
             "name": "Adrien Lochon",
-            "email": "lochonadrien@gmail.com"
+            "email": "adrien@claviculanox.io"
         }
     ],
 
     "require": {
-        "php":                            "^5.3.9|~7.0",
-        "symfony/framework-bundle":       "~2.7|~3.0"
+        "php":                      "^5.3.9|~7.0",
+        "symfony/framework-bundle": "~2.7|~3.0"
     },
 
     "autoload": {
