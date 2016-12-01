@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PendingActionsBundle.
+ *
+ * (c) Adrien Lochon <adrien@claviculanox.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace ClaviculaNox\CNPendingActionsBundle\Classes\Services;
 
 use ClaviculaNox\CNPendingActionsBundle\Entity\PendingAction;
@@ -36,7 +45,7 @@ class PendingActionsService
             foreach ($actions as $action)
             {
                 /* @var PendingAction $action */
-                $key = sha1($action->getAction() . $action->getActionGroup() . json_encode($action->getAction()));
+                $key = sha1($action->getType() . $action->getActionGroup() . $action->getActionParams());
                 if (array_key_exists($key, $returnActions)) {
                     $this->EntityManager->remove($action);
                 } else {
@@ -57,14 +66,23 @@ class PendingActionsService
      * @param array $params
      * @param null|string $group
      */
-    public function register($action, $params = array(), $group = null)
+    public function register($type, $params = array(), $group = null)
     {
         $PendingAction = new PendingAction();
-        $PendingAction->setAction($action);
+        $PendingAction->setType($type);
         $PendingAction->setActionParams($params);
         $PendingAction->setActionGroup($group);
         $PendingAction->setState(PendingAction::STATE_WAITING);
         $this->EntityManager->persist($PendingAction);
         $this->EntityManager->flush();
+    }
+
+    /**
+     * @param PendingAction $PendingAction
+     * @return bool
+     */
+    public function checkPendingAction(PendingAction $PendingAction)
+    {
+        return true;
     }
 }

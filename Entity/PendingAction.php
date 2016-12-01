@@ -17,7 +17,10 @@ class PendingAction
     const STATE_PROCESSED = 2;
     const STATE_ERROR = 3;
 
+    const TYPE_SERVICE = 1;
+
     /**
+     * @var integer
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
@@ -25,21 +28,25 @@ class PendingAction
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=500, options={"default":""})
+     * @var integer
+     * @ORM\Column(type="integer")
      */
-    protected $action = '';
+    protected $type;
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=500, options={"default":""})
      */
     protected $actionParams = '';
 
     /**
+     * @var string
      * @ORM\Column(type="string", length=500, options={"default":""})
      */
     protected $actionGroup = '';
 
     /**
+     * @var integer
      * @ORM\Column(type="integer")
      */
     protected $state;
@@ -61,19 +68,19 @@ class PendingAction
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getAction()
+    public function getType()
     {
-        return $this->action;
+        return $this->type;
     }
 
     /**
-     * @param string $action
+     * @param int $type
      */
-    public function setAction($action)
+    public function setType($type)
     {
-        $this->action = $action;
+        $this->type = $type;
     }
 
     /**
