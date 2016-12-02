@@ -51,14 +51,27 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
+        $output->write("Getting pending actions...", true);
+        if (!is_null($input->getArgument('actionGroup'))) {
+            $output->write("   Selected group : " . $input->getArgument('actionGroup'), true);
+        }
+
         $pendingActions = $this->getContainer()
             ->get("cn_pending_actions.pending_actions_service")
             ->getPendingActions($input->getArgument('actionGroup'), true);
+        $output->write("   Processing actions...", true);
 
+        $counter = 1;
+        $total = count($pendingActions);
         foreach ($pendingActions as $pendingAction)
         {
+            $output->write("   Action " . $counter . "/" . $total, true);
+            $counter++;
+            $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSING);
+
             if (!$this->getContainer()->get("cn_pending_actions.pending_actions_service")->checkPendingAction($pendingAction)) {
-                die("ERROR");
+                $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_ERROR);
                 continue;
             }
 
@@ -68,20 +81,15 @@ EOT
                 case PendingAction::TYPE_SERVICE :
                 {
                     $params = json_decode($pendingAction->getActionParams(), true);
-                    if (is_null($params)) {
-                        die("ERROR");
-                    }
-                    var_dump($params);
-                    die();
-                    if ($this->getContainer()->has('foo_service.alias'))
-                    {
-                        // service is loaded and usable
-                    }
+                    call_user_func_array(array($this->getContainer()->get($params["serviceId"]), $params["method"]), $params['args']);
+                    $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSED);
+                    break;
                 }
 
                 default :
                 {
-
+                    $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_ERROR);
+                    break;
                 }
             }
         }
