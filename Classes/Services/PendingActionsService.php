@@ -13,7 +13,6 @@ namespace ClaviculaNox\CNPendingActionsBundle\Classes\Services;
 
 use ClaviculaNox\CNPendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
@@ -26,8 +25,6 @@ class PendingActionsService implements ContainerAwareInterface
     use ContainerAwareTrait;
 
     protected $EntityManager;
-    /* @var ContainerInterface*/
-    protected $Container;
 
     /**
      * PendingActionsService constructor.
@@ -36,14 +33,6 @@ class PendingActionsService implements ContainerAwareInterface
     public function __construct(EntityManager $EntityManager)
     {
         $this->EntityManager = $EntityManager;
-    }
-
-    /**
-     * @param ContainerInterface|null $Container
-     */
-    public function setContainer(ContainerInterface $Container = null)
-    {
-        $this->Container = $Container;
     }
 
     /**
@@ -110,12 +99,12 @@ class PendingActionsService implements ContainerAwareInterface
                     return false;
                 }
 
-                if (!$this->Container->has($params["serviceId"]))
+                if (!$this->container->has($params["serviceId"]))
                 {
                     return false;
                 }
 
-                $service = $this->Container->get($params["serviceId"]);
+                $service = $this->container->get($params["serviceId"]);
                 if (!method_exists($service, $params["method"]))
                 {
                     return false;
