@@ -14,23 +14,35 @@ namespace ClaviculaNox\CNPendingActionsBundle\Classes\Services;
 use ClaviculaNox\CNPendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Class PendingActionsService
  * @package ClaviculaNox\CNPendingActionsBundle\Classes\Services
  */
-class PendingActionsService
+class PendingActionsService implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     protected $EntityManager;
+    /* @var ContainerInterface*/
     protected $Container;
 
     /**
      * PendingActionsService constructor.
      * @param EntityManager $EntityManager
      */
-    public function __construct(EntityManager $EntityManager, ContainerInterface $Container)
+    public function __construct(EntityManager $EntityManager)
     {
         $this->EntityManager = $EntityManager;
+    }
+
+    /**
+     * @param ContainerInterface|null $Container
+     */
+    public function setContainer(ContainerInterface $Container = null)
+    {
         $this->Container = $Container;
     }
 

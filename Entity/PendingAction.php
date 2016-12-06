@@ -35,7 +35,7 @@ class PendingAction
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=500, options={"default":""})
+     * @ORM\Column(type="text", options={"default":""})
      */
     protected $actionParams = '';
 
