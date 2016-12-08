@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the PendingActionsBundle.
+ * This file is part of the CNPendingActionsBundle.
  *
  * (c) Adrien Lochon <adrien@claviculanox.io>
  *
