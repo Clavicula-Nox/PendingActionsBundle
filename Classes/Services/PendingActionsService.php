@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the CNPendingActionsBundle.
+ * This file is part of the PendingActionsBundle.
  *
  * (c) Adrien Lochon <adrien@claviculanox.io>
  *
@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace ClaviculaNox\CNPendingActionsBundle\Classes\Services;
+namespace ClaviculaNox\PendingActionsBundle\Classes\Services;
 
-use ClaviculaNox\CNPendingActionsBundle\Entity\PendingAction;
+use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Class PendingActionsService
- * @package ClaviculaNox\CNPendingActionsBundle\Classes\Services
+ * @package ClaviculaNox\PendingActionsBundle\Classes\Services
  */
 class PendingActionsService implements ContainerAwareInterface
 {
@@ -41,7 +41,7 @@ class PendingActionsService implements ContainerAwareInterface
      */
     public function getPendingActions($group = null, $groupSimilarAction = false)
     {
-        $actions = $this->EntityManager->getRepository('CNPendingActionsBundle:PendingAction')->get($group, PendingAction::STATE_WAITING);
+        $actions = $this->EntityManager->getRepository('PendingActionsBundle:PendingAction')->get($group, PendingAction::STATE_WAITING);
 
         if ($groupSimilarAction) {
             $returnActions = array();

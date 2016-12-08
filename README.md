@@ -1,4 +1,4 @@
-CNPendingActionsBundle
+PendingActionsBundle
 ===================
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/c607d9d8-329b-461a-82f8-8ad30be60be8/mini.png)](https://insight.sensiolabs.com/projects/c607d9d8-329b-461a-82f8-8ad30be60be8)
@@ -41,7 +41,7 @@ class AppKernel extends Kernel
     {
         $bundles = array(
             // ...
-            new ClaviculaNox\CNPendingActionsBundle\CNPendingActionsBundle(),
+            new ClaviculaNox\PendingActionsBundle\PendingActionsBundle(),
         );
     }
 

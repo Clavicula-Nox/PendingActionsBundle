@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the CNPendingActionsBundle.
+ * This file is part of the PendingActionsBundle.
  *
  * (c) Adrien Lochon <adrien@claviculanox.io>
  *
@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace ClaviculaNox\CNPendingActionsBundle\Command;
+namespace ClaviculaNox\PendingActionsBundle\Command;
 
-use ClaviculaNox\CNPendingActionsBundle\Entity\PendingAction;
+use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

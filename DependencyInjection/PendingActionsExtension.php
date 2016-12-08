@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the CNPendingActionsBundle.
+ * This file is part of the PendingActionsBundle.
  *
  * (c) Adrien Lochon <adrien@claviculanox.io>
  *
@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace ClaviculaNox\CNPendingActionsBundle\DependencyInjection;
+namespace ClaviculaNox\PendingActionsBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * Class CNPendingActionsExtension
- * @package ClaviculaNox\CNPendingActionsBundle\DependencyInjection
+ * @package ClaviculaNox\PendingActionsBundle\DependencyInjection
  */
 class CNPendingActionsExtension extends Extension
 {

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the CNPendingActionsBundle.
+ * This file is part of the PendingActionsBundle.
  *
  * (c) Adrien Lochon <adrien@claviculanox.io>
  *
@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace ClaviculaNox\CNPendingActionsBundle;
+namespace ClaviculaNox\PendingActionsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class CNPendingActionsBundle
- * @package ClaviculaNox\CNPendingActionsBundle
+ * Class PendingActionsBundle
+ * @package ClaviculaNox\PendingActionsBundle
  */
-class CNPendingActionsBundle extends Bundle
+class PendingActionsBundle extends Bundle
 {
 }
