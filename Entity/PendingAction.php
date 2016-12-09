@@ -1,13 +1,13 @@
 <?php
 
-namespace ClaviculaNox\CNPendingActionsBundle\Entity;
+namespace ClaviculaNox\PendingActionsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @package CNPendingActionsBundle\Entity
+ * @package PendingActionsBundle\Entity
  *
- * @ORM\Entity(repositoryClass="ClaviculaNox\CNPendingActionsBundle\Entity\Repository\PendingActionRepository")
+ * @ORM\Entity(repositoryClass="ClaviculaNox\PendingActionsBundle\Entity\Repository\PendingActionRepository")
  * @ORM\Table(name="pending_actions")
  */
 class PendingAction

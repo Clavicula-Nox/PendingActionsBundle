@@ -1,8 +1,9 @@
 {
     "name": "clavicula-nox/pendingactions-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony CNPendingActionsBundle",
-    "homepage": "https://www.claviculanox.io",
+    "description": "Symfony PendingActionsBundle",
+    "keywords": ["delay", "actions"],
+    "homepage": "https://github.com/Clavicula-Nox/PendingActionsBundle",
     "license": "MIT",
     "authors": [
         {
@@ -12,20 +13,11 @@
     ],
 
     "require": {
-        "php":                      "^5.5|~7.0",
+        "php":                      ">=5.5.0",
         "symfony/framework-bundle": "~2.7|~3.0"
     },
 
     "autoload": {
-        "psr-0": { "ClaviculaNox\\CNPendingActionsBundle\\": "" }
-    },
-
-    "extra": {
-        "branch-alias":
-        {
-            "dev-master": "0.1-dev"
-        }
-    },
-
-    "target-dir": "ClaviculaNox/CNPendingActionsBundle"
+        "psr-4": { "ClaviculaNox\\PendingActionsBundle\\": "" }
+    }
 }

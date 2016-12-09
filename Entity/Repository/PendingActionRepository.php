@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace ClaviculaNox\CNPendingActionsBundle\Entity\Repository;
+namespace ClaviculaNox\PendingActionsBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
 /**
  * Class PendingActionRepository
- * @package ClaviculaNox\CNPendingActionsBundle\Entity\Repository
+ * @package ClaviculaNox\PendingActionsBundle\Entity\Repository
  */
 class PendingActionRepository extends EntityRepository
 {
