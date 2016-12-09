@@ -30,6 +30,7 @@ class ProcessPendingsCommand extends ContainerAwareCommand
     {
         $this
             ->setName('cn:pending-actions:process')
+            ->setDescription('Processing of Pending Actions')
             ->setDefinition(
                 array(
                     new InputArgument('actionGroup', InputArgument::OPTIONAL, 'The action group')
