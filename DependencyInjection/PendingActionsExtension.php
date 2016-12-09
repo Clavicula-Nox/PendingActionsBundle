@@ -17,10 +17,10 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Class CNPendingActionsExtension
+ * Class PendingActionsExtension
  * @package ClaviculaNox\PendingActionsBundle\DependencyInjection
  */
-class CNPendingActionsExtension extends Extension
+class PendingActionsExtension extends Extension
 {
     /**
      * {@inheritdoc}
