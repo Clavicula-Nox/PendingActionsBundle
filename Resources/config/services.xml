@@ -5,7 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="cn_pending_actions.pending_actions_service" class="ClaviculaNox\CNPendingActionsBundle\Classes\Services\PendingActionsService">
+        <service id="cn_pending_actions.pending_actions_service" class="ClaviculaNox\PendingActionsBundle\Classes\Services\PendingActionsService">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <call method="setContainer">
                 <argument type="service" id="service_container" />

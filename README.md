@@ -11,3 +11,100 @@ PendingActionsBundle
 
   * Symfony 2.7+ or 3.x applications
   * Doctrine ORM entities
+
+**Reporting an issue or a feature request**
+
+Issues and feature requests are tracked in the Github issue tracker.
+
+Installation
+------------
+
+### Step 1: Download the Bundle
+
+```bash
+$ composer require clavicula-nox/pendingactions-bundle
+```
+
+This command requires you to have Composer installed globally, as explained
+in the [Composer documentation](https://getcomposer.org/doc/00-intro.md).
+
+### Step 2: Enable the Bundle
+
+```php
+<?php
+// app/AppKernel.php
+
+// ...
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+            new ClaviculaNox\PendingActionsBundle\PendingActionsBundle(),
+        );
+    }
+
+    // ...
+}
+```
+
+### Step 3: Initiate the table
+
+You have to update your database schema to add the table **pending_actions**.
+
+Documentation
+-------------
+
+### Pending Action Group
+A Pending Action Group can be used to trigger a group of actions with the command filtered by the actionGroup parameter.
+
+### Validating a Pending Action
+You can check if a Pending Action is valid and will be triggered with the following code : 
+
+```php
+<?php
+    $this->get("cn_pending_actions.pending_actions_service")->checkPendingAction($PendingAction);
+```
+
+### Register a pending action
+
+#### Service Trigger
+
+Example in a controller : 
+
+```php
+<?php
+    $params = ["serviceId" => "my_service.id",
+               "method" => "my_serviceMethod",
+               "args" => array(
+                   "myMethodArg" => $arg,
+                   "myMethodArgB" => $argB,
+                   "myMethodArgC" => $argC,
+                   // ...
+               )];
+    $this
+        ->get("cn_pending_actions.pending_actions_service")
+        ->register(
+            PendingAction::TYPE_SERVICE,
+            $params,
+            "actionGroupLabel"
+        );
+```
+
+### Process the Pending Actions
+
+```cli
+# Symfony 2
+php app/console cn:pending-actions:process --env=your_env
+
+# Symfony 3
+php bin/console cn:pending-actions:process --env=your_env
+```
+
+The actions status will change depending on the result.
+
+  * `STATE_WAITING` (0) : The action is waiting to be processed.
+  * `STATE_PROCESSING` (1) : The action is being processed.
+  * `STATE_PROCESSED` (2) : The action is processed.
+  * `STATE_ERROR` (3) : An error occured during the process or during the check of the action.
