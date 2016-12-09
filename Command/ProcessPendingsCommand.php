@@ -18,10 +18,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class ExecutePendingsCommand
- * @package CoreBundle\Command
+ * Class ProcessPendingsCommand
+ * @package ClaviculaNox\PendingActionsBundle\Command
  */
-class ExecutePendingsCommand extends ContainerAwareCommand
+class ProcessPendingsCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -29,18 +29,18 @@ class ExecutePendingsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('cn:pending-actions:execute')
+            ->setName('cn:pending-actions:process')
             ->setDefinition(
                 array(
                     new InputArgument('actionGroup', InputArgument::OPTIONAL, 'The action group')
                 )
             )
             ->setHelp(<<<'EOT'
-The <info>cn:pending-actions:execute</info> command executes the pending actions of an action group : 
+The <info>cn:pending-actions:process</info> command processes the pending actions of an action group : 
 
   <info>php %command.full_name% my_group_name</info>
 
-The actionGroup parameter is optional, if not set, it'll execute all pending actions.
+The actionGroup parameter is optional, if not set, it'll process all pending actions.
 
 EOT
             );

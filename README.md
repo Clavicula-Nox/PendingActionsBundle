@@ -56,10 +56,55 @@ You have to update your database schema to add the table **pending_actions**.
 Documentation
 -------------
 
-1 : Ajouter une action pending
--- Détailler les groupes
--- Détailler les types d'actions et le formatage
--- Parler de la méthode de vérification d'insertion d'une action
+### Pending Action Group
+A Pending Action Group can be used to trigger a group of actions with the command filtered by the actionGroup parameter.
 
-2 : Executer les actions
--- Expliquer la commande et ses paramètres
+### Validating a Pending Action
+You can check if a Pending Action is valid and will be triggered with the following code : 
+
+```php
+<?php
+    $this->get("cn_pending_actions.pending_actions_service")->checkPendingAction($PendingAction);
+```
+
+### Register a pending action
+
+#### Service Trigger
+
+Example in a controller : 
+
+```php
+<?php
+    $params = ["serviceId" => "my_service.id",
+               "method" => "my_serviceMethod",
+               "args" => array(
+                   "myMethodArg" => $arg,
+                   "myMethodArgB" => $argB,
+                   "myMethodArgC" => $argC,
+                   // ...
+               )];
+    $this
+        ->get("cn_pending_actions.pending_actions_service")
+        ->register(
+            PendingAction::TYPE_SERVICE,
+            $params,
+            "actionGroupLabel"
+        );
+```
+
+### Process the Pending Actions
+
+```cli
+# Symfony 2
+php app/console cn:pending-actions:process --env=your_env
+
+# Symfony 3
+php bin/console cn:pending-actions:process --env=your_env
+```
+
+The actions status will change depending on the result.
+
+  * `STATE_WAITING` (0) : The action is waiting to be processed.
+  * `STATE_PROCESSING` (1) : The action is being processed.
+  * `STATE_PROCESSED` (2) : The action is processed.
+  * `STATE_ERROR` (3) : An error occured during the process or during the check of the action.
