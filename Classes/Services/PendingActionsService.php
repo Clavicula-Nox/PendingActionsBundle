@@ -11,6 +11,8 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Classes\Services;
 
+use ClaviculaNox\PendingActionsBundle\Classes\Services\EventHandler\EventHandlerService;
+use ClaviculaNox\PendingActionsBundle\Classes\Services\ServiceHandler\ServiceHandlerService;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -25,18 +27,29 @@ class PendingActionsService implements ContainerAwareInterface
     use ContainerAwareTrait;
 
     protected $EntityManager;
+    protected $ServiceHandlerService;
+    protected $EventHandlerService;
 
     /**
      * PendingActionsService constructor.
      * @param EntityManager $EntityManager
+     * @param ServiceHandlerService $ServiceHandlerService
+     * @param EventHandlerService $EventHandlerService
      */
-    public function __construct(EntityManager $EntityManager)
+    public function __construct(
+        EntityManager $EntityManager,
+        ServiceHandlerService $ServiceHandlerService,
+        EventHandlerService $EventHandlerService
+    )
     {
         $this->EntityManager = $EntityManager;
+        $this->ServiceHandlerService = $ServiceHandlerService;
+        $this->EventHandlerService = $EventHandlerService;
     }
 
     /**
-     * @param null|string $group
+     * @param string|null $group
+     * @param bool $groupSimilarAction
      * @return array
      */
     public function getPendingActions($group = null, $groupSimilarAction = false)
@@ -68,20 +81,28 @@ class PendingActionsService implements ContainerAwareInterface
     /**
      * @param $type
      * @param array $params
-     * @param null|string $group
-     * @return PendingAction
+     * @param string|null $group
+     * @return PendingAction|null
      */
     public function register($type, $params = array(), $group = null)
     {
-        $PendingAction = new PendingAction();
-        $PendingAction->setType($type);
-        $PendingAction->setActionParams($params);
-        $PendingAction->setActionGroup($group);
-        $PendingAction->setState(PendingAction::STATE_WAITING);
-        $this->EntityManager->persist($PendingAction);
-        $this->EntityManager->flush();
+        switch ($type)
+        {
+            case PendingAction::TYPE_SERVICE :
+            {
+                return $this->ServiceHandlerService->register($params, $group);
+            }
 
-        return $PendingAction;
+            case PendingAction::TYPE_EVENT :
+            {
+                return $this->EventHandlerService->register($params, $group);
+            }
+
+            default :
+            {
+                return null;
+            }
+        }
     }
 
     /**
@@ -94,23 +115,12 @@ class PendingActionsService implements ContainerAwareInterface
         {
             case PendingAction::TYPE_SERVICE :
             {
-                $params = json_decode($PendingAction->getActionParams(), true);
-                if (is_null($params)) {
-                    return false;
-                }
+                return $this->ServiceHandlerService->checkPendingAction($PendingAction);
+            }
 
-                if (!$this->container->has($params["serviceId"]))
-                {
-                    return false;
-                }
-
-                $service = $this->container->get($params["serviceId"]);
-                if (!method_exists($service, $params["method"]))
-                {
-                    return false;
-                }
-
-                return true;
+            case PendingAction::TYPE_EVENT :
+            {
+                return $this->EventHandlerService->checkPendingAction($PendingAction);
             }
 
             default :
@@ -122,7 +132,30 @@ class PendingActionsService implements ContainerAwareInterface
 
     /**
      * @param PendingAction $PendingAction
-     * @param $stateId
+     */
+    public function process(PendingAction $PendingAction)
+    {
+        switch ($PendingAction->getType())
+        {
+            case PendingAction::TYPE_SERVICE :
+            {
+                $this->ServiceHandlerService->process($PendingAction);
+                $this->setState($PendingAction, PendingAction::STATE_PROCESSED);
+                break;
+            }
+
+            case PendingAction::TYPE_EVENT :
+            {
+                $this->EventHandlerService->process($PendingAction);
+                $this->setState($PendingAction, PendingAction::STATE_PROCESSED);
+                break;
+            }
+        }
+    }
+
+    /**
+     * @param PendingAction $PendingAction
+     * @param integer $stateId
      */
     public function setState(PendingAction $PendingAction, $stateId)
     {
