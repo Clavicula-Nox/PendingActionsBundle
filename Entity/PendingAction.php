@@ -18,6 +18,7 @@ class PendingAction
     const STATE_ERROR = 3;
 
     const TYPE_SERVICE = 1;
+    const TYPE_EVENT = 2;
 
     /**
      * @var integer

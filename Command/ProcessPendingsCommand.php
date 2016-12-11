@@ -81,9 +81,13 @@ EOT
             {
                 case PendingAction::TYPE_SERVICE :
                 {
-                    $params = json_decode($pendingAction->getActionParams(), true);
-                    call_user_func_array(array($this->getContainer()->get($params["serviceId"]), $params["method"]), $params['args']);
-                    $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSED);
+                    $this->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($pendingAction);
+                    break;
+                }
+
+                case PendingAction::TYPE_EVENT :
+                {
+                    $this->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->process($pendingAction);
                     break;
                 }
 
