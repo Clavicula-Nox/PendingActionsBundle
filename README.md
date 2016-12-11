@@ -92,6 +92,29 @@ Example in a controller :
         );
 ```
 
+#### Event Trigger
+
+Example in a controller : 
+
+```php
+<?php
+    $params = ["evnetId" => "my_event.id",
+               "subject" => $mySubject, //can be null
+               "args" => array(
+                   "myEventArg" => $arg,
+                   "myEventArgB" => $argB,
+                   "myEventArgC" => $argC,
+                   // ...
+               )];
+    $this
+        ->get("cn_pending_actions.pending_actions_service")
+        ->register(
+            PendingAction::TYPE_EVENT,
+            $params,
+            "actionGroupLabel"
+        );
+```
+
 ### Process the Pending Actions
 
 ```cli
