@@ -98,7 +98,7 @@ Example in a controller :
 
 ```php
 <?php
-    $params = ["evnetId" => "my_event.id",
+    $params = ["eventId" => "my_event.id",
                "subject" => $mySubject, //can be null
                "args" => array(
                    "myEventArg" => $arg,
