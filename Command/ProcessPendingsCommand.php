@@ -42,7 +42,6 @@ The <info>cn:pending-actions:process</info> command processes the pending action
   <info>php %command.full_name% my_group_name</info>
 
 The actionGroup parameter is optional, if not set, it'll process all pending actions.
-
 EOT
             );
     }
@@ -52,7 +51,6 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $output->write("Getting pending actions...", true);
         if (!is_null($input->getArgument('actionGroup'))) {
             $output->write("   Selected group : " . $input->getArgument('actionGroup'), true);
@@ -69,12 +67,12 @@ EOT
         {
             $output->write("   Action " . $counter . "/" . $total, true);
             $counter++;
-            $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSING);
+            //$this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSING);
 
             if (!$this->getContainer()->get("cn_pending_actions.pending_actions_service")->checkPendingAction($pendingAction)) {
-                $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_ERROR);
+                //$this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_ERROR);
                 continue;
-            }
+            }$this->getApplication()->find('demo:greet');
 
             /* @var $pendingAction PendingAction */
             switch ($pendingAction->getType())
@@ -88,6 +86,12 @@ EOT
                 case PendingAction::TYPE_EVENT :
                 {
                     $this->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->process($pendingAction);
+                    break;
+                }
+
+                case PendingAction::TYPE_COMMAND :
+                {
+                    $this->getContainer()->get("cn_pending_actions.pending_actions.command_handler")->process($pendingAction);
                     break;
                 }
 
