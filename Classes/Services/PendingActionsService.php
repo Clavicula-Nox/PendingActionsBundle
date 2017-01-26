@@ -131,6 +131,7 @@ class PendingActionsService implements ContainerAwareInterface
     public function setState(PendingAction $PendingAction, $stateId)
     {
         $PendingAction->setState($stateId);
+        $PendingAction->setUpdated(new \DateTime());
         $this->EntityManager->persist($PendingAction);
         $this->EntityManager->flush();
     }

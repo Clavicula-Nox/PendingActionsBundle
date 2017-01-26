@@ -3,6 +3,7 @@
 namespace ClaviculaNox\PendingActionsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @package PendingActionsBundle\Entity
@@ -37,7 +38,7 @@ class PendingAction
 
     /**
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", options={"default":""})
      */
     protected $actionParams = '';
 
@@ -46,6 +47,18 @@ class PendingAction
      * @ORM\Column(type="string", nullable=true, length=500, options={"default":""})
      */
     protected $actionGroup = '';
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $created;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updated;
 
     /**
      * @var integer
@@ -86,30 +99,18 @@ class PendingAction
     }
 
     /**
-     * @return array|string
+     * @return string
      */
-    public function getActionParams($asArray = false)
+    public function getActionParams()
     {
-        if ($asArray) {
-            return json_decode($this->actionParams, true);
-        }
-
         return $this->actionParams;
     }
 
     /**
-     * @param array|string $actionParams
+     * @param string $actionParams
      */
     public function setActionParams($actionParams)
     {
-        if (is_array($actionParams)) {
-            $actionParams = json_encode($actionParams);
-        }
-
-        if (!json_decode($actionParams)) {
-            $actionParams = '';
-        }
-
         $this->actionParams = $actionParams;
     }
 
@@ -127,6 +128,38 @@ class PendingAction
     public function setActionGroup($actionGroup)
     {
         $this->actionGroup = $actionGroup;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * @param \DateTime $created
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param \DateTime $updated
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
     }
 
     /**

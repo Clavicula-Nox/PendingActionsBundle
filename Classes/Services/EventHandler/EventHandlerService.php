@@ -51,6 +51,8 @@ class EventHandlerService
         $PendingAction->setType(PendingAction::TYPE_EVENT);
         $PendingAction->setActionParams($params);
         $PendingAction->setActionGroup($group);
+        $PendingAction->setCreated(new \DateTime());
+        $PendingAction->setUpdated(new \DateTime());
         $PendingAction->setState(PendingAction::STATE_WAITING);
         $this->EntityManager->persist($PendingAction);
         $this->EntityManager->flush();
