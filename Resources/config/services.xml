@@ -26,9 +26,6 @@
         </service>
         <service id="cn_pending_actions.pending_actions.command_handler" class="ClaviculaNox\PendingActionsBundle\Classes\Services\CommandHandler\CommandHandlerService">
             <argument type="service" id="doctrine.orm.entity_manager" />
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
         </service>
     </services>
 </container>

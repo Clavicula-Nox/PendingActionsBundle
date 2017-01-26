@@ -67,40 +67,37 @@ EOT
         {
             $output->write("   Action " . $counter . "/" . $total, true);
             $counter++;
-            //$this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSING);
-
-            if (!$this->getContainer()->get("cn_pending_actions.pending_actions_service")->checkPendingAction($pendingAction)) {
-                //$this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_ERROR);
-                continue;
-            }$this->getApplication()->find('demo:greet');
+            $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSING);
 
             /* @var $pendingAction PendingAction */
             switch ($pendingAction->getType())
             {
                 case PendingAction::TYPE_SERVICE :
                 {
-                    $this->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($pendingAction);
+                    $result = $this->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($pendingAction);
                     break;
                 }
 
                 case PendingAction::TYPE_EVENT :
                 {
-                    $this->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->process($pendingAction);
+                    $result = $this->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->process($pendingAction);
                     break;
                 }
 
                 case PendingAction::TYPE_COMMAND :
                 {
-                    $this->getContainer()->get("cn_pending_actions.pending_actions.command_handler")->process($pendingAction);
+                    $result = $this->getContainer()->get("cn_pending_actions.pending_actions.command_handler")->process($pendingAction, $this, $output);
                     break;
                 }
 
                 default :
                 {
-                    $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_ERROR);
+                    $result = PendingAction::STATE_ERROR;
                     break;
                 }
             }
+
+            $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, $result);
         }
     }
 }

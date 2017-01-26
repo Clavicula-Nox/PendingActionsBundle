@@ -116,63 +116,12 @@ class PendingActionsService implements ContainerAwareInterface
     }
 
     /**
-     * @param PendingAction $PendingAction
+     * @deprecated Use Handler method instead
      * @return bool
      */
-    public function checkPendingAction(PendingAction $PendingAction)
+    public function checkPendingAction()
     {
-        switch ($PendingAction->getType())
-        {
-            case PendingAction::TYPE_SERVICE :
-            {
-                return $this->ServiceHandlerService->checkPendingAction($PendingAction);
-            }
-
-            case PendingAction::TYPE_EVENT :
-            {
-                return $this->EventHandlerService->checkPendingAction($PendingAction);
-            }
-
-            case PendingAction::TYPE_COMMAND :
-            {
-                return $this->CommandHandlerService->checkPendingAction($PendingAction);
-            }
-
-            default :
-            {
-                return false;
-            }
-        }
-    }
-
-    /**
-     * @param PendingAction $PendingAction
-     */
-    public function process(PendingAction $PendingAction)
-    {
-        switch ($PendingAction->getType())
-        {
-            case PendingAction::TYPE_SERVICE :
-            {
-                $this->ServiceHandlerService->process($PendingAction);
-                $this->setState($PendingAction, PendingAction::STATE_PROCESSED);
-                break;
-            }
-
-            case PendingAction::TYPE_EVENT :
-            {
-                $this->EventHandlerService->process($PendingAction);
-                $this->setState($PendingAction, PendingAction::STATE_PROCESSED);
-                break;
-            }
-
-            case PendingAction::TYPE_COMMAND :
-            {
-                $this->CommandHandlerService->process($PendingAction);
-                $this->setState($PendingAction, PendingAction::STATE_PROCESSED);
-                break;
-            }
-        }
+        return true;
     }
 
     /**

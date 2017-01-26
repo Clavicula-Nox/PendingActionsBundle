@@ -62,11 +62,6 @@ A Pending Action Group can be used to trigger a group of actions with the comman
 ### Validating a Pending Action
 You can check if a Pending Action is valid and will be triggered with the following code : 
 
-```php
-<?php
-    $this->get("cn_pending_actions.pending_actions_service")->checkPendingAction($PendingAction);
-```
-
 ### Register a pending action
 
 #### Service Trigger
@@ -76,20 +71,21 @@ Example in a controller :
 ```php
 <?php
     $params = ["serviceId" => "my_service.id",
-               "method" => "my_serviceMethod",
-               "args" => array(
-                   "myMethodArg" => $arg,
-                   "myMethodArgB" => $argB,
-                   "myMethodArgC" => $argC,
-                   // ...
-               )];
-    $this
-        ->get("cn_pending_actions.pending_actions_service")
-        ->register(
-            PendingAction::TYPE_SERVICE,
-            $params,
-            "actionGroupLabel"
-        );
+                "method" => "my_serviceMethod",
+                "args" => [
+                    "myMethodArg" => $arg,
+                    "myMethodArgB" => $argB,
+                    "myMethodArgC" => $argC,
+                    // ...
+                ] //can be empty
+            ];
+            $this
+                ->get("cn_pending_actions.pending_actions_service")
+                ->register(
+                    PendingAction::TYPE_SERVICE,
+                    $params,
+                    "actionGroupLabel"
+                );
 ```
 
 #### Event Trigger
@@ -98,14 +94,15 @@ Example in a controller :
 
 ```php
 <?php
-    $params = ["eventId" => "my_event.id",
-               "subject" => $mySubject, //can be null
-               "args" => array(
-                   "myEventArg" => $arg,
-                   "myEventArgB" => $argB,
-                   "myEventArgC" => $argC,
-                   // ...
-               )];
+    $params = ["eventId" => "my_event.id", //Works only for Generic Event
+                "subject" => $mySubject, //value can be null but key have to be defined
+                "args" => [
+                    "myEventArg" => $arg,
+                    "myEventArgB" => $argB,
+                    "myEventArgC" => $argC,
+                    // ...
+                ]
+            ];
     $this
         ->get("cn_pending_actions.pending_actions_service")
         ->register(
@@ -113,6 +110,34 @@ Example in a controller :
             $params,
             "actionGroupLabel"
         );
+```
+
+#### Command Trigger
+
+Example in a controller : 
+
+```php
+<?php
+    $params = ["command" => "my:command",
+                "arguments" => [
+                    "firstArg" => $firstArgValue,
+                    "secondArg" => $secondArgValue,
+                    // ...
+                ], //can be empty
+                "options" => [
+                    "firstOption" => $firstOptionValue,
+                    "secondOption" => $secondOptionValue,
+                    "thirdOption" => $thirdOptionValue,
+                    // ...
+                ] //can be empty
+            ];
+            $this
+                ->get("cn_pending_actions.pending_actions_service")
+                ->register(
+                    PendingAction::TYPE_COMMAND,
+                    $params,
+                    "actionGroupLabel"
+                );
 ```
 
 ### Process the Pending Actions

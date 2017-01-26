@@ -11,31 +11,27 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Classes\Services\CommandHandler;
 
+use ClaviculaNox\PendingActionsBundle\Command\ProcessPendingsCommand;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class CommandHandlerService
  * @package ClaviculaNox\PendingActionsBundle\Classes\Services\CommandHandler
  */
-class CommandHandlerService implements ContainerAwareInterface
+class CommandHandlerService
 {
-    use ContainerAwareTrait;
-
     protected $EntityManager;
-    protected $Kernel;
 
     /**
      * ServiceHandlerService constructor.
      * @param EntityManager $EntityManager
      */
-    public function __construct(EntityManager $EntityManager, KernelInterface $Kernel)
+    public function __construct(EntityManager $EntityManager)
     {
         $this->EntityManager = $EntityManager;
-        $this->Kernel = $Kernel;
     }
 
     /**
@@ -59,28 +55,55 @@ class CommandHandlerService implements ContainerAwareInterface
 
     /**
      * @param PendingAction $PendingAction
+     * @param ProcessPendingsCommand $ProcessPendingsCommand
      * @return bool
      */
-    public function checkPendingAction(PendingAction $PendingAction)
+    public function checkPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand)
     {
         $params = json_decode($PendingAction->getActionParams(), true);
         if (is_null($params)) {
             return false;
         }
 
-        $command = $this->Kernel->find('demo:greet');
-
-        var_dump($command);
-        die();
-
-        if (!$this->container->has($params["serviceId"]))
-        {
+        if (!isset($params['command'])) {
             return false;
         }
 
-        $service = $this->container->get($params["serviceId"]);
-        if (!method_exists($service, $params["method"]))
+        if (!$ProcessPendingsCommand->getApplication()->has($params['command'])) {
+            return false;
+        }
+
+        if (!isset($params['arguments'])) {
+            return false;
+        }
+
+        if (!isset($params['options'])) {
+            return false;
+        }
+
+        $command = $ProcessPendingsCommand->getApplication()->find($params['command']);
+
+        foreach ($command->getDefinition()->getArguments() as $argument)
         {
+            if ($argument->isRequired() && !isset($params['arguments'][$argument->getName()])) {
+                return false;
+            }
+
+            unset($params['arguments'][$argument->getName()]);
+        }
+
+        if (count($params['arguments']) > 0) {
+            return false;
+        }
+
+        foreach ($command->getDefinition()->getOptions() as $option)
+        {
+            if (isset($params['options'][$option->getName()])) {
+                unset($params['options'][$option->getName()]);
+            }
+        }
+
+        if (count($params['options']) > 0) {
             return false;
         }
 
@@ -89,12 +112,38 @@ class CommandHandlerService implements ContainerAwareInterface
 
     /**
      * @param PendingAction $PendingAction
+     * @param ProcessPendingsCommand $ProcessPendingsCommand
+     * @param OutputInterface $output
+     * @return int
      */
-    public function process(PendingAction $PendingAction)
+    public function process(PendingAction $PendingAction,
+                            ProcessPendingsCommand $ProcessPendingsCommand,
+                            OutputInterface $output)
     {
-        echo "laaaaaa";
-        die();
+        if (!$this->checkPendingAction($PendingAction, $ProcessPendingsCommand)) {
+            return PendingAction::STATE_ERROR;
+        }
+
         $params = json_decode($PendingAction->getActionParams(), true);
-        call_user_func_array(array($this->container->get($params["serviceId"]), $params["method"]), $params['args']);
+
+        $command = $ProcessPendingsCommand->getApplication()->find($params['command']);
+        $commandArgs = array(
+            'command' => $params['command']
+        );
+
+        foreach ($params["arguments"] as $key => $argument)
+        {
+            $commandArgs[$key] = $argument;
+        }
+
+        foreach ($params["options"] as $key => $option)
+        {
+            $commandArgs["--" . $key] = $option;
+        }
+
+        $arrayInput = new ArrayInput($commandArgs);
+        $command->run($arrayInput, $output);
+
+        return PendingAction::STATE_PROCESSED;
     }
 }

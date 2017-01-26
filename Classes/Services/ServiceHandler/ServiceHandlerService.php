@@ -65,6 +65,18 @@ class ServiceHandlerService implements ContainerAwareInterface
             return false;
         }
 
+        if (!isset($params["serviceId"])) {
+            return false;
+        }
+
+        if (!isset($params["method"])) {
+            return false;
+        }
+
+        if (!isset($params["args"])) {
+            return false;
+        }
+
         if (!$this->container->has($params["serviceId"]))
         {
             return false;
@@ -81,10 +93,17 @@ class ServiceHandlerService implements ContainerAwareInterface
 
     /**
      * @param PendingAction $PendingAction
+     * @return int
      */
     public function process(PendingAction $PendingAction)
     {
+        if (!$this->checkPendingAction($PendingAction)) {
+            return PendingAction::STATE_ERROR;
+        }
+
         $params = json_decode($PendingAction->getActionParams(), true);
         call_user_func_array(array($this->container->get($params["serviceId"]), $params["method"]), $params['args']);
+
+        return PendingAction::STATE_PROCESSED;
     }
 }
