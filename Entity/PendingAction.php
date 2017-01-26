@@ -19,6 +19,7 @@ class PendingAction
 
     const TYPE_SERVICE = 1;
     const TYPE_EVENT = 2;
+    const TYPE_COMMAND = 3;
 
     /**
      * @var integer
@@ -42,7 +43,7 @@ class PendingAction
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=500, options={"default":""})
+     * @ORM\Column(type="string", nullable=true, length=500, options={"default":""})
      */
     protected $actionGroup = '';
 

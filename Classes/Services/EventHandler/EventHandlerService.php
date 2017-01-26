@@ -69,6 +69,14 @@ class EventHandlerService
             return false;
         }
 
+        if (!isset($params["eventId"])) {
+            return false;
+        }
+
+        if (!isset($params["args"])) {
+            return false;
+        }
+
         if (!$this->EventDispatcher->hasListeners($params["eventId"]))
         {
             return false;
@@ -79,14 +87,22 @@ class EventHandlerService
 
     /**
      * @param PendingAction $PendingAction
+     * @return int
      */
     public function process(PendingAction $PendingAction)
     {
+        if (!$this->checkPendingAction($PendingAction)) {
+            return PendingAction::STATE_ERROR;
+        }
+
         $params = json_decode($PendingAction->getActionParams(), true);
         if (!isset($params['subject'])) {
             $params['subject'] = null;
         }
+
         $event = new GenericEvent($params['subject'], $params['args']);
         $this->EventDispatcher->dispatch($params['eventId'], $event);
+
+        return PendingAction::STATE_PROCESSED;
     }
 }

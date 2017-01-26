@@ -9,6 +9,7 @@
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="cn_pending_actions.pending_actions.service_handler" />
             <argument type="service" id="cn_pending_actions.pending_actions.event_handler" />
+            <argument type="service" id="cn_pending_actions.pending_actions.command_handler" />
             <call method="setContainer">
                 <argument type="service" id="service_container" />
             </call>
@@ -22,6 +23,9 @@
         <service id="cn_pending_actions.pending_actions.event_handler" class="ClaviculaNox\PendingActionsBundle\Classes\Services\EventHandler\EventHandlerService">
             <argument type="service" id="doctrine.orm.entity_manager" />
             <argument type="service" id="event_dispatcher" />
+        </service>
+        <service id="cn_pending_actions.pending_actions.command_handler" class="ClaviculaNox\PendingActionsBundle\Classes\Services\CommandHandler\CommandHandlerService">
+            <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
     </services>
 </container>
