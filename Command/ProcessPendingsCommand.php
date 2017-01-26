@@ -65,11 +65,17 @@ EOT
         $total = count($pendingActions);
         foreach ($pendingActions as $pendingAction)
         {
+            /* @var $pendingAction PendingAction */
+            $pendingAction = $this->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($pendingAction->getId());
             $output->write("   Action " . $counter . "/" . $total, true);
             $counter++;
+
+            if ($pendingAction->getState() != PendingAction::STATE_WAITING) {
+                continue;
+            }
+
             $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSING);
 
-            /* @var $pendingAction PendingAction */
             switch ($pendingAction->getType())
             {
                 case PendingAction::TYPE_SERVICE :
