@@ -64,7 +64,7 @@ class EventHandlerService
      * @param PendingAction $PendingAction
      * @return bool
      */
-    public function checkPendingAction(PendingAction $PendingAction)
+    private function checkPendingAction(PendingAction $PendingAction)
     {
         $params = json_decode($PendingAction->getActionParams(), true);
         if (is_null($params)) {

@@ -60,7 +60,7 @@ class CommandHandlerService
      * @param ProcessPendingsCommand $ProcessPendingsCommand
      * @return bool
      */
-    public function checkPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand)
+    private function checkPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand)
     {
         $params = json_decode($PendingAction->getActionParams(), true);
         if (is_null($params)) {
