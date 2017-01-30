@@ -46,6 +46,8 @@ class CommandHandlerService
         $PendingAction->setType(PendingAction::TYPE_COMMAND);
         $PendingAction->setActionParams($params);
         $PendingAction->setActionGroup($group);
+        $PendingAction->setCreated(new \DateTime());
+        $PendingAction->setUpdated(new \DateTime());
         $PendingAction->setState(PendingAction::STATE_WAITING);
         $this->EntityManager->persist($PendingAction);
         $this->EntityManager->flush();
