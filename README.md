@@ -59,9 +59,6 @@ Documentation
 ### Pending Action Group
 A Pending Action Group can be used to trigger a group of actions with the command filtered by the actionGroup parameter.
 
-### Validating a Pending Action
-You can check if a Pending Action is valid and will be triggered with the following code : 
-
 ### Register a pending action
 
 #### Service Trigger
