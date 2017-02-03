@@ -1,7 +1,7 @@
 {
     "name": "clavicula-nox/pendingactions-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony PendingActionsBundle",
+    "description": "Symfony PendingActionsBundle. A simple way to delay the execution of heavy tasks.",
     "keywords": ["delay", "actions"],
     "homepage": "https://github.com/Clavicula-Nox/PendingActionsBundle",
     "license": "MIT",
