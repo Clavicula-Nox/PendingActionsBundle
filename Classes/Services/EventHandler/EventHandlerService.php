@@ -40,7 +40,7 @@ class EventHandlerService
     }
 
     /**
-     * @param $type
+     * @param int $type
      * @param array $params
      * @param null|string $group
      * @return PendingAction
