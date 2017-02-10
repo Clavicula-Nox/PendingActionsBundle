@@ -71,6 +71,14 @@ class EventHandlerService
             return false;
         }
 
+        if (!isset($params["eventClassName"])) {
+            return false;
+        }
+
+        if (!class_exists($params["eventClassName"])) {
+            return false;
+        }
+
         if (!isset($params["eventId"])) {
             return false;
         }
@@ -102,7 +110,7 @@ class EventHandlerService
             $params['subject'] = null;
         }
 
-        $event = new GenericEvent($params['subject'], $params['args']);
+        $event = new $params["eventClassName"]($params['subject'], $params['args']);
         $this->EventDispatcher->dispatch($params['eventId'], $event);
 
         return PendingAction::STATE_PROCESSED;
