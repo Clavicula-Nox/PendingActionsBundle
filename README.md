@@ -92,7 +92,7 @@ Example in a controller :
 ```php
 <?php
     $params = ["eventClassName" => "\My\Event\Class",
-                "eventId" => "my_event.id", //Works only for Generic Event
+                "eventId" => "my_event.id",
                 "subject" => $mySubject, //value can be null but key have to be defined
                 "args" => [
                     "myEventArg" => $arg,
