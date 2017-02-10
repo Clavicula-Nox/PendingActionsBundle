@@ -14,7 +14,6 @@ namespace ClaviculaNox\PendingActionsBundle\Classes\Services\EventHandler;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class EventHandlerService
