@@ -22,7 +22,7 @@ class PendingAction
     const TYPE_COMMAND = 3;
 
     /**
-     * @var integer
+     * @var int
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
@@ -30,7 +30,7 @@ class PendingAction
     protected $id;
 
     /**
-     * @var integer
+     * @var int
      * @ORM\Column(type="integer")
      */
     protected $type;
@@ -60,7 +60,7 @@ class PendingAction
     protected $updated;
 
     /**
-     * @var integer
+     * @var int
      * @ORM\Column(type="integer")
      */
     protected $state;

@@ -84,7 +84,7 @@ class PendingActionsService implements ContainerAwareInterface
     }
 
     /**
-     * @param $type
+     * @param int $type
      * @param array $params
      * @param string|null $group
      * @return PendingAction|null
@@ -126,7 +126,7 @@ class PendingActionsService implements ContainerAwareInterface
 
     /**
      * @param PendingAction $PendingAction
-     * @param integer $stateId
+     * @param int $stateId
      */
     public function setState(PendingAction $PendingAction, $stateId)
     {

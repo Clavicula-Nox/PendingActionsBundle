@@ -36,7 +36,7 @@ class ServiceHandlerService implements ContainerAwareInterface
     }
 
     /**
-     * @param $type
+     * @param int $type
      * @param array $params
      * @param null|string $group
      * @return PendingAction
