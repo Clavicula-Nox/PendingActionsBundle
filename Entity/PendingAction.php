@@ -98,18 +98,30 @@ class PendingAction
     }
 
     /**
-     * @return string
+     * @return array|string
      */
-    public function getActionParams()
+    public function getActionParams($asArray = false)
     {
+        if ($asArray) {
+            return json_decode($this->actionParams, true);
+        }
+
         return $this->actionParams;
     }
 
     /**
-     * @param string $actionParams
+     * @param array|string $actionParams
      */
     public function setActionParams($actionParams)
     {
+        if (is_array($actionParams)) {
+            $actionParams = json_encode($actionParams);
+        }
+
+        if (!json_decode($actionParams)) {
+            $actionParams = '';
+        }
+
         $this->actionParams = $actionParams;
     }
 
