@@ -85,6 +85,8 @@ Example in a controller :
                 );
 ```
 
+**Please note that you cannot use objects as parameters.**
+
 #### Event Trigger
 
 Example in a controller : 
@@ -93,7 +95,6 @@ Example in a controller :
 <?php
     $params = ["eventClassName" => "\My\Event\Class",
                 "eventId" => "my_event.id",
-                "subject" => $mySubject, //value can be null but key have to be defined
                 "args" => [
                     "myEventArg" => $arg,
                     "myEventArgB" => $argB,
@@ -109,6 +110,8 @@ Example in a controller :
             "actionGroupLabel"
         );
 ```
+
+**Please note that you cannot use objects as parameters.**
 
 #### Command Trigger
 

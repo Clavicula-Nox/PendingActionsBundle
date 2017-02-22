@@ -105,11 +105,10 @@ class EventHandlerService
         }
 
         $params = json_decode($PendingAction->getActionParams(), true);
-        if (!isset($params['subject'])) {
-            $params['subject'] = null;
-        }
 
-        $event = new $params["eventClassName"]($params['subject'], $params['args']);
+        $event = new \ReflectionClass($params["eventClassName"]);
+        $event->newInstanceArgs($params['args']);
+
         $this->EventDispatcher->dispatch($params['eventId'], $event);
 
         return PendingAction::STATE_PROCESSED;
