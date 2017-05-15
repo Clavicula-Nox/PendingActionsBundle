@@ -19,7 +19,23 @@
         "doctrine/orm":             "~2.4"
     },
 
+    "require-dev": {
+        "symfony/phpunit-bridge": "^2.7 || ^3.0",
+        "phpunit/phpunit": "~4.8|~5.0"
+    },
+
     "autoload": {
-        "psr-4": { "ClaviculaNox\\PendingActionsBundle\\": "" }
+        "psr-4": {
+            "ClaviculaNox\\PendingActionsBundle\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+
+    "autoload-dev": {
+        "psr-4": {
+            "ClaviculaNox\\PendingActionsBundle\\Tests\\": "tests/"
+        }
     }
 }
