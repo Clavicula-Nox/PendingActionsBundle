@@ -60,9 +60,16 @@ EOT
             ->get("cn_pending_actions.pending_actions_service")
             ->getPendingActions($input->getArgument('actionGroup'), true);
         $output->write("   Processing actions...", true);
+        $total = count($pendingActions);
+
+        if ($total > 0) {
+            $output->write("Processing actions...", true);
+        } else {
+            $output->write("No actions to process...", true);
+        }
 
         $counter = 1;
-        $total = count($pendingActions);
+        
         foreach ($pendingActions as $pendingAction)
         {
             /* @var $pendingAction PendingAction */
