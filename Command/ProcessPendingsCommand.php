@@ -59,7 +59,6 @@ EOT
         $pendingActions = $this->getContainer()
             ->get("cn_pending_actions.pending_actions_service")
             ->getPendingActions($input->getArgument('actionGroup'), true);
-        $output->write("   Processing actions...", true);
         $total = count($pendingActions);
 
         if ($total > 0) {
@@ -74,7 +73,7 @@ EOT
         {
             /* @var $pendingAction PendingAction */
             $pendingAction = $this->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($pendingAction->getId());
-            $output->write("   Action " . $counter . "/" . $total, true);
+            $output->write("   - Action " . $counter . "/" . $total, true);
             $counter++;
 
             if ($pendingAction->getState() != PendingAction::STATE_WAITING) {
