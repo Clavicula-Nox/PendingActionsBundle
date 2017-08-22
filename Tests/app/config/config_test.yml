@@ -1,0 +1,18 @@
+framework:
+    trusted_hosts: ~
+    secret: "test"
+    translator:      { fallback: "fr" }
+    test: ~
+    templating:
+        engines: ['twig']
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+
+
+doctrine:
+    dbal:
+        driver:   'pdo_sqlite'
+        memory:   true
+    orm:
+        entity_managers:
+            default: ~
