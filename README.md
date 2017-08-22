@@ -144,10 +144,6 @@ Example in a controller :
 ### Process the Pending Actions
 
 ```cli
-# Symfony 2
-php app/console cn:pending-actions:process --env=your_env
-
-# Symfony 3
 php bin/console cn:pending-actions:process --env=your_env
 ```
 
