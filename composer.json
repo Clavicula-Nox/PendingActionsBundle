@@ -2,7 +2,7 @@
     "name": "clavicula-nox/pendingactions-bundle",
     "type": "symfony-bundle",
     "description": "Symfony PendingActionsBundle. A simple way to delay the execution of heavy tasks.",
-    "keywords": ["delay", "actions"],
+    "keywords": ["delay", "symfony", "bundle"],
     "homepage": "https://github.com/Clavicula-Nox/PendingActionsBundle",
     "license": "MIT",
     "authors": [
@@ -16,7 +16,8 @@
         "php":                      "^7.0",
         "symfony/framework-bundle": "~3.0",
         "doctrine/doctrine-bundle": "~1.4",
-        "doctrine/orm":             "~2.4"
+        "doctrine/orm":             "~2.4",
+        "symfony/yaml":             "~3.2"
     },
 
     "require-dev": {
@@ -26,15 +27,12 @@
     "autoload": {
         "psr-4": {
             "ClaviculaNox\\PendingActionsBundle\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+        }
     },
 
     "autoload-dev": {
         "psr-4": {
-            "ClaviculaNox\\PendingActionsBundle\\Tests\\": "tests/"
+            "ClaviculaNox\\PendingActionsBundle\\Tests\\": "Tests/"
         }
     }
 }

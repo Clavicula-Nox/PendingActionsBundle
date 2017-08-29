@@ -11,16 +11,15 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Tests;
 
-use ClaviculaNox\PendingActionsBundle\Classes\Services\ServiceHandler\ServiceHandlerService;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
-use Doctrine\ORM\EntityManager;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Class ServiceHandlerTest
  * @package ClaviculaNox\PendingActionsBundle\Tests
  */
-class ServiceHandlerTest extends TestCase
+class ServiceHandlerTest extends WebTestCase
 {
     private $params = [
         "serviceId" => "fake.service",
@@ -30,20 +29,33 @@ class ServiceHandlerTest extends TestCase
             "title" => "defaultTitle"
         )
     ];
+
     private $group = "testGroup";
+
+    /**
+     * @return KernelInterface
+     */
+    protected function getKernel($options = [])
+    {
+        return $this->bootKernel($options);
+    }
 
     /**
      * @return PendingAction
      */
     private function getPendingAction()
     {
-        $entityManagerMock = $this->createMock(EntityManager::class);
+        return $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->register(
+            $this->params,
+            $this->group
+        );
+        /*$entityManagerMock = $this->createMock(EntityManager::class);
         $serviceHandler = new ServiceHandlerService($entityManagerMock);
 
         return $serviceHandler->register(
             $this->params,
             $this->group
-        );
+        );*/
     }
 
     public function testRegistration()
@@ -68,7 +80,6 @@ class ServiceHandlerTest extends TestCase
     public function testPendingAction()
     {
         $Action = $this->getPendingAction();
-
-        $this->assertEquals($this->group, $Action->getActionGroup());
+        echo $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($Action);die();
     }
 }
