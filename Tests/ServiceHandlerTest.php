@@ -49,13 +49,6 @@ class ServiceHandlerTest extends WebTestCase
             $this->params,
             $this->group
         );
-        /*$entityManagerMock = $this->createMock(EntityManager::class);
-        $serviceHandler = new ServiceHandlerService($entityManagerMock);
-
-        return $serviceHandler->register(
-            $this->params,
-            $this->group
-        );*/
     }
 
     public function testRegistration()
@@ -79,7 +72,7 @@ class ServiceHandlerTest extends WebTestCase
 
     public function testPendingAction()
     {
-        $Action = $this->getPendingAction();
-        echo $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($Action);die();
+        //$Action = $this->getPendingAction();
+        //echo $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($Action);die();
     }
 }
