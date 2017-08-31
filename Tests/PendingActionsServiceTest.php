@@ -21,8 +21,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class PendingActionsServiceTest extends WebTestCase
 {
-    private $group = "testGroup";
-
     /**
      * @return KernelInterface
      */

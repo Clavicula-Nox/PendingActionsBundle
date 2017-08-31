@@ -9,8 +9,6 @@ framework:
 doctrine:
     dbal:
         driver:   pdo_sqlite
-        dbname:   pendingaction_bundle_test
-        user:     root
         charset:  UTF8
         path:     '%database_path%'
     orm:
