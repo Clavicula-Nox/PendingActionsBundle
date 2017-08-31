@@ -21,3 +21,9 @@ doctrine:
                 type: annotation
                 dir: '%kernel.root_dir%/../../Entity'
                 prefix: ClaviculaNox\PendingActionsBundle\Entity
+
+services:
+    fake.service:
+         class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService
+         arguments:
+             []

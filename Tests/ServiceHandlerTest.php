@@ -12,6 +12,7 @@
 namespace ClaviculaNox\PendingActionsBundle\Tests;
 
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
+use ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -21,21 +22,21 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class ServiceHandlerTest extends WebTestCase
 {
-    private $params = [
+    public static $params = [
         "serviceId" => "fake.service",
         "method" => "fakeMethod",
         "args" => array(
-            "mode" => "defaultMode",
-            "title" => "defaultTitle"
+            "mode" => FakeService::MODE,
+            "title" => FakeService::TITLE
         )
     ];
 
-    private $group = "testGroup";
+    public static $group = "testGroup";
 
     /**
      * @return KernelInterface
      */
-    protected function getKernel($options = [])
+    private function getKernel($options = [])
     {
         return $this->bootKernel($options);
     }
@@ -46,8 +47,8 @@ class ServiceHandlerTest extends WebTestCase
     private function getPendingAction()
     {
         return $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->register(
-            $this->params,
-            $this->group
+            ServiceHandlerTest::$params,
+            ServiceHandlerTest::$group
         );
     }
 
@@ -60,6 +61,7 @@ class ServiceHandlerTest extends WebTestCase
         } else {
             $result = false;
         }
+
         $this->assertTrue($result);
     }
 
@@ -67,12 +69,14 @@ class ServiceHandlerTest extends WebTestCase
     {
         $Action = $this->getPendingAction();
 
-        $this->assertEquals($this->group, $Action->getActionGroup());
+        $this->assertEquals(ServiceHandlerTest::$group, $Action->getActionGroup());
     }
 
     public function testPendingAction()
     {
-        //$Action = $this->getPendingAction();
-        //echo $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($Action);die();
+        $this->getKernel()->getContainer()->set('fake.service', new FakeService());
+        $Action = $this->getPendingAction();
+        $result = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($Action);
+        $this->assertEquals($result, PendingAction::STATE_PROCESSED);
     }
 }
