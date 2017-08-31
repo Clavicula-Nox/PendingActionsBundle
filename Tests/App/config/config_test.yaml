@@ -23,5 +23,8 @@ doctrine:
 services:
     fake.service:
          class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService
-         arguments:
-             []
+
+    fake.event.listener:
+         class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeEventListener
+         tags:
+             - { name: kernel.event_subscriber }

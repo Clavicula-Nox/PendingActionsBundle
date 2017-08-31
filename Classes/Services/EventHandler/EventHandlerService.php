@@ -107,7 +107,7 @@ class EventHandlerService
         $params = json_decode($PendingAction->getActionParams(), true);
 
         $event = new \ReflectionClass($params["eventClassName"]);
-        $event->newInstanceArgs($params['args']);
+        $event = $event->newInstanceArgs($params['args']);
 
         $this->EventDispatcher->dispatch($params['eventId'], $event);
 

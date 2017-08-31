@@ -56,13 +56,7 @@ class ServiceHandlerTest extends WebTestCase
     {
         $Action = $this->getPendingAction();
 
-        if ($Action instanceof PendingAction) {
-            $result = true;
-        } else {
-            $result = false;
-        }
-
-        $this->assertTrue($result);
+        $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
     }
 
     public function testGroup()
@@ -74,7 +68,6 @@ class ServiceHandlerTest extends WebTestCase
 
     public function testPendingAction()
     {
-        $this->getKernel()->getContainer()->set('fake.service', new FakeService());
         $Action = $this->getPendingAction();
         $result = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($Action);
         $this->assertEquals($result, PendingAction::STATE_PROCESSED);

@@ -11,26 +11,23 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes;
 
+use Symfony\Component\EventDispatcher\Event;
+
 /**
- * Class FakeService
+ * Class FakeEvent
  * @package ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes
  */
-class FakeService
+class FakeEvent extends Event
 {
-    const MODE = "defaultMode";
-    const TITLE = "defaultTitle";
+    const ARG_A = "a";
+    const ARG_B = "b";
 
-    /**
-     * @param string $mode
-     * @param string $title
-     * @return bool
-     */
-    public function fakeMethod($mode, $title)
+    public $argA;
+    public $argB;
+
+    public function __construct($argA, $argB)
     {
-        if ($mode == FakeService::MODE && $title == FakeService::TITLE) {
-            return true;
-        }
-
-        return false;
+        $this->argA = $argA;
+        $this->argB = $argB;
     }
 }

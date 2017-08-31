@@ -12,25 +12,10 @@
 namespace ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes;
 
 /**
- * Class FakeService
+ * Class FakeException
  * @package ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes
  */
-class FakeService
+class FakeException extends \Exception
 {
-    const MODE = "defaultMode";
-    const TITLE = "defaultTitle";
-
-    /**
-     * @param string $mode
-     * @param string $title
-     * @return bool
-     */
-    public function fakeMethod($mode, $title)
-    {
-        if ($mode == FakeService::MODE && $title == FakeService::TITLE) {
-            return true;
-        }
-
-        return false;
-    }
+    const FAKE_MESSAGE = "Fake Exception Raised";
 }

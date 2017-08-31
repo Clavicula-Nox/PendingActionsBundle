@@ -42,9 +42,23 @@ class PendingActionsServiceTest extends WebTestCase
 
         $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->setState(
             $action,
-            PendingAction::STATE_PROCESSING
+            PendingAction::STATE_ERROR
         );
 
-        $this->assertEquals(PendingAction::STATE_PROCESSING, $action->getState());
+        $this->assertEquals(PendingAction::STATE_ERROR, $action->getState());
+
+        $action = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->register(
+            EventHandlerTest::$params,
+            EventHandlerTest::$group
+        );
+
+        $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $action);
+
+        $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->setState(
+            $action,
+            PendingAction::STATE_ERROR
+        );
+
+        $this->assertEquals(PendingAction::STATE_ERROR, $action->getState());
     }
 }
