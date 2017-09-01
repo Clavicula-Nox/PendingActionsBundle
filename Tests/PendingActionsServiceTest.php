@@ -47,7 +47,8 @@ class PendingActionsServiceTest extends WebTestCase
 
         $this->assertEquals(PendingAction::STATE_ERROR, $action->getState());
 
-        $action = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->register(
+        $action = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            PendingAction::TYPE_EVENT,
             EventHandlerTest::$params,
             EventHandlerTest::$group
         );

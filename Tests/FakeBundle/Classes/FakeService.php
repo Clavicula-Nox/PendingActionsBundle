@@ -27,10 +27,6 @@ class FakeService
      */
     public function fakeMethod($mode, $title)
     {
-        if ($mode == FakeService::MODE && $title == FakeService::TITLE) {
-            return true;
-        }
-
-        return false;
+        return $mode == FakeService::MODE && $title == FakeService::TITLE;
     }
 }

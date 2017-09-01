@@ -35,7 +35,7 @@ class FakeEventListener implements EventSubscriberInterface
     {
         return array(
             'fake_event.fake_method' => array('fakeMethod'),
-            'fake_event.fake_method_exception' => array('fakeMethodExcpetion'),
+            'fake_event.fake_method_exception' => array('fakeMethodException'),
         );
     }
 
@@ -48,7 +48,7 @@ class FakeEventListener implements EventSubscriberInterface
      * @param Event $event
      * @throws FakeException
      */
-    public function fakeMethodExcpetion(Event $event)
+    public function fakeMethodException(Event $event)
     {
         if ($event->argA == FakeEvent::ARG_A && $event->argB == FakeEvent::ARG_B) {
             throw new FakeException(FakeException::FAKE_MESSAGE);
