@@ -40,6 +40,3 @@ script:
 
 after_success: |
     if [[ "$ENABLE_CODE_COVERAGE" == "true" ]]; then php vendor/bin/coveralls -v --config .coveralls.yml; fi;
-
-notifications:
-  email: pierstoval@gmail.com
