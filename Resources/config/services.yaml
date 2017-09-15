@@ -1,0 +1,28 @@
+services:
+    cn_pending_actions.pending_actions_service:
+        class: ClaviculaNox\PendingActionsBundle\Classes\Services\PendingActionsService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@cn_pending_actions.pending_actions.service_handler"
+            - "@cn_pending_actions.pending_actions.event_handler"
+            - "@cn_pending_actions.pending_actions.command_handler"
+        calls:
+            - [ setContainer,[ "@service_container" ] ]
+
+    cn_pending_actions.pending_actions.service_handler:
+        class: ClaviculaNox\PendingActionsBundle\Classes\Services\ServiceHandler\ServiceHandlerService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        calls:
+            - [ setContainer,[ "@service_container" ] ]
+
+    cn_pending_actions.pending_actions.event_handler:
+        class: ClaviculaNox\PendingActionsBundle\Classes\Services\EventHandler\EventHandlerService
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@event_dispatcher"
+
+    cn_pending_actions.pending_actions.command_handler:
+        class: ClaviculaNox\PendingActionsBundle\Classes\Services\CommandHandler\CommandHandlerService
+        arguments:
+            - "@doctrine.orm.entity_manager"
