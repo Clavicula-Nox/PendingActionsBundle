@@ -17,16 +17,16 @@ namespace ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes;
  */
 class FakeService
 {
-    const MODE = "defaultMode";
-    const TITLE = "defaultTitle";
+    const ARG_A = "defaultMode";
+    const ARG_B = "defaultTitle";
 
     /**
      * @param string $mode
      * @param string $title
      * @return bool
      */
-    public function fakeMethod($mode, $title)
+    public function fakeMethod($argA, $argB)
     {
-        return $mode == FakeService::MODE && $title == FakeService::TITLE;
+        return $argA == FakeService::ARG_A && $argB == FakeService::ARG_B;
     }
 }

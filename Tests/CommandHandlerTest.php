@@ -12,7 +12,6 @@
 namespace ClaviculaNox\PendingActionsBundle\Tests;
 
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
-use ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -22,15 +21,15 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class CommandHandlerTest extends WebTestCase
 {
-    public static $params = ["command" => "my:command",
+    public static $params = ["command" => "fake:command",
         "arguments" => [
-            "firstArg" => "",
-            "secondArg" => ""
+            "argA" => "argValA",
+            "argB" => "argValB"
         ],
         "options" => [
-            "firstOption" => "",
-            "secondOption" => "",
-            "thirdOption" => ""
+            "optionA" => "optionValA",
+            "optionB" => "optionValB",
+            "optionC" => "optionValC"
         ]
     ];
 
@@ -67,10 +66,5 @@ class CommandHandlerTest extends WebTestCase
         $Action = $this->getPendingAction();
 
         $this->assertEquals(ServiceHandlerTest::$group, $Action->getActionGroup());
-    }
-
-    public function testPendingAction()
-    {
-
     }
 }

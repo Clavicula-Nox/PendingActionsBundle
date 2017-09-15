@@ -26,6 +26,13 @@ class PendingAction
     const STATE_PROCESSED = 2;
     const STATE_ERROR = 3;
 
+    public static $labels = [
+        PendingAction::STATE_WAITING => "Waiting",
+        PendingAction::STATE_PROCESSING => "Processing",
+        PendingAction::STATE_PROCESSED => "Processed",
+        PendingAction::STATE_ERROR => "Error"
+    ];
+
     const TYPE_SERVICE = 1;
     const TYPE_EVENT = 2;
     const TYPE_COMMAND = 3;

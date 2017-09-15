@@ -26,8 +26,8 @@ class ServiceHandlerTest extends WebTestCase
         "serviceId" => "fake.service",
         "method" => "fakeMethod",
         "args" => array(
-            "mode" => FakeService::MODE,
-            "title" => FakeService::TITLE
+            "argA" => FakeService::ARG_A,
+            "argB" => FakeService::ARG_B
         )
     ];
 
