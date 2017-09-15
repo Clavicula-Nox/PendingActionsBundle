@@ -126,9 +126,4 @@ class PendingActionsService implements ContainerAwareInterface
         $this->EntityManager->persist($PendingAction);
         $this->EntityManager->flush();
     }
-
-    public function getLabelFromState()
-    {
-
-    }
 }
