@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PendingActionsBundle.
+ *
+ * (c) Adrien Lochon <adrien@claviculanox.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace ClaviculaNox\PendingActionsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -16,6 +25,13 @@ class PendingAction
     const STATE_PROCESSING = 1;
     const STATE_PROCESSED = 2;
     const STATE_ERROR = 3;
+
+    public static $labels = [
+        PendingAction::STATE_WAITING => "Waiting",
+        PendingAction::STATE_PROCESSING => "Processing",
+        PendingAction::STATE_PROCESSED => "Processed",
+        PendingAction::STATE_ERROR => "Error"
+    ];
 
     const TYPE_SERVICE = 1;
     const TYPE_EVENT = 2;

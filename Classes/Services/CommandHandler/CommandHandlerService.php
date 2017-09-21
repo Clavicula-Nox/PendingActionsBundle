@@ -66,7 +66,6 @@ class CommandHandlerService
         if (is_null($params)) {
             return false;
         }
-
         if (!isset($params['command'])) {
             return false;
         }

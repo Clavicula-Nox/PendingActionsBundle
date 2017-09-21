@@ -1,0 +1,30 @@
+parameters:
+    database_path: '%kernel.root_dir%/../../build/test.db'
+
+framework:
+    trusted_hosts: ~
+    secret: "test"
+    test: ~
+
+doctrine:
+    dbal:
+        driver:   pdo_sqlite
+        charset:  UTF8
+        path:     '%database_path%'
+    orm:
+        auto_generate_proxy_classes: true
+        auto_mapping: false
+        mappings:
+            PendingActionsBundle:
+                type: annotation
+                dir: '%kernel.root_dir%/../../Entity'
+                prefix: ClaviculaNox\PendingActionsBundle\Entity
+
+services:
+    fake.service:
+         class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService
+
+    fake.event.listener:
+         class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeEventListener
+         tags:
+             - { name: kernel.event_subscriber }

@@ -1,4 +1,4 @@
-Copyright (c) 2015-2017 Adrien Lochon
+Copyright (c) 2015 Adrien Lochon - Clavicula Nox - https://www.claviculanox.io
 
 The MIT license, reference http://www.opensource.org/licenses/mit-license.php
 

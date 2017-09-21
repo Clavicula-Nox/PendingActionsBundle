@@ -31,11 +31,7 @@ class ProcessPendingsCommand extends ContainerAwareCommand
         $this
             ->setName('cn:pending-actions:process')
             ->setDescription('Processing of Pending Actions')
-            ->setDefinition(
-                array(
-                    new InputArgument('actionGroup', InputArgument::OPTIONAL, 'The action group')
-                )
-            )
+            ->addArgument('actionGroup', InputArgument::OPTIONAL, 'The action group')
             ->setHelp(<<<'EOT'
 The <info>cn:pending-actions:process</info> command processes the pending actions of an action group : 
 
@@ -110,6 +106,8 @@ EOT
             }
 
             $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, $result);
+
+            $output->write("   Action " . $pendingAction->getId()  . " : " . PendingAction::$labels[$result], true);
         }
     }
 }

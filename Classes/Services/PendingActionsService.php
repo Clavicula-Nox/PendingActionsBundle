@@ -116,15 +116,6 @@ class PendingActionsService implements ContainerAwareInterface
     }
 
     /**
-     * @deprecated Use Handler method instead
-     * @return bool
-     */
-    public function checkPendingAction()
-    {
-        return true;
-    }
-
-    /**
      * @param PendingAction $PendingAction
      * @param int $stateId
      */
