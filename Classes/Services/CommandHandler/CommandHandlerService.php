@@ -63,22 +63,13 @@ class CommandHandlerService
     private function checkPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand)
     {
         $params = json_decode($PendingAction->getActionParams(), true);
-        if (is_null($params)) {
-            return false;
-        }
-        if (!isset($params['command'])) {
-            return false;
-        }
-
-        if (!$ProcessPendingsCommand->getApplication()->has($params['command'])) {
-            return false;
-        }
-
-        if (!isset($params['arguments'])) {
-            return false;
-        }
-
-        if (!isset($params['options'])) {
+        if (
+            is_null($params) ||
+            !isset($params['command']) ||
+            !$ProcessPendingsCommand->getApplication()->has($params['command']) ||
+            !isset($params['arguments']) ||
+            !isset($params['options'])
+        ) {
             return false;
         }
 

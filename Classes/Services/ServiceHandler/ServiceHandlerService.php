@@ -63,34 +63,19 @@ class ServiceHandlerService implements ContainerAwareInterface
     private function checkPendingAction(PendingAction $PendingAction)
     {
         $params = json_decode($PendingAction->getActionParams(), true);
-        if (is_null($params)) {
-            return false;
-        }
-
-        if (!isset($params["serviceId"])) {
-            return false;
-        }
-
-        if (!isset($params["method"])) {
-            return false;
-        }
-
-        if (!isset($params["args"])) {
-            return false;
-        }
-
-        if (!$this->container->has($params["serviceId"]))
-        {
+        if (
+            is_null($params) ||
+            !isset($params["serviceId"]) ||
+            !isset($params["method"]) ||
+            !isset($params["args"]) ||
+            !$this->container->has($params["serviceId"])
+        ) {
             return false;
         }
 
         $service = $this->container->get($params["serviceId"]);
-        if (!method_exists($service, $params["method"]))
-        {
-            return false;
-        }
 
-        return true;
+        return method_exists($service, $params["method"]);
     }
 
     /**

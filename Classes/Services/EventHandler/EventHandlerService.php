@@ -66,32 +66,14 @@ class EventHandlerService
     private function checkPendingAction(PendingAction $PendingAction)
     {
         $params = json_decode($PendingAction->getActionParams(), true);
-        if (is_null($params)) {
-            return false;
-        }
 
-        if (!isset($params["eventClassName"])) {
-            return false;
-        }
-
-        if (!class_exists($params["eventClassName"])) {
-            return false;
-        }
-
-        if (!isset($params["eventId"])) {
-            return false;
-        }
-
-        if (!isset($params["args"])) {
-            return false;
-        }
-
-        if (!$this->EventDispatcher->hasListeners($params["eventId"]))
-        {
-            return false;
-        }
-
-        return true;
+        return
+            !is_null($params) &&
+            isset($params["eventClassName"]) &&
+            class_exists($params["eventClassName"]) &&
+            isset($params["eventId"]) &&
+            isset($params["args"]) &&
+            $this->EventDispatcher->hasListeners($params["eventId"]);
     }
 
     /**
