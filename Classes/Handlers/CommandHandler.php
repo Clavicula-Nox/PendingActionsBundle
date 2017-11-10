@@ -9,61 +9,30 @@
  * file that was distributed with this source code.
  */
 
-namespace ClaviculaNox\PendingActionsBundle\Classes\Services\CommandHandler;
+namespace ClaviculaNox\PendingActionsBundle\Classes\Handlers;
 
+use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlersInterface;
 use ClaviculaNox\PendingActionsBundle\Command\ProcessPendingsCommand;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class CommandHandlerService
- * @package ClaviculaNox\PendingActionsBundle\Classes\Services\CommandHandler
+ * Class CommandHandler
+ * @package ClaviculaNox\PendingActionsBundle\Classes\Handlers
  */
-class CommandHandlerService
+class CommandHandler implements HandlersInterface
 {
-    protected $EntityManager;
-
-    /**
-     * ServiceHandlerService constructor.
-     * @param EntityManager $EntityManager
-     */
-    public function __construct(EntityManager $EntityManager)
-    {
-        $this->EntityManager = $EntityManager;
-    }
-
-    /**
-     * @param int $type
-     * @param array $params
-     * @param null|string $group
-     * @return PendingAction
-     */
-    public function register($params = array(), $group = null)
-    {
-        $PendingAction = new PendingAction();
-        $PendingAction->setType(PendingAction::TYPE_COMMAND);
-        $PendingAction->setActionParams($params);
-        $PendingAction->setActionGroup($group);
-        $PendingAction->setCreated(new \DateTime());
-        $PendingAction->setUpdated(new \DateTime());
-        $PendingAction->setState(PendingAction::STATE_WAITING);
-        $this->EntityManager->persist($PendingAction);
-        $this->EntityManager->flush();
-
-        return $PendingAction;
-    }
-
     /**
      * @param PendingAction $PendingAction
      * @param ProcessPendingsCommand $ProcessPendingsCommand
      * @return bool
      */
-    private function checkPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand)
+    public function checkPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand = null): bool
     {
         $params = json_decode($PendingAction->getActionParams(), true);
         if (
+            is_null($ProcessPendingsCommand) ||
             is_null($params) ||
             !isset($params['command']) ||
             !$ProcessPendingsCommand->getApplication()->has($params['command']) ||
@@ -101,7 +70,6 @@ class CommandHandlerService
 
         return true;
     }
-
     /**
      * @param PendingAction $PendingAction
      * @param ProcessPendingsCommand $ProcessPendingsCommand
@@ -109,8 +77,8 @@ class CommandHandlerService
      * @return int
      */
     public function process(PendingAction $PendingAction,
-                            ProcessPendingsCommand $ProcessPendingsCommand,
-                            OutputInterface $output)
+                            ProcessPendingsCommand $ProcessPendingsCommand = null,
+                            OutputInterface $output = null): int
     {
         if (!$this->checkPendingAction($PendingAction, $ProcessPendingsCommand)) {
             return PendingAction::STATE_ERROR;

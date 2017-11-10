@@ -23,10 +23,24 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class PendingActionsExtension extends Extension
 {
     /**
-     * {@inheritdoc}
+     * @param array $configs
+     * @param ContainerBuilder $container
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
+        //Add default handlers
+        $config['handlers']["ServiceHandler"] = "cn_pending_actions.pending_actions.service_handler";
+        $config['handlers']["EventHandler"] = "cn_pending_actions.pending_actions.event_handler";
+        $config['handlers']["CommandHandler"] = "cn_pending_actions.pending_actions.command_handler";
+
+        foreach ($config as $key => $value)
+        {
+            $container->setParameter('pending_actions.'.$key, $value);
+        }
+
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/'));
         $loader->load('services.yaml');
     }

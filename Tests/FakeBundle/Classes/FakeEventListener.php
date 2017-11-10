@@ -31,7 +31,7 @@ class FakeEventListener implements EventSubscriberInterface
     /**
      * @return array
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             'fake_event.fake_method' => array('fakeMethod'),
@@ -39,16 +39,16 @@ class FakeEventListener implements EventSubscriberInterface
         );
     }
 
-    public function fakeMethod()
+    public function fakeMethod(): void
     {
 
     }
 
     /**
-     * @param Event $event
+     * @param FakeEvent $event
      * @throws FakeException
      */
-    public function fakeMethodException(Event $event)
+    public function fakeMethodException(FakeEvent $event): void
     {
         if ($event->argA == FakeEvent::ARG_A && $event->argB == FakeEvent::ARG_B) {
             throw new FakeException(FakeException::FAKE_MESSAGE);

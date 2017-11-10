@@ -25,17 +25,15 @@ class PendingAction
     const STATE_PROCESSING = 1;
     const STATE_PROCESSED = 2;
     const STATE_ERROR = 3;
+    const STATE_UNKNOWN_HANDLER = 4;
 
     public static $labels = [
         PendingAction::STATE_WAITING => "Waiting",
         PendingAction::STATE_PROCESSING => "Processing",
         PendingAction::STATE_PROCESSED => "Processed",
-        PendingAction::STATE_ERROR => "Error"
+        PendingAction::STATE_ERROR => "Error",
+        PendingAction::STATE_UNKNOWN_HANDLER => "Unknown Handler"
     ];
-
-    const TYPE_SERVICE = 1;
-    const TYPE_EVENT = 2;
-    const TYPE_COMMAND = 3;
 
     /**
      * @var int
@@ -46,10 +44,10 @@ class PendingAction
     protected $id;
 
     /**
-     * @var int
-     * @ORM\Column(type="integer")
+     * @var string
+     * @ORM\Column(type="text", options={"default":""})
      */
-    protected $type;
+    protected $handler = '';
 
     /**
      * @var string
@@ -98,19 +96,19 @@ class PendingAction
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getType()
+    public function getHandler()
     {
-        return $this->type;
+        return $this->handler;
     }
 
     /**
-     * @param int $type
+     * @param string $handler
      */
-    public function setType($type)
+    public function setHandler( $handler)
     {
-        $this->type = $type;
+        $this->handler = $handler;
     }
 
     /**
@@ -195,6 +193,14 @@ class PendingAction
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStateLabel()
+    {
+        return array_key_exists($this->state, PendingAction::$labels) ? PendingAction::$labels[$this->state] : "Unknown Label";
     }
 
     /**

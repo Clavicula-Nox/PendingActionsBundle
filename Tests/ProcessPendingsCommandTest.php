@@ -24,39 +24,40 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class ProcessPendingsCommandTest extends KernelTestCase
 {
-    const ACTION_GROUP = "command_fake_group";
+    /* @var string */
+    public static $group = "commandFakeGroup";
 
     /**
      * @return KernelInterface
      */
-    private function getKernel($options = [])
+    private function getKernel($options = []): KernelInterface
     {
         return $this->bootKernel($options);
     }
 
-    public function testCommand()
+    public function testCommand(): void
     {
         self::bootKernel();
         $application = new Application(self::$kernel);
 
         $serviceAction = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
-            PendingAction::TYPE_SERVICE,
+            ServiceHandlerTest::$handlerDefault,
             ServiceHandlerTest::$params,
-            ProcessPendingsCommandTest::ACTION_GROUP
+            ProcessPendingsCommandTest::$group
         );
         $serviceActionId = $serviceAction->getId();
 
         $eventAction = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
-            PendingAction::TYPE_EVENT,
+            EventHandlerTest::$handlerDefault,
             EventHandlerTest::$params,
-            ProcessPendingsCommandTest::ACTION_GROUP
+            ProcessPendingsCommandTest::$group
         );
         $eventActionId = $eventAction->getId();
 
         $commandAction = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
-            PendingAction::TYPE_COMMAND,
+            CommandHandlerTest::$handlerDefault,
             CommandHandlerTest::$params,
-            ProcessPendingsCommandTest::ACTION_GROUP
+            ProcessPendingsCommandTest::$group
         );
         $commandActionId = $commandAction->getId();
 
@@ -66,7 +67,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
-            'actionGroup' => ProcessPendingsCommandTest::ACTION_GROUP,
+            'actionGroup' => ProcessPendingsCommandTest::$group,
         ));
 
         $output = $commandTester->getDisplay();

@@ -23,10 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ProcessPendingsCommand extends ContainerAwareCommand
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('cn:pending-actions:process')
@@ -43,9 +40,10 @@ EOT
     }
 
     /**
-     * {@inheritdoc}
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $output->write("Getting pending actions...", true);
         if (!is_null($input->getArgument('actionGroup'))) {
@@ -78,31 +76,11 @@ EOT
 
             $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSING);
 
-            switch ($pendingAction->getType())
-            {
-                case PendingAction::TYPE_SERVICE :
-                {
-                    $result = $this->getContainer()->get("cn_pending_actions.pending_actions.service_handler")->process($pendingAction);
-                    break;
-                }
-
-                case PendingAction::TYPE_EVENT :
-                {
-                    $result = $this->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->process($pendingAction);
-                    break;
-                }
-
-                case PendingAction::TYPE_COMMAND :
-                {
-                    $result = $this->getContainer()->get("cn_pending_actions.pending_actions.command_handler")->process($pendingAction, $this, $output);
-                    break;
-                }
-
-                default :
-                {
-                    $result = PendingAction::STATE_ERROR;
-                    break;
-                }
+            //Special case for the default command handler, until i find a better way to do it
+            if ($pendingAction->getHandler() == "CommandHandler") {
+                $result = $this->getContainer()->get("cn_pending_actions.pending_actions.command_handler")->process($pendingAction, $this, $output);
+            } else {
+                $result = $this->getContainer()->get("cn_pending_actions.pending_actions_service")->process($pendingAction);
             }
 
             $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, $result);

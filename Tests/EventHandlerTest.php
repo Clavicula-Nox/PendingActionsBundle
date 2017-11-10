@@ -41,12 +41,14 @@ class EventHandlerTest extends WebTestCase
         ]
     ];
 
+    public static $handlerDefault = "EventHandler";
+    public static $handlerConfig = "EventHandlerConfig";
     public static $group = "testGroup";
 
     /**
      * @return KernelInterface
      */
-    private function getKernel($options = [])
+    private function getKernel($options = []): KernelInterface
     {
         return $this->bootKernel($options);
     }
@@ -54,9 +56,10 @@ class EventHandlerTest extends WebTestCase
     /**
      * @return PendingAction
      */
-    private function getExceptionPendingAction()
+    private function getExceptionPendingAction(): PendingAction
     {
-        return $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->register(
+        return $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            EventHandlerTest::$handlerDefault,
             EventHandlerTest::$paramsException,
             EventHandlerTest::$group
         );
@@ -65,41 +68,63 @@ class EventHandlerTest extends WebTestCase
     /**
      * @return PendingAction
      */
-    private function getPendingAction()
+    private function getPendingAction($handler): PendingAction
     {
-        return $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->register(
+        return $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            $handler,
             EventHandlerTest::$params,
             EventHandlerTest::$group
         );
     }
 
-    public function testRegistration()
+    public function testRegistrationDefault(): void
     {
-        $Action = $this->getPendingAction();
+        $Action = $this->getPendingAction(EventHandlerTest::$handlerDefault);
 
         $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
     }
 
-    public function testGroup()
+    public function testRegistrationConfig(): void
     {
-        $Action = $this->getPendingAction();
+        $Action = $this->getPendingAction(EventHandlerTest::$handlerConfig);
+
+        $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
+    }
+
+    public function testHandlerDefault(): void
+    {
+        $Action = $this->getPendingAction(EventHandlerTest::$handlerDefault);
+
+        $this->assertEquals(EventHandlerTest::$handlerDefault, $Action->getHandler());
+    }
+
+    public function testHandlerConfig(): void
+    {
+        $Action = $this->getPendingAction(EventHandlerTest::$handlerConfig);
+
+        $this->assertEquals(EventHandlerTest::$handlerConfig, $Action->getHandler());
+    }
+
+    public function testGroup(): void
+    {
+        $Action = $this->getPendingAction(EventHandlerTest::$handlerDefault);
 
         $this->assertEquals(EventHandlerTest::$group, $Action->getActionGroup());
     }
 
-    public function testPendingAction()
+    public function testPendingAction(): void
     {
         $Action = $this->getExceptionPendingAction();
         try {
-            $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->process($Action);
+            $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->process($Action);
             $this->fail("Expected Exception has not been raised.");
         } catch (FakeException $e) {
             $this->assertEquals($e->getMessage(), FakeException::FAKE_MESSAGE);
         }
 
-        $Action = $this->getPendingAction();
+        $Action = $this->getPendingAction(EventHandlerTest::$handlerDefault);
 
-        $result = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.event_handler")->process($Action);
+        $result = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->process($Action);
         $this->assertEquals($result, PendingAction::STATE_PROCESSED);
     }
 }
