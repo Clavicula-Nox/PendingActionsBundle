@@ -26,13 +26,15 @@ class PendingAction
     const STATE_PROCESSED = 2;
     const STATE_ERROR = 3;
     const STATE_UNKNOWN_HANDLER = 4;
+    const STATE_HANDLER_ERROR = 5;
 
     public static $labels = [
         PendingAction::STATE_WAITING => "Waiting",
         PendingAction::STATE_PROCESSING => "Processing",
         PendingAction::STATE_PROCESSED => "Processed",
         PendingAction::STATE_ERROR => "Error",
-        PendingAction::STATE_UNKNOWN_HANDLER => "Unknown Handler"
+        PendingAction::STATE_UNKNOWN_HANDLER => "Unknown Handler",
+        PendingAction::STATE_HANDLER_ERROR => "Handler Error"
     ];
 
     /**

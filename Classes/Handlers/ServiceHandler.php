@@ -11,7 +11,7 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Classes\Handlers;
 
-use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlersInterface;
+use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerInterface;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
  * Class ServiceHandlerService
  * @package ClaviculaNox\PendingActionsBundle\Classes\Handlers
  */
-class ServiceHandler implements ContainerAwareInterface, HandlersInterface
+class ServiceHandler implements ContainerAwareInterface, HandlerInterface
 {
     use ContainerAwareTrait;
 

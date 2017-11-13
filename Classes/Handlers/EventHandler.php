@@ -11,7 +11,7 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Classes\Handlers;
 
-use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlersInterface;
+use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerInterface;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * Class EventHandler
  * @package ClaviculaNox\PendingActionsBundle\Classes\Handlers
  */
-class EventHandler implements HandlersInterface
+class EventHandler implements HandlerInterface
 {
     /* @var EntityManager */
     protected $EntityManager;

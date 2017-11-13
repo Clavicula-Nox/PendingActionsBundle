@@ -11,6 +11,7 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Classes\Services;
 
+use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerInterface;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -118,8 +119,13 @@ class PendingActionsService implements ContainerAwareInterface
         } elseif (!$this->container->get($this->handlersList[$PendingAction->getHandler()])->checkPendingAction($PendingAction)) {
             $this->setState($PendingAction, PendingAction::STATE_ERROR);
         } else {
-            $return = $this->container->get($this->handlersList[$PendingAction->getHandler()])->process($PendingAction);
-            $this->setState($PendingAction, $return);
+            $handler = $this->container->get($this->handlersList[$PendingAction->getHandler()]);
+            if (!$handler instanceof HandlerInterface) {
+                $this->setState($PendingAction, PendingAction::STATE_HANDLER_ERROR);
+            } else {
+                $return = $this->container->get($this->handlersList[$PendingAction->getHandler()])->process($PendingAction);
+                $this->setState($PendingAction, $return);
+            }
         }
 
         return $PendingAction->getState();

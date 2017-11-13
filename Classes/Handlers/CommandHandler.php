@@ -11,7 +11,7 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Classes\Handlers;
 
-use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlersInterface;
+use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerInterface;
 use ClaviculaNox\PendingActionsBundle\Command\ProcessPendingsCommand;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Class CommandHandler
  * @package ClaviculaNox\PendingActionsBundle\Classes\Handlers
  */
-class CommandHandler implements HandlersInterface
+class CommandHandler implements HandlerInterface
 {
     /**
      * @param PendingAction $PendingAction

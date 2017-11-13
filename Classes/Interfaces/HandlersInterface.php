@@ -14,10 +14,10 @@ namespace ClaviculaNox\PendingActionsBundle\Classes\Interfaces;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 
 /**
- * Interface HandlersInterface
+ * Interface HandlerInterface
  * @package ClaviculaNox\PendingActionsBundle\Classes\Interfaces
  */
-interface HandlersInterface
+interface HandlerInterface
 {
     public function checkPendingAction(PendingAction $PendingAction) : bool;
     public function process(PendingAction $PendingAction): int;
