@@ -84,7 +84,7 @@ class PendingAction
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -92,7 +92,7 @@ class PendingAction
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -100,7 +100,7 @@ class PendingAction
     /**
      * @return string
      */
-    public function getHandler()
+    public function getHandler(): string
     {
         return $this->handler;
     }
@@ -108,20 +108,16 @@ class PendingAction
     /**
      * @param string $handler
      */
-    public function setHandler( $handler)
+    public function setHandler(string $handler)
     {
         $this->handler = $handler;
     }
 
     /**
-     * @return array|string
+     * @return string
      */
-    public function getActionParams($asArray = false)
+    public function getActionParams(): string
     {
-        if ($asArray) {
-            return json_decode($this->actionParams, true);
-        }
-
         return $this->actionParams;
     }
 
@@ -144,7 +140,7 @@ class PendingAction
     /**
      * @return string
      */
-    public function getActionGroup()
+    public function getActionGroup(): string
     {
         return $this->actionGroup;
     }
@@ -152,7 +148,7 @@ class PendingAction
     /**
      * @param string $actionGroup
      */
-    public function setActionGroup($actionGroup)
+    public function setActionGroup(string $actionGroup)
     {
         $this->actionGroup = $actionGroup;
     }
@@ -160,7 +156,7 @@ class PendingAction
     /**
      * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
@@ -168,7 +164,7 @@ class PendingAction
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created)
+    public function setCreated(\DateTime $created)
     {
         $this->created = $created;
     }
@@ -176,7 +172,7 @@ class PendingAction
     /**
      * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
@@ -184,7 +180,7 @@ class PendingAction
     /**
      * @param \DateTime $updated
      */
-    public function setUpdated($updated)
+    public function setUpdated(\DateTime $updated)
     {
         $this->updated = $updated;
     }
@@ -192,7 +188,7 @@ class PendingAction
     /**
      * @return int
      */
-    public function getState()
+    public function getState(): int
     {
         return $this->state;
     }
@@ -200,7 +196,7 @@ class PendingAction
     /**
      * @return string
      */
-    public function getStateLabel()
+    public function getStateLabel(): string
     {
         return array_key_exists($this->state, PendingAction::$labels) ? PendingAction::$labels[$this->state] : "Unknown Label";
     }
@@ -208,7 +204,7 @@ class PendingAction
     /**
      * @param int $state
      */
-    public function setState($state)
+    public function setState(int $state)
     {
         $this->state = $state;
     }
