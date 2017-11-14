@@ -42,6 +42,11 @@ class CommandHandler implements HandlerInterface
             return false;
         }
 
+        $commandsList = $ProcessPendingsCommand->getApplication()->all();
+        if (!array_key_exists($params['command'], $commandsList)) {
+            return false;
+        }
+
         $command = $ProcessPendingsCommand->getApplication()->find($params['command']);
 
         foreach ($command->getDefinition()->getArguments() as $argument)
