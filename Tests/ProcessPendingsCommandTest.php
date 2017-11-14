@@ -27,6 +27,19 @@ class ProcessPendingsCommandTest extends KernelTestCase
     /* @var string */
     public static $group = "commandFakeGroup";
 
+    /* @var array */
+    public static $params = ["command" => "fake:command",
+        "arguments" => [
+            "argA" => "argValA",
+            "argB" => "argValB"
+        ],
+        "options" => [
+            "optionA" => "optionValA",
+            "optionB" => "optionValB",
+            "optionC" => "optionValC"
+        ]
+    ];
+
     /**
      * @return KernelInterface
      */
@@ -61,6 +74,89 @@ class ProcessPendingsCommandTest extends KernelTestCase
         );
         $commandActionId = $commandAction->getId();
 
+        $PendingActionError = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            CommandHandlerTest::$handlerDefault,
+            [],
+            ProcessPendingsCommandTest::$group
+        );
+        $noCommandId = $PendingActionError->getId();
+
+        $PendingActionError = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            CommandHandlerTest::$handlerDefault,
+            ["command" => "fake:command"],
+            ProcessPendingsCommandTest::$group
+        );
+        $noArgumentsId = $PendingActionError->getId();
+
+        $PendingActionError = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            CommandHandlerTest::$handlerDefault,
+            [
+                "command" => "fake:command",
+                "arguments" => [
+                    "argA" => "argValA",
+                    "argB" => "argValB"
+                ]
+            ],
+            ProcessPendingsCommandTest::$group
+        );
+        $noOptionsId = $PendingActionError->getId();
+
+        $PendingActionError = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            CommandHandlerTest::$handlerDefault,
+            [
+                "command" => "fake:command:reallyfake",
+                "arguments" => [
+                    "argA" => "argValA",
+                    "argB" => "argValB"
+                ],
+                "options" => [
+                    "optionA" => "optionValA",
+                    "optionB" => "optionValB",
+                    "optionC" => "optionValC"
+                ]
+            ],
+            ProcessPendingsCommandTest::$group
+        );
+        $wrongCommandId = $PendingActionError->getId();
+
+        $PendingActionError = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            CommandHandlerTest::$handlerDefault,
+            [
+                "command" => "fake:command",
+                "arguments" => [
+                    "argA" => "argValA",
+                    "argB" => "argValB",
+                    "argC" => "argValC"
+                ],
+                "options" => [
+                    "optionA" => "optionValA",
+                    "optionB" => "optionValB",
+                    "optionC" => "optionValC"
+                ]
+            ],
+            ProcessPendingsCommandTest::$group
+        );
+        $tooManyArgumentsId = $PendingActionError->getId();
+
+        $PendingActionError = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            CommandHandlerTest::$handlerDefault,
+            [
+                "command" => "fake:command",
+                "arguments" => [
+                    "argA" => "argValA",
+                    "argB" => "argValB"
+                ],
+                "options" => [
+                    "optionA" => "optionValA",
+                    "optionB" => "optionValB",
+                    "optionC" => "optionValC",
+                    "optionD" => "optionValD"
+                ]
+            ],
+            ProcessPendingsCommandTest::$group
+        );
+        $tooManyOptionsId = $PendingActionError->getId();
+
         $application->add(new ProcessPendingsCommand());
 
         $command = $application->find('cn:pending-actions:process');
@@ -74,6 +170,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
         $serviceAction = $this->getKernel()->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($serviceActionId);
         $eventAction = $this->getKernel()->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($eventActionId);
         $commandAction = $this->getKernel()->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($commandActionId);
+        $PendingActionError = $this->getKernel()->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($tooManyOptionsId);
 
         $this->assertContains("Action " . $serviceActionId . " : Processed", $output);
         $this->assertContains("Action " . $eventActionId . " : Processed", $output);
@@ -81,5 +178,13 @@ class ProcessPendingsCommandTest extends KernelTestCase
         $this->assertEquals(PendingAction::STATE_PROCESSED, $serviceAction->getState());
         $this->assertEquals(PendingAction::STATE_PROCESSED, $eventAction->getState());
         $this->assertEquals(PendingAction::STATE_PROCESSED, $commandAction->getState());
+
+        $this->assertContains("Action " . $noCommandId . " : Error", $output);
+        $this->assertContains("Action " . $noArgumentsId . " : Error", $output);
+        $this->assertContains("Action " . $noOptionsId . " : Error", $output);
+        $this->assertContains("Action " . $wrongCommandId . " : Error", $output);
+        $this->assertContains("Action " . $tooManyArgumentsId . " : Error", $output);
+        $this->assertContains("Action " . $tooManyOptionsId . " : Error", $output);
+        $this->assertEquals(PendingAction::STATE_ERROR, $PendingActionError->getState());
     }
 }
