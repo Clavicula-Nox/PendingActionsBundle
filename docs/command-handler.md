@@ -20,11 +20,11 @@ Example in a controller :
                     // ...
                 ] //can be empty
             ];
-            $this
-                ->get("cn_pending_actions.pending_actions_service")
-                ->register(
-                    "CommandHandler",
-                    $params,
-                    "my_group_label"
-                );
+    $this
+        ->get("cn_pending_actions.pending_actions_service")
+        ->register(
+            "CommandHandler",
+            $params,
+            "my_group_label"
+        );
 ```
