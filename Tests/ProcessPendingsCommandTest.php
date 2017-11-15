@@ -157,6 +157,14 @@ class ProcessPendingsCommandTest extends KernelTestCase
         );
         $tooManyOptionsId = $PendingActionError->getId();
 
+        $alreadyRunningAction = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            ServiceHandlerTest::$handlerDefault,
+            ServiceHandlerTest::$params,
+            ProcessPendingsCommandTest::$group
+        );
+        $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($alreadyRunningAction, PendingAction::STATE_PROCESSING);
+        $alreadyRunningActionId = $alreadyRunningAction->getId();
+
         $application->add(new ProcessPendingsCommand());
 
         $command = $application->find('cn:pending-actions:process');
@@ -171,6 +179,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
         $eventAction = $this->getKernel()->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($eventActionId);
         $commandAction = $this->getKernel()->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($commandActionId);
         $PendingActionError = $this->getKernel()->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($tooManyOptionsId);
+        $alreadyRunningAction = $this->getKernel()->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($alreadyRunningActionId);
 
         $this->assertContains("Action " . $serviceActionId . " : Processed", $output);
         $this->assertContains("Action " . $eventActionId . " : Processed", $output);
@@ -178,6 +187,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
         $this->assertEquals(PendingAction::STATE_PROCESSED, $serviceAction->getState());
         $this->assertEquals(PendingAction::STATE_PROCESSED, $eventAction->getState());
         $this->assertEquals(PendingAction::STATE_PROCESSED, $commandAction->getState());
+        $this->assertEquals(PendingAction::STATE_PROCESSING, $alreadyRunningAction->getState());
 
         $this->assertContains("Action " . $noCommandId . " : Error", $output);
         $this->assertContains("Action " . $noArgumentsId . " : Error", $output);
@@ -186,5 +196,12 @@ class ProcessPendingsCommandTest extends KernelTestCase
         $this->assertContains("Action " . $tooManyArgumentsId . " : Error", $output);
         $this->assertContains("Action " . $tooManyOptionsId . " : Error", $output);
         $this->assertEquals(PendingAction::STATE_ERROR, $PendingActionError->getState());
+
+        $commandTester->execute(array(
+            'command'  => $command->getName(),
+            'actionGroup' => ProcessPendingsCommandTest::$group,
+        ));
+        $output = $commandTester->getDisplay();
+        $this->assertContains("No actions to process...", $output);
     }
 }
