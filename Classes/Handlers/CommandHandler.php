@@ -23,24 +23,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CommandHandler implements HandlerInterface
 {
     /**
-     * @param PendingAction $PendingAction
-     *
-     * @return bool
-     */
-    public function checkPendingAction(PendingAction $PendingAction): bool
-    {
-        return true;
-    }
-
-    /**
      * @param PendingAction          $PendingAction
      * @param ProcessPendingsCommand $ProcessPendingsCommand
      *
      * @return bool
      */
-    public function checkCommandPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand): bool
+    public function checkPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand = null): bool
     {
         $params = json_decode($PendingAction->getActionParams(), true);
+
         if (
             is_null($ProcessPendingsCommand) ||
             is_null($params) ||
@@ -52,14 +43,14 @@ class CommandHandler implements HandlerInterface
             return false;
         }
 
-        $commandsList = $ProcessPendingsCommand->getApplication()->all();
-        if (!array_key_exists($params['command'], $commandsList)) {
-            return false;
-        }
-
         $command = $ProcessPendingsCommand->getApplication()->find($params['command']);
 
         foreach ($command->getDefinition()->getArguments() as $argument) {
+            //This is a temporary code done only to fix https://github.com/symfony/symfony/issues/17804
+            if ('command' == $argument->getName()) {
+                continue;
+            }
+
             if ($argument->isRequired() && !isset($params['arguments'][$argument->getName()])) {
                 return false;
             }
@@ -95,7 +86,7 @@ class CommandHandler implements HandlerInterface
                             ProcessPendingsCommand $ProcessPendingsCommand = null,
                             OutputInterface $output = null): int
     {
-        if (!$this->checkCommandPendingAction($PendingAction, $ProcessPendingsCommand)) {
+        if (!$this->checkPendingAction($PendingAction, $ProcessPendingsCommand)) {
             return PendingAction::STATE_ERROR;
         }
 
