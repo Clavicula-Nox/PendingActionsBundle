@@ -18,14 +18,14 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class CommandHandler
- * @package ClaviculaNox\PendingActionsBundle\Classes\Handlers
+ * Class CommandHandler.
  */
 class CommandHandler implements HandlerInterface
 {
     /**
-     * @param PendingAction $PendingAction
+     * @param PendingAction          $PendingAction
      * @param ProcessPendingsCommand $ProcessPendingsCommand
+     *
      * @return bool
      */
     public function checkPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand = null): bool
@@ -49,8 +49,7 @@ class CommandHandler implements HandlerInterface
 
         $command = $ProcessPendingsCommand->getApplication()->find($params['command']);
 
-        foreach ($command->getDefinition()->getArguments() as $argument)
-        {
+        foreach ($command->getDefinition()->getArguments() as $argument) {
             if ($argument->isRequired() && !isset($params['arguments'][$argument->getName()])) {
                 return false;
             }
@@ -62,8 +61,7 @@ class CommandHandler implements HandlerInterface
             return false;
         }
 
-        foreach ($command->getDefinition()->getOptions() as $option)
-        {
+        foreach ($command->getDefinition()->getOptions() as $option) {
             if (isset($params['options'][$option->getName()])) {
                 unset($params['options'][$option->getName()]);
             }
@@ -75,10 +73,12 @@ class CommandHandler implements HandlerInterface
 
         return true;
     }
+
     /**
-     * @param PendingAction $PendingAction
+     * @param PendingAction          $PendingAction
      * @param ProcessPendingsCommand $ProcessPendingsCommand
-     * @param OutputInterface $output
+     * @param OutputInterface        $output
+     *
      * @return int
      */
     public function process(PendingAction $PendingAction,
@@ -93,17 +93,15 @@ class CommandHandler implements HandlerInterface
 
         $command = $ProcessPendingsCommand->getApplication()->find($params['command']);
         $commandArgs = array(
-            'command' => $params['command']
+            'command' => $params['command'],
         );
 
-        foreach ($params["arguments"] as $key => $argument)
-        {
+        foreach ($params['arguments'] as $key => $argument) {
             $commandArgs[$key] = $argument;
         }
 
-        foreach ($params["options"] as $key => $option)
-        {
-            $commandArgs["--" . $key] = $option;
+        foreach ($params['options'] as $key => $option) {
+            $commandArgs['--'.$key] = $option;
         }
 
         $arrayInput = new ArrayInput($commandArgs);

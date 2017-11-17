@@ -16,8 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * Class PendingActionTest
- * @package ClaviculaNox\PendingActionsBundle\Tests
+ * Class PendingActionTest.
  */
 class PendingActionTest extends WebTestCase
 {
@@ -34,7 +33,7 @@ class PendingActionTest extends WebTestCase
      */
     private function getPendingAction($handler): PendingAction
     {
-        return $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+        return $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
             $handler,
             CommandHandlerTest::$params,
             CommandHandlerTest::$group

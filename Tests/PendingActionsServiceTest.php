@@ -16,13 +16,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * Class PendingActionsServiceTest
- * @package ClaviculaNox\PendingActionsBundle\Tests
+ * Class PendingActionsServiceTest.
  */
 class PendingActionsServiceTest extends WebTestCase
 {
-    public static $group = "countGroup";
+    public static $group = 'countGroup';
     public static $count = 5;
+
     /**
      * @return KernelInterface
      */
@@ -36,46 +36,44 @@ class PendingActionsServiceTest extends WebTestCase
         $actions = $this
             ->getKernel()
             ->getContainer()
-            ->get("cn_pending_actions.pending_actions_service")->getPendingActions(PendingActionsServiceTest::$group);
+            ->get('cn_pending_actions.pending_actions_service')->getPendingActions(self::$group);
 
         $this->assertEquals(0, count($actions));
 
-        for ($i = 1; $i <= PendingActionsServiceTest::$count; $i++)
-        {
-            $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+        for ($i = 1; $i <= self::$count; ++$i) {
+            $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
                 ServiceHandlerTest::$handlerDefault,
                 ServiceHandlerTest::$params,
-                PendingActionsServiceTest::$group
+                self::$group
             );
         }
 
         $actions = $this
             ->getKernel()
             ->getContainer()
-            ->get("cn_pending_actions.pending_actions_service")->getPendingActions(PendingActionsServiceTest::$group);
+            ->get('cn_pending_actions.pending_actions_service')->getPendingActions(self::$group);
 
-        $this->assertEquals(PendingActionsServiceTest::$count, count($actions));
+        $this->assertEquals(self::$count, count($actions));
 
-        for ($i = 1; $i <= PendingActionsServiceTest::$count; $i++)
-        {
-            $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+        for ($i = 1; $i <= self::$count; ++$i) {
+            $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
                 EventHandlerTest::$handlerDefault,
                 EventHandlerTest::$params,
-                PendingActionsServiceTest::$group
+                self::$group
             );
         }
 
         $actions = $this
             ->getKernel()
             ->getContainer()
-            ->get("cn_pending_actions.pending_actions_service")->getPendingActions(PendingActionsServiceTest::$group, true);
+            ->get('cn_pending_actions.pending_actions_service')->getPendingActions(self::$group, true);
 
         $this->assertEquals(2, count($actions));
     }
 
     public function testRegisterPendingActionsAndStates(): void
     {
-        $action = $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+        $action = $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
             ServiceHandlerTest::$handlerDefault,
             ServiceHandlerTest::$params,
             ServiceHandlerTest::$group
@@ -83,7 +81,7 @@ class PendingActionsServiceTest extends WebTestCase
 
         $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $action);
 
-        $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->setState(
+        $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->setState(
             $action,
             PendingAction::STATE_ERROR
         );

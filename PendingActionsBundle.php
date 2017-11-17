@@ -14,8 +14,7 @@ namespace ClaviculaNox\PendingActionsBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class PendingActionsBundle
- * @package ClaviculaNox\PendingActionsBundle
+ * Class PendingActionsBundle.
  */
 class PendingActionsBundle extends Bundle
 {

@@ -12,10 +12,9 @@
 namespace ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes;
 
 /**
- * Class FakeException
- * @package ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes
+ * Class FakeException.
  */
 class FakeException extends \Exception
 {
-    const FAKE_MESSAGE = "Fake Exception Raised";
+    const FAKE_MESSAGE = 'Fake Exception Raised';
 }

@@ -19,8 +19,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class FakeCommand
- * @package ClaviculaNox\PendingActionsBundle\Tests\App\Command
+ * Class FakeCommand.
  */
 class FakeCommand extends ContainerAwareCommand
 {
@@ -46,15 +45,15 @@ class FakeCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         if (
-            $input->getOption("optionA") != CommandHandlerTest::$params["options"]["optionA"] ||
-            $input->getOption("optionB") != CommandHandlerTest::$params["options"]["optionB"] ||
-            $input->getOption("optionC") != CommandHandlerTest::$params["options"]["optionC"]
+            CommandHandlerTest::$params['options']['optionA'] != $input->getOption('optionA') ||
+            CommandHandlerTest::$params['options']['optionB'] != $input->getOption('optionB') ||
+            CommandHandlerTest::$params['options']['optionC'] != $input->getOption('optionC')
         ) {
             throw new \Exception();
         }
         if (
-            $input->getArgument("argA") != CommandHandlerTest::$params["arguments"]["argA"] ||
-            $input->getArgument("argB") != CommandHandlerTest::$params["arguments"]["argB"]
+            CommandHandlerTest::$params['arguments']['argA'] != $input->getArgument('argA') ||
+            CommandHandlerTest::$params['arguments']['argB'] != $input->getArgument('argB')
         ) {
             throw new \Exception();
         }

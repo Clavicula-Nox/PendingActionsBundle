@@ -14,13 +14,13 @@ namespace ClaviculaNox\PendingActionsBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Class PendingActionRepository
- * @package ClaviculaNox\PendingActionsBundle\Entity\Repository
+ * Class PendingActionRepository.
  */
 class PendingActionRepository extends EntityRepository
 {
     /**
      * @param string $group
+     *
      * @return array
      */
     public function get($group, $state = null): array
