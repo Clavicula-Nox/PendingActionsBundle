@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CommandHandler implements HandlerInterface
 {
     /**
-     * @param PendingAction         $PendingAction
+     * @param PendingAction $PendingAction
      *
      * @return bool
      */
