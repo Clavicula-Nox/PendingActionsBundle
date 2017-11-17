@@ -23,12 +23,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CommandHandler implements HandlerInterface
 {
     /**
+     * @param PendingAction         $PendingAction
+     *
+     * @return bool
+     */
+    public function checkPendingAction(PendingAction $PendingAction): bool
+    {
+        return true;
+    }
+
+    /**
      * @param PendingAction          $PendingAction
      * @param ProcessPendingsCommand $ProcessPendingsCommand
      *
      * @return bool
      */
-    public function checkPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand = null): bool
+    public function checkCommandPendingAction(PendingAction $PendingAction, ProcessPendingsCommand $ProcessPendingsCommand): bool
     {
         $params = json_decode($PendingAction->getActionParams(), true);
         if (
@@ -85,7 +95,7 @@ class CommandHandler implements HandlerInterface
                             ProcessPendingsCommand $ProcessPendingsCommand = null,
                             OutputInterface $output = null): int
     {
-        if (!$this->checkPendingAction($PendingAction, $ProcessPendingsCommand)) {
+        if (!$this->checkCommandPendingAction($PendingAction, $ProcessPendingsCommand)) {
             return PendingAction::STATE_ERROR;
         }
 
