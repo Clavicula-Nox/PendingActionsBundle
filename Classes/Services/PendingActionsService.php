@@ -11,9 +11,7 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Classes\Services;
 
-use ClaviculaNox\PendingActionsBundle\Classes\Services\CommandHandler\CommandHandlerService;
-use ClaviculaNox\PendingActionsBundle\Classes\Services\EventHandler\EventHandlerService;
-use ClaviculaNox\PendingActionsBundle\Classes\Services\ServiceHandler\ServiceHandlerService;
+use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerInterface;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -27,29 +25,20 @@ class PendingActionsService implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
+    /* @var EntityManager */
     protected $EntityManager;
-    protected $ServiceHandlerService;
-    protected $EventHandlerService;
-    protected $CommandHandlerService;
+
+    /* @var array */
+    protected $handlersList;
 
     /**
      * PendingActionsService constructor.
      * @param EntityManager $EntityManager
-     * @param ServiceHandlerService $ServiceHandlerService
-     * @param EventHandlerService $EventHandlerService
-     * @param CommandHandlerService $CommandHandlerService
      */
-    public function __construct(
-        EntityManager $EntityManager,
-        ServiceHandlerService $ServiceHandlerService,
-        EventHandlerService $EventHandlerService,
-        CommandHandlerService $CommandHandlerService
-    )
+    public function __construct(EntityManager $EntityManager, array $handlersList)
     {
         $this->EntityManager = $EntityManager;
-        $this->ServiceHandlerService = $ServiceHandlerService;
-        $this->EventHandlerService = $EventHandlerService;
-        $this->CommandHandlerService = $CommandHandlerService;
+        $this->handlersList = $handlersList;
     }
 
     /**
@@ -57,23 +46,24 @@ class PendingActionsService implements ContainerAwareInterface
      * @param bool $groupSimilarAction
      * @return array
      */
-    public function getPendingActions($group = null, $groupSimilarAction = false)
+    public function getPendingActions($group = null, bool $groupSimilarAction = false): array
     {
         $actions = $this->EntityManager->getRepository('PendingActionsBundle:PendingAction')->get($group, PendingAction::STATE_WAITING);
 
         if ($groupSimilarAction) {
-            $returnActions = array();
+            $returnActions = [];
 
             foreach ($actions as $action)
             {
                 /* @var PendingAction $action */
-                $key = sha1($action->getType() . $action->getActionGroup() . $action->getActionParams());
+                $key = sha1($action->getHandler() . $action->getActionGroup() . $action->getActionParams());
                 if (array_key_exists($key, $returnActions)) {
                     $this->EntityManager->remove($action);
                 } else {
                     $returnActions[$key] = $action;
                 }
             }
+
             $this->EntityManager->flush();
             $returnActions = array_values($returnActions);
 
@@ -84,46 +74,60 @@ class PendingActionsService implements ContainerAwareInterface
     }
 
     /**
-     * @param int $type
+     * @param string $handler
      * @param array $params
-     * @param string|null $group
-     * @return PendingAction|null
+     * @param null|string $group
+     * @return PendingAction
      */
-    public function register($type, $params = array(), $group = null)
+    public function register(string $handler, array $params = [], $group = null): PendingAction
     {
-        switch ($type)
-        {
-            case PendingAction::TYPE_SERVICE :
-            {
-                return $this->ServiceHandlerService->register($params, $group);
-            }
+        $PendingAction = new PendingAction();
+        $PendingAction->setHandler($handler);
+        $PendingAction->setActionParams($params);
+        $PendingAction->setActionGroup($group);
+        $PendingAction->setCreated(new \DateTime());
+        $PendingAction->setUpdated(new \DateTime());
+        $PendingAction->setState(PendingAction::STATE_WAITING);
+        $this->EntityManager->persist($PendingAction);
+        $this->EntityManager->flush();
 
-            case PendingAction::TYPE_EVENT :
-            {
-                return $this->EventHandlerService->register($params, $group);
-            }
-
-            case PendingAction::TYPE_COMMAND :
-            {
-                return $this->CommandHandlerService->register($params, $group);
-            }
-
-            default :
-            {
-                return null;
-            }
-        }
+        return $PendingAction;
     }
 
     /**
      * @param PendingAction $PendingAction
      * @param int $stateId
      */
-    public function setState(PendingAction $PendingAction, $stateId)
+    public function setState(PendingAction $PendingAction, int $stateId): void
     {
         $PendingAction->setState($stateId);
         $PendingAction->setUpdated(new \DateTime());
         $this->EntityManager->persist($PendingAction);
         $this->EntityManager->flush();
+    }
+
+    /**
+     * @param PendingAction $PendingAction
+     * @return int
+     */
+    public function process(PendingAction $PendingAction): int
+    {
+        if (!array_key_exists($PendingAction->getHandler(), $this->handlersList)) {
+            $this->setState($PendingAction, PendingAction::STATE_ERROR);
+        } elseif (!$this->container->has($this->handlersList[$PendingAction->getHandler()])) {
+            $this->setState($PendingAction, PendingAction::STATE_UNKNOWN_HANDLER);
+        } elseif (!$this->container->get($this->handlersList[$PendingAction->getHandler()])->checkPendingAction($PendingAction)) {
+            $this->setState($PendingAction, PendingAction::STATE_ERROR);
+        } else {
+            $handler = $this->container->get($this->handlersList[$PendingAction->getHandler()]);
+            if (!$handler instanceof HandlerInterface) {
+                $this->setState($PendingAction, PendingAction::STATE_HANDLER_ERROR);
+            } else {
+                $return = $this->container->get($this->handlersList[$PendingAction->getHandler()])->process($PendingAction);
+                $this->setState($PendingAction, $return);
+            }
+        }
+
+        return $PendingAction->getState();
     }
 }

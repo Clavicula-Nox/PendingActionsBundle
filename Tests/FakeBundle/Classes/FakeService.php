@@ -25,7 +25,7 @@ class FakeService
      * @param string $title
      * @return bool
      */
-    public function fakeMethod($argA, $argB)
+    public function fakeMethod($argA, $argB): bool
     {
         return $argA == FakeService::ARG_A && $argB == FakeService::ARG_B;
     }

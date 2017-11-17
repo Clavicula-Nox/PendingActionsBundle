@@ -21,6 +21,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class CommandHandlerTest extends WebTestCase
 {
+    /* @var array */
     public static $params = ["command" => "fake:command",
         "arguments" => [
             "argA" => "argValA",
@@ -33,12 +34,17 @@ class CommandHandlerTest extends WebTestCase
         ]
     ];
 
+    /* @var string */
+    public static $handlerDefault = "CommandHandler";
+    /* @var string */
+    public static $handlerConfig = "CommandHandlerConfig";
+    /* @var string */
     public static $group = "testGroup";
 
     /**
      * @return KernelInterface
      */
-    private function getKernel($options = [])
+    private function getKernel($options = []): KernelInterface
     {
         return $this->bootKernel($options);
     }
@@ -46,25 +52,47 @@ class CommandHandlerTest extends WebTestCase
     /**
      * @return PendingAction
      */
-    private function getPendingAction()
+    private function getPendingAction($handler): PendingAction
     {
-        return $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions.command_handler")->register(
-            ServiceHandlerTest::$params,
-            ServiceHandlerTest::$group
+        return $this->getKernel()->getContainer()->get("cn_pending_actions.pending_actions_service")->register(
+            $handler,
+            CommandHandlerTest::$params,
+            CommandHandlerTest::$group
         );
     }
 
-    public function testRegistration()
+    public function testRegistrationDefault(): void
     {
-        $Action = $this->getPendingAction();
+        $Action = $this->getPendingAction(CommandHandlerTest::$handlerDefault);
 
         $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
     }
 
-    public function testGroup()
+    public function testRegistrationConfig(): void
     {
-        $Action = $this->getPendingAction();
+        $Action = $this->getPendingAction(CommandHandlerTest::$handlerConfig);
 
-        $this->assertEquals(ServiceHandlerTest::$group, $Action->getActionGroup());
+        $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
+    }
+
+    public function testHandlerDefault(): void
+    {
+        $Action = $this->getPendingAction(CommandHandlerTest::$handlerDefault);
+
+        $this->assertEquals(CommandHandlerTest::$handlerDefault, $Action->getHandler());
+    }
+
+    public function testHandlerConfig(): void
+    {
+        $Action = $this->getPendingAction(CommandHandlerTest::$handlerConfig);
+
+        $this->assertEquals(CommandHandlerTest::$handlerConfig, $Action->getHandler());
+    }
+
+    public function testGroup(): void
+    {
+        $Action = $this->getPendingAction(CommandHandlerTest::$handlerDefault);
+
+        $this->assertEquals(CommandHandlerTest::$group, $Action->getActionGroup());
     }
 }

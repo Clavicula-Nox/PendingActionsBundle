@@ -27,7 +27,7 @@ class FakeCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('fake:command')
@@ -43,7 +43,7 @@ class FakeCommand extends ContainerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         if (
             $input->getOption("optionA") != CommandHandlerTest::$params["options"]["optionA"] ||

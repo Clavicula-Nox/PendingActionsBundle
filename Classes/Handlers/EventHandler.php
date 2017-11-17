@@ -9,19 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace ClaviculaNox\PendingActionsBundle\Classes\Services\EventHandler;
+namespace ClaviculaNox\PendingActionsBundle\Classes\Handlers;
 
+use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerInterface;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class EventHandlerService
- * @package ClaviculaNox\PendingActionsBundle\Classes\Services\EventHandler
+ * Class EventHandler
+ * @package ClaviculaNox\PendingActionsBundle\Classes\Handlers
  */
-class EventHandlerService
+class EventHandler implements HandlerInterface
 {
+    /* @var EntityManager */
     protected $EntityManager;
+
+    /* @var EventDispatcherInterface */
     protected $EventDispatcher;
 
     /**
@@ -29,41 +33,17 @@ class EventHandlerService
      * @param EntityManager $EntityManager
      * @param EventDispatcherInterface $EventDispatcher
      */
-    public function __construct(
-        EntityManager $EntityManager,
-        EventDispatcherInterface $EventDispatcher
-    )
+    public function __construct(EntityManager $EntityManager, EventDispatcherInterface $EventDispatcher)
     {
         $this->EntityManager = $EntityManager;
         $this->EventDispatcher = $EventDispatcher;
     }
 
     /**
-     * @param int $type
-     * @param array $params
-     * @param null|string $group
-     * @return PendingAction
-     */
-    public function register($params = array(), $group = null)
-    {
-        $PendingAction = new PendingAction();
-        $PendingAction->setType(PendingAction::TYPE_EVENT);
-        $PendingAction->setActionParams($params);
-        $PendingAction->setActionGroup($group);
-        $PendingAction->setCreated(new \DateTime());
-        $PendingAction->setUpdated(new \DateTime());
-        $PendingAction->setState(PendingAction::STATE_WAITING);
-        $this->EntityManager->persist($PendingAction);
-        $this->EntityManager->flush();
-
-        return $PendingAction;
-    }
-
-    /**
      * @param PendingAction $PendingAction
      * @return bool
      */
-    private function checkPendingAction(PendingAction $PendingAction)
+    public function checkPendingAction(PendingAction $PendingAction): bool
     {
         $params = json_decode($PendingAction->getActionParams(), true);
 
@@ -80,12 +60,8 @@ class EventHandlerService
      * @param PendingAction $PendingAction
      * @return int
      */
-    public function process(PendingAction $PendingAction)
+    public function process(PendingAction $PendingAction): int
     {
-        if (!$this->checkPendingAction($PendingAction)) {
-            return PendingAction::STATE_ERROR;
-        }
-
         $params = json_decode($PendingAction->getActionParams(), true);
 
         $event = new \ReflectionClass($params["eventClassName"]);

@@ -28,3 +28,9 @@ services:
          class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeEventListener
          tags:
              - { name: kernel.event_subscriber }
+
+pending_actions:
+    handlers:
+        CommandHandlerConfig: cn_pending_actions.pending_actions.command_handler
+        EventHandlerConfig: cn_pending_actions.pending_actions.event_handler
+        ServiceHandlerConfig: cn_pending_actions.pending_actions.service_handler

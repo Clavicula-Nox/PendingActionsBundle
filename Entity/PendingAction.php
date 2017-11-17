@@ -25,17 +25,17 @@ class PendingAction
     const STATE_PROCESSING = 1;
     const STATE_PROCESSED = 2;
     const STATE_ERROR = 3;
+    const STATE_UNKNOWN_HANDLER = 4;
+    const STATE_HANDLER_ERROR = 5;
 
     public static $labels = [
         PendingAction::STATE_WAITING => "Waiting",
         PendingAction::STATE_PROCESSING => "Processing",
         PendingAction::STATE_PROCESSED => "Processed",
-        PendingAction::STATE_ERROR => "Error"
+        PendingAction::STATE_ERROR => "Error",
+        PendingAction::STATE_UNKNOWN_HANDLER => "Unknown Handler",
+        PendingAction::STATE_HANDLER_ERROR => "Handler Error"
     ];
-
-    const TYPE_SERVICE = 1;
-    const TYPE_EVENT = 2;
-    const TYPE_COMMAND = 3;
 
     /**
      * @var int
@@ -46,10 +46,10 @@ class PendingAction
     protected $id;
 
     /**
-     * @var int
-     * @ORM\Column(type="integer")
+     * @var string
+     * @ORM\Column(type="text", options={"default":""})
      */
-    protected $type;
+    protected $handler = '';
 
     /**
      * @var string
@@ -84,7 +84,7 @@ class PendingAction
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -92,36 +92,32 @@ class PendingAction
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getType()
+    public function getHandler(): string
     {
-        return $this->type;
+        return $this->handler;
     }
 
     /**
-     * @param int $type
+     * @param string $handler
      */
-    public function setType($type)
+    public function setHandler(string $handler)
     {
-        $this->type = $type;
+        $this->handler = $handler;
     }
 
     /**
-     * @return array|string
+     * @return string
      */
-    public function getActionParams($asArray = false)
+    public function getActionParams(): string
     {
-        if ($asArray) {
-            return json_decode($this->actionParams, true);
-        }
-
         return $this->actionParams;
     }
 
@@ -144,7 +140,7 @@ class PendingAction
     /**
      * @return string
      */
-    public function getActionGroup()
+    public function getActionGroup(): string
     {
         return $this->actionGroup;
     }
@@ -152,7 +148,7 @@ class PendingAction
     /**
      * @param string $actionGroup
      */
-    public function setActionGroup($actionGroup)
+    public function setActionGroup(string $actionGroup)
     {
         $this->actionGroup = $actionGroup;
     }
@@ -160,7 +156,7 @@ class PendingAction
     /**
      * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
@@ -168,7 +164,7 @@ class PendingAction
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created)
+    public function setCreated(\DateTime $created)
     {
         $this->created = $created;
     }
@@ -176,7 +172,7 @@ class PendingAction
     /**
      * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
@@ -184,7 +180,7 @@ class PendingAction
     /**
      * @param \DateTime $updated
      */
-    public function setUpdated($updated)
+    public function setUpdated(\DateTime $updated)
     {
         $this->updated = $updated;
     }
@@ -192,15 +188,23 @@ class PendingAction
     /**
      * @return int
      */
-    public function getState()
+    public function getState(): int
     {
         return $this->state;
     }
 
     /**
+     * @return string
+     */
+    public function getStateLabel(): string
+    {
+        return array_key_exists($this->state, PendingAction::$labels) ? PendingAction::$labels[$this->state] : "Unknown Label";
+    }
+
+    /**
      * @param int $state
      */
-    public function setState($state)
+    public function setState(int $state)
     {
         $this->state = $state;
     }

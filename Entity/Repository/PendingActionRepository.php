@@ -23,7 +23,7 @@ class PendingActionRepository extends EntityRepository
      * @param string $group
      * @return array
      */
-    public function get($group, $state = null)
+    public function get($group, $state = null): array
     {
         $builder = $this
             ->createQueryBuilder('pa')
