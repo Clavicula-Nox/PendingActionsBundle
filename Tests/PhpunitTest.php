@@ -15,7 +15,6 @@ namespace ClaviculaNox\PendingActionsBundle\Tests;
  * Hello Phpunit my old friend...
  *
  * Class PhpunitTest
- * @package ClaviculaNox\PendingActionsBundle\Tests
  */
 class PhpunitTest extends \PHPUnit\Framework\TestCase
 {

@@ -14,8 +14,6 @@ namespace ClaviculaNox\PendingActionsBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @package PendingActionsBundle\Entity
- *
  * @ORM\Entity(repositoryClass="ClaviculaNox\PendingActionsBundle\Entity\Repository\PendingActionRepository")
  * @ORM\Table(name="pending_actions")
  */
@@ -29,12 +27,12 @@ class PendingAction
     const STATE_HANDLER_ERROR = 5;
 
     public static $labels = [
-        PendingAction::STATE_WAITING => "Waiting",
-        PendingAction::STATE_PROCESSING => "Processing",
-        PendingAction::STATE_PROCESSED => "Processed",
-        PendingAction::STATE_ERROR => "Error",
-        PendingAction::STATE_UNKNOWN_HANDLER => "Unknown Handler",
-        PendingAction::STATE_HANDLER_ERROR => "Handler Error"
+        self::STATE_WAITING => 'Waiting',
+        self::STATE_PROCESSING => 'Processing',
+        self::STATE_PROCESSED => 'Processed',
+        self::STATE_ERROR => 'Error',
+        self::STATE_UNKNOWN_HANDLER => 'Unknown Handler',
+        self::STATE_HANDLER_ERROR => 'Handler Error',
     ];
 
     /**
@@ -198,7 +196,7 @@ class PendingAction
      */
     public function getStateLabel(): string
     {
-        return array_key_exists($this->state, PendingAction::$labels) ? PendingAction::$labels[$this->state] : "Unknown Label";
+        return array_key_exists($this->state, self::$labels) ? self::$labels[$this->state] : 'Unknown Label';
     }
 
     /**

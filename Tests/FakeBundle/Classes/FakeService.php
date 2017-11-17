@@ -12,21 +12,21 @@
 namespace ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes;
 
 /**
- * Class FakeService
- * @package ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes
+ * Class FakeService.
  */
 class FakeService
 {
-    const ARG_A = "defaultMode";
-    const ARG_B = "defaultTitle";
+    const ARG_A = 'defaultMode';
+    const ARG_B = 'defaultTitle';
 
     /**
      * @param string $mode
      * @param string $title
+     *
      * @return bool
      */
     public function fakeMethod($argA, $argB): bool
     {
-        return $argA == FakeService::ARG_A && $argB == FakeService::ARG_B;
+        return self::ARG_A == $argA && self::ARG_B == $argB;
     }
 }

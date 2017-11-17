@@ -14,13 +14,12 @@ namespace ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class FakeEvent
- * @package ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes
+ * Class FakeEvent.
  */
 class FakeEvent extends Event
 {
-    const ARG_A = "a";
-    const ARG_B = "b";
+    const ARG_A = 'a';
+    const ARG_B = 'b';
 
     public $argA;
     public $argB;

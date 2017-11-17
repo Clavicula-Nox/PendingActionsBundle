@@ -18,8 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class ProcessPendingsCommand
- * @package ClaviculaNox\PendingActionsBundle\Command
+ * Class ProcessPendingsCommand.
  */
 class ProcessPendingsCommand extends ContainerAwareCommand
 {
@@ -40,52 +39,51 @@ EOT
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $output->write("Getting pending actions...", true);
+        $output->write('Getting pending actions...', true);
         if (!is_null($input->getArgument('actionGroup'))) {
-            $output->write("   Selected group : " . $input->getArgument('actionGroup'), true);
+            $output->write('   Selected group : '.$input->getArgument('actionGroup'), true);
         }
 
         $pendingActions = $this->getContainer()
-            ->get("cn_pending_actions.pending_actions_service")
+            ->get('cn_pending_actions.pending_actions_service')
             ->getPendingActions($input->getArgument('actionGroup'), true);
         $total = count($pendingActions);
 
         if ($total > 0) {
-            $output->write("Processing actions...", true);
+            $output->write('Processing actions...', true);
         } else {
-            $output->write("No actions to process...", true);
+            $output->write('No actions to process...', true);
         }
 
         $counter = 1;
-        
-        foreach ($pendingActions as $pendingAction)
-        {
-            /* @var $pendingAction PendingAction */
-            $pendingAction = $this->getContainer()->get("doctrine")->getRepository("PendingActionsBundle:PendingAction")->find($pendingAction->getId());
-            $output->write("   - Action " . $counter . "/" . $total, true);
-            $counter++;
 
-            if ($pendingAction->getState() != PendingAction::STATE_WAITING) {
+        foreach ($pendingActions as $pendingAction) {
+            /* @var $pendingAction PendingAction */
+            $pendingAction = $this->getContainer()->get('doctrine')->getRepository('PendingActionsBundle:PendingAction')->find($pendingAction->getId());
+            $output->write('   - Action '.$counter.'/'.$total, true);
+            ++$counter;
+
+            if (PendingAction::STATE_WAITING != $pendingAction->getState()) {
                 continue;
             }
 
-            $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, PendingAction::STATE_PROCESSING);
+            $this->getContainer()->get('cn_pending_actions.pending_actions_service')->setState($pendingAction, PendingAction::STATE_PROCESSING);
 
             //Special case for the default command handler, until i find a better way to do it
-            if ($pendingAction->getHandler() == "CommandHandler") {
-                $result = $this->getContainer()->get("cn_pending_actions.pending_actions.command_handler")->process($pendingAction, $this, $output);
+            if ('CommandHandler' == $pendingAction->getHandler()) {
+                $result = $this->getContainer()->get('cn_pending_actions.pending_actions.command_handler')->process($pendingAction, $this, $output);
             } else {
-                $result = $this->getContainer()->get("cn_pending_actions.pending_actions_service")->process($pendingAction);
+                $result = $this->getContainer()->get('cn_pending_actions.pending_actions_service')->process($pendingAction);
             }
 
-            $this->getContainer()->get("cn_pending_actions.pending_actions_service")->setState($pendingAction, $result);
+            $this->getContainer()->get('cn_pending_actions.pending_actions_service')->setState($pendingAction, $result);
 
-            $output->write("   Action " . $pendingAction->getId()  . " : " . PendingAction::$labels[$result], true);
+            $output->write('   Action '.$pendingAction->getId().' : '.PendingAction::$labels[$result], true);
         }
     }
 }

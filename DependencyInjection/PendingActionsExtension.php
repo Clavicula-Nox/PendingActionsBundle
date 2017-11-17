@@ -17,13 +17,12 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Class PendingActionsExtension
- * @package ClaviculaNox\PendingActionsBundle\DependencyInjection
+ * Class PendingActionsExtension.
  */
 class PendingActionsExtension extends Extension
 {
     /**
-     * @param array $configs
+     * @param array            $configs
      * @param ContainerBuilder $container
      */
     public function load(array $configs, ContainerBuilder $container): void
@@ -32,16 +31,15 @@ class PendingActionsExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         //Add default handlers
-        $config['handlers']["ServiceHandler"] = "cn_pending_actions.pending_actions.service_handler";
-        $config['handlers']["EventHandler"] = "cn_pending_actions.pending_actions.event_handler";
-        $config['handlers']["CommandHandler"] = "cn_pending_actions.pending_actions.command_handler";
+        $config['handlers']['ServiceHandler'] = 'cn_pending_actions.pending_actions.service_handler';
+        $config['handlers']['EventHandler'] = 'cn_pending_actions.pending_actions.event_handler';
+        $config['handlers']['CommandHandler'] = 'cn_pending_actions.pending_actions.command_handler';
 
-        foreach ($config as $key => $value)
-        {
+        foreach ($config as $key => $value) {
             $container->setParameter('pending_actions.'.$key, $value);
         }
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config/'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config/'));
         $loader->load('services.yaml');
     }
 }

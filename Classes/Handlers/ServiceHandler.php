@@ -18,8 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
- * Class ServiceHandlerService
- * @package ClaviculaNox\PendingActionsBundle\Classes\Handlers
+ * Class ServiceHandlerService.
  */
 class ServiceHandler implements ContainerAwareInterface, HandlerInterface
 {
@@ -30,6 +29,7 @@ class ServiceHandler implements ContainerAwareInterface, HandlerInterface
 
     /**
      * ServiceHandlerService constructor.
+     *
      * @param EntityManager $EntityManager
      */
     public function __construct(EntityManager $EntityManager)
@@ -39,34 +39,36 @@ class ServiceHandler implements ContainerAwareInterface, HandlerInterface
 
     /**
      * @param PendingAction $PendingAction
+     *
      * @return bool
      */
-    public function checkPendingAction(PendingAction $PendingAction) : bool
+    public function checkPendingAction(PendingAction $PendingAction): bool
     {
         $params = json_decode($PendingAction->getActionParams(), true);
         if (
             is_null($params) ||
-            !isset($params["serviceId"]) ||
-            !isset($params["method"]) ||
-            !isset($params["args"]) ||
-            !$this->container->has($params["serviceId"])
+            !isset($params['serviceId']) ||
+            !isset($params['method']) ||
+            !isset($params['args']) ||
+            !$this->container->has($params['serviceId'])
         ) {
             return false;
         }
 
-        $service = $this->container->get($params["serviceId"]);
+        $service = $this->container->get($params['serviceId']);
 
-        return method_exists($service, $params["method"]);
+        return method_exists($service, $params['method']);
     }
 
     /**
      * @param PendingAction $PendingAction
+     *
      * @return int
      */
     public function process(PendingAction $PendingAction): int
     {
         $params = json_decode($PendingAction->getActionParams(), true);
-        call_user_func_array(array($this->container->get($params["serviceId"]), $params["method"]), $params['args']);
+        call_user_func_array(array($this->container->get($params['serviceId']), $params['method']), $params['args']);
 
         return PendingAction::STATE_PROCESSED;
     }

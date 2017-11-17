@@ -19,6 +19,7 @@ $fs = new Filesystem();
 // Remove build dir files
 if (is_dir(__DIR__.'/../build')) {
     echo "Removing files in the build directory.\n".__DIR__."\n";
+
     try {
         $fs->remove(__DIR__.'/../build');
     } catch (Exception $e) {
@@ -29,19 +30,18 @@ if (is_dir(__DIR__.'/../build')) {
 
 $fs->mkdir(__DIR__.'/../build');
 
-AnnotationRegistry::registerLoader(function($class) use ($autoload) {
+AnnotationRegistry::registerLoader(function ($class) use ($autoload) {
     $autoload->loadClass($class);
 
     return class_exists($class, false);
 });
-
 
 include __DIR__.'/App/AppKernel.php';
 $kernel = new AppKernel('test', true);
 $kernel->boot();
 
 $databaseFile = $kernel->getContainer()->getParameter('database_path');
-$application  = new Application($kernel);
+$application = new Application($kernel);
 
 if ($fs->exists($databaseFile)) {
     $fs->remove($databaseFile);

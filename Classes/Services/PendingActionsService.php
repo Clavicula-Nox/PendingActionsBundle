@@ -18,8 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
- * Class PendingActionsService
- * @package ClaviculaNox\PendingActionsBundle\Classes\Services
+ * Class PendingActionsService.
  */
 class PendingActionsService implements ContainerAwareInterface
 {
@@ -33,6 +32,7 @@ class PendingActionsService implements ContainerAwareInterface
 
     /**
      * PendingActionsService constructor.
+     *
      * @param EntityManager $EntityManager
      */
     public function __construct(EntityManager $EntityManager, array $handlersList)
@@ -43,7 +43,8 @@ class PendingActionsService implements ContainerAwareInterface
 
     /**
      * @param string|null $group
-     * @param bool $groupSimilarAction
+     * @param bool        $groupSimilarAction
+     *
      * @return array
      */
     public function getPendingActions($group = null, bool $groupSimilarAction = false): array
@@ -53,10 +54,9 @@ class PendingActionsService implements ContainerAwareInterface
         if ($groupSimilarAction) {
             $returnActions = [];
 
-            foreach ($actions as $action)
-            {
+            foreach ($actions as $action) {
                 /* @var PendingAction $action */
-                $key = sha1($action->getHandler() . $action->getActionGroup() . $action->getActionParams());
+                $key = sha1($action->getHandler().$action->getActionGroup().$action->getActionParams());
                 if (array_key_exists($key, $returnActions)) {
                     $this->EntityManager->remove($action);
                 } else {
@@ -74,9 +74,10 @@ class PendingActionsService implements ContainerAwareInterface
     }
 
     /**
-     * @param string $handler
-     * @param array $params
+     * @param string      $handler
+     * @param array       $params
      * @param null|string $group
+     *
      * @return PendingAction
      */
     public function register(string $handler, array $params = [], $group = null): PendingAction
@@ -96,7 +97,7 @@ class PendingActionsService implements ContainerAwareInterface
 
     /**
      * @param PendingAction $PendingAction
-     * @param int $stateId
+     * @param int           $stateId
      */
     public function setState(PendingAction $PendingAction, int $stateId): void
     {
@@ -108,6 +109,7 @@ class PendingActionsService implements ContainerAwareInterface
 
     /**
      * @param PendingAction $PendingAction
+     *
      * @return int
      */
     public function process(PendingAction $PendingAction): int

@@ -17,8 +17,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class EventHandler
- * @package ClaviculaNox\PendingActionsBundle\Classes\Handlers
+ * Class EventHandler.
  */
 class EventHandler implements HandlerInterface
 {
@@ -30,7 +29,8 @@ class EventHandler implements HandlerInterface
 
     /**
      * EventHandlerService constructor.
-     * @param EntityManager $EntityManager
+     *
+     * @param EntityManager            $EntityManager
      * @param EventDispatcherInterface $EventDispatcher
      */
     public function __construct(EntityManager $EntityManager, EventDispatcherInterface $EventDispatcher)
@@ -41,6 +41,7 @@ class EventHandler implements HandlerInterface
 
     /**
      * @param PendingAction $PendingAction
+     *
      * @return bool
      */
     public function checkPendingAction(PendingAction $PendingAction): bool
@@ -49,22 +50,23 @@ class EventHandler implements HandlerInterface
 
         return
             !is_null($params) &&
-            isset($params["eventClassName"]) &&
-            class_exists($params["eventClassName"]) &&
-            isset($params["eventId"]) &&
-            isset($params["args"]) &&
-            $this->EventDispatcher->hasListeners($params["eventId"]);
+            isset($params['eventClassName']) &&
+            class_exists($params['eventClassName']) &&
+            isset($params['eventId']) &&
+            isset($params['args']) &&
+            $this->EventDispatcher->hasListeners($params['eventId']);
     }
 
     /**
      * @param PendingAction $PendingAction
+     *
      * @return int
      */
     public function process(PendingAction $PendingAction): int
     {
         $params = json_decode($PendingAction->getActionParams(), true);
 
-        $event = new \ReflectionClass($params["eventClassName"]);
+        $event = new \ReflectionClass($params['eventClassName']);
         $event = $event->newInstanceArgs($params['args']);
 
         $this->EventDispatcher->dispatch($params['eventId'], $event);
