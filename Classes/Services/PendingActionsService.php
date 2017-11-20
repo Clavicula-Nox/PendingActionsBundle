@@ -117,13 +117,15 @@ class PendingActionsService implements ContainerAwareInterface
         if (!array_key_exists($PendingAction->getHandler(), $this->handlersList)) {
             $this->setState($PendingAction, PendingAction::STATE_ERROR);
         } elseif (!$this->container->has($this->handlersList[$PendingAction->getHandler()])) {
+            var_dump($PendingAction->getHandler());
+            die();
             $this->setState($PendingAction, PendingAction::STATE_UNKNOWN_HANDLER);
-        } elseif (!$this->container->get($this->handlersList[$PendingAction->getHandler()])->checkPendingAction($PendingAction)) {
-            $this->setState($PendingAction, PendingAction::STATE_ERROR);
         } else {
             $handler = $this->container->get($this->handlersList[$PendingAction->getHandler()]);
             if (!$handler instanceof HandlerInterface) {
                 $this->setState($PendingAction, PendingAction::STATE_HANDLER_ERROR);
+            } elseif (!$this->container->get($this->handlersList[$PendingAction->getHandler()])->checkPendingAction($PendingAction)) {
+                $this->setState($PendingAction, PendingAction::STATE_ERROR);
             } else {
                 $return = $this->container->get($this->handlersList[$PendingAction->getHandler()])->process($PendingAction);
                 $this->setState($PendingAction, $return);
