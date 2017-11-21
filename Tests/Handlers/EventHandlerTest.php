@@ -9,7 +9,7 @@
 * file that was distributed with this source code.
 */
 
-namespace ClaviculaNox\PendingActionsBundle\Tests;
+namespace ClaviculaNox\PendingActionsBundle\Tests\Handlers;
 
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeEvent;

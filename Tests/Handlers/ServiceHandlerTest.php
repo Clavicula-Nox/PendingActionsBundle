@@ -9,35 +9,29 @@
 * file that was distributed with this source code.
 */
 
-namespace ClaviculaNox\PendingActionsBundle\Tests;
+namespace ClaviculaNox\PendingActionsBundle\Tests\Handlers;
 
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
+use ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * Class CommandHandlerTest.
+ * Class ServiceHandlerTest.
  */
-class CommandHandlerTest extends WebTestCase
+class ServiceHandlerTest extends WebTestCase
 {
-    /* @var array */
-    public static $params = ['command' => 'fake:command',
-        'arguments' => [
-            'argA' => 'argValA',
-            'argB' => 'argValB',
-        ],
-        'options' => [
-            'optionA' => 'optionValA',
-            'optionB' => 'optionValB',
-            'optionC' => 'optionValC',
-        ],
+    public static $params = [
+        'serviceId' => 'fake.service',
+        'method' => 'fakeMethod',
+        'args' => array(
+            'argA' => FakeService::ARG_A,
+            'argB' => FakeService::ARG_B,
+        ),
     ];
 
-    /* @var string */
-    public static $handlerDefault = 'CommandHandler';
-    /* @var string */
-    public static $handlerConfig = 'CommandHandlerConfig';
-    /* @var string */
+    public static $handlerDefault = 'ServiceHandler';
+    public static $handlerConfig = 'ServiceHandlerConfig';
     public static $group = 'testGroup';
 
     /**
@@ -93,5 +87,12 @@ class CommandHandlerTest extends WebTestCase
         $Action = $this->getPendingAction(self::$handlerDefault);
 
         $this->assertEquals(self::$group, $Action->getActionGroup());
+    }
+
+    public function testPendingAction(): void
+    {
+        $Action = $this->getPendingAction(self::$handlerDefault);
+        $result = $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->process($Action);
+        $this->assertEquals($result, PendingAction::STATE_PROCESSED);
     }
 }

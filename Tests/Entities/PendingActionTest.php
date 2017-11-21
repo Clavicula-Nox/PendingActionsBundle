@@ -9,9 +9,10 @@
 * file that was distributed with this source code.
 */
 
-namespace ClaviculaNox\PendingActionsBundle\Tests;
+namespace ClaviculaNox\PendingActionsBundle\Tests\Entities;
 
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
+use ClaviculaNox\PendingActionsBundle\Tests\Handlers\CommandHandlerTest;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 

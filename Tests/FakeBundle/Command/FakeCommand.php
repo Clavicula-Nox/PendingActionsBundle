@@ -11,7 +11,7 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Command;
 
-use ClaviculaNox\PendingActionsBundle\Tests\CommandHandlerTest;
+use ClaviculaNox\PendingActionsBundle\Tests\Handlers\CommandHandlerTest;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
