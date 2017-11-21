@@ -101,7 +101,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
                 'params' => [
                     'command' => 'fake:command',
                     'arguments' => [
-                        'argA' => 'argValA',
+                        'argB' => 'argValB',
                     ],
                 ],
                 'finalState' => PendingAction::STATE_ERROR,
