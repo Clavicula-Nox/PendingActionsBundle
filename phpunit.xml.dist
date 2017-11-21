@@ -13,7 +13,10 @@
 
     <filter>
         <whitelist>
-            <directory>./</directory>
+            <directory suffix=".php">./Commands</directory>
+            <directory suffix=".php">./DependencyInjection</directory>
+            <directory suffix=".php">./Handlers</directory>
+            <directory suffix=".php">./Services</directory>
             <exclude>
                 <directory>./Resources</directory>
                 <directory>./build</directory>

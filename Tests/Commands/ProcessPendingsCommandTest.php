@@ -9,11 +9,14 @@
 * file that was distributed with this source code.
 */
 
-namespace ClaviculaNox\PendingActionsBundle\Tests;
+namespace ClaviculaNox\PendingActionsBundle\Tests\Commands;
 
 use ClaviculaNox\PendingActionsBundle\Command\ProcessPendingsCommand;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService;
+use ClaviculaNox\PendingActionsBundle\Tests\Handlers\CommandHandlerTest;
+use ClaviculaNox\PendingActionsBundle\Tests\Handlers\EventHandlerTest;
+use ClaviculaNox\PendingActionsBundle\Tests\Handlers\ServiceHandlerTest;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
