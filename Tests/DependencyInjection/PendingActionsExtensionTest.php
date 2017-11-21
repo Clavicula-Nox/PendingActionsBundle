@@ -15,9 +15,8 @@ use ClaviculaNox\PendingActionsBundle\DependencyInjection\PendingActionsExtensio
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-
 /**
- * Class PendingActionsExtensionTest
+ * Class PendingActionsExtensionTest.
  */
 class PendingActionsExtensionTest extends KernelTestCase
 {
@@ -32,7 +31,7 @@ class PendingActionsExtensionTest extends KernelTestCase
 
         $ext->load([
             'pending_actions' => [
-                'handlers'     => [self::$injectionHandler => self::$injectionHandler],
+                'handlers' => [self::$injectionHandler => self::$injectionHandler],
             ],
         ], $builder);
 
