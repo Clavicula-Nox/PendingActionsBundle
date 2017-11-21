@@ -13,6 +13,7 @@ namespace ClaviculaNox\PendingActionsBundle\Tests;
 
 use ClaviculaNox\PendingActionsBundle\Command\ProcessPendingsCommand;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
+use ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -159,7 +160,19 @@ class ProcessPendingsCommandTest extends KernelTestCase
                 ],
                 'finalState' => PendingAction::STATE_ERROR,
                 'output' => 'Error'
-            ]
+            ],
+            [
+                'handler' => ServiceHandlerTest::$handlerDefault,
+                'params' => [
+                    'serviceId' => 'fake.service',
+                    'args' => array(
+                        'argA' => FakeService::ARG_A,
+                        'argB' => FakeService::ARG_B,
+                    ),
+                ],
+                'finalState' => PendingAction::STATE_ERROR,
+                'output' => 'Error'
+            ],
         ];
 
         foreach ($tests as $key => $test)
