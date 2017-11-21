@@ -97,6 +97,17 @@ class ProcessPendingsCommandTest extends KernelTestCase
                 'output' => 'Error'
             ],
             [
+                'handler' => CommandHandlerTest::$handlerDefault, //$noOptionsId
+                'params' => [
+                    'command' => 'fake:command',
+                    'arguments' => [
+                        'argA' => 'argValA',
+                    ],
+                ],
+                'finalState' => PendingAction::STATE_ERROR,
+                'output' => 'Error'
+            ],
+            [
                 'handler' => "FakeHandlerReallyFake", //$UnknownHandlerErrorId
                 'params' => [],
                 'finalState' => PendingAction::STATE_ERROR,
@@ -107,6 +118,12 @@ class ProcessPendingsCommandTest extends KernelTestCase
                 'params' => [],
                 'finalState' => PendingAction::STATE_HANDLER_ERROR,
                 'output' => 'Handler Error'
+            ],
+            [
+                'handler' => "FakeHandlerInexistent", //$NoInterfaceHandlerId
+                'params' => [],
+                'finalState' => PendingAction::STATE_UNKNOWN_HANDLER,
+                'output' => 'Unknown Handler'
             ],
             [
                 'handler' => CommandHandlerTest::$handlerDefault, //$wrongCommandId
