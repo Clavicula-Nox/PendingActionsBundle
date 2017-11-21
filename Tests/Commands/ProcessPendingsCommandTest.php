@@ -61,31 +61,31 @@ class ProcessPendingsCommandTest extends KernelTestCase
                 'handler' => ServiceHandlerTest::$handlerDefault,
                 'params' => ServiceHandlerTest::$params,
                 'finalState' => PendingAction::STATE_PROCESSED,
-                'output' => 'Processed'
+                'output' => 'Processed',
             ],
             [
                 'handler' => EventHandlerTest::$handlerDefault,
                 'params' => EventHandlerTest::$params,
                 'finalState' => PendingAction::STATE_PROCESSED,
-                'output' => 'Processed'
+                'output' => 'Processed',
             ],
             [
                 'handler' => CommandHandlerTest::$handlerDefault,
                 'params' => CommandHandlerTest::$params,
                 'finalState' => PendingAction::STATE_PROCESSED,
-                'output' => 'Processed'
+                'output' => 'Processed',
             ],
             [
                 'handler' => CommandHandlerTest::$handlerDefault, //$noCommandId
                 'params' => [],
                 'finalState' => PendingAction::STATE_ERROR,
-                'output' => 'Error'
+                'output' => 'Error',
             ],
             [
                 'handler' => CommandHandlerTest::$handlerDefault, //$noArgumentsId
                 'params' => ['command' => 'fake:command'],
                 'finalState' => PendingAction::STATE_ERROR,
-                'output' => 'Error'
+                'output' => 'Error',
             ],
             [
                 'handler' => CommandHandlerTest::$handlerDefault, //$noOptionsId
@@ -97,7 +97,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
                     ],
                 ],
                 'finalState' => PendingAction::STATE_ERROR,
-                'output' => 'Error'
+                'output' => 'Error',
             ],
             [
                 'handler' => CommandHandlerTest::$handlerDefault, //$noOptionsId
@@ -108,25 +108,25 @@ class ProcessPendingsCommandTest extends KernelTestCase
                     ],
                 ],
                 'finalState' => PendingAction::STATE_ERROR,
-                'output' => 'Error'
+                'output' => 'Error',
             ],
             [
-                'handler' => "FakeHandlerReallyFake", //$UnknownHandlerErrorId
+                'handler' => 'FakeHandlerReallyFake', //$UnknownHandlerErrorId
                 'params' => [],
                 'finalState' => PendingAction::STATE_ERROR,
-                'output' => 'Error'
+                'output' => 'Error',
             ],
             [
-                'handler' => "FakeHandler", //$NoInterfaceHandlerId
+                'handler' => 'FakeHandler', //$NoInterfaceHandlerId
                 'params' => [],
                 'finalState' => PendingAction::STATE_HANDLER_ERROR,
-                'output' => 'Handler Error'
+                'output' => 'Handler Error',
             ],
             [
-                'handler' => "FakeHandlerInexistent", //$NoInterfaceHandlerId
+                'handler' => 'FakeHandlerInexistent', //$NoInterfaceHandlerId
                 'params' => [],
                 'finalState' => PendingAction::STATE_UNKNOWN_HANDLER,
-                'output' => 'Unknown Handler'
+                'output' => 'Unknown Handler',
             ],
             [
                 'handler' => CommandHandlerTest::$handlerDefault, //$wrongCommandId
@@ -143,7 +143,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
                     ],
                 ],
                 'finalState' => PendingAction::STATE_ERROR,
-                'output' => 'Error'
+                'output' => 'Error',
             ],
             [
                 'handler' => CommandHandlerTest::$handlerDefault, //$tooManyArgumentsId
@@ -161,7 +161,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
                     ],
                 ],
                 'finalState' => PendingAction::STATE_ERROR,
-                'output' => 'Error'
+                'output' => 'Error',
             ],
             [
                 'handler' => CommandHandlerTest::$handlerDefault, //$tooManyOptionsId
@@ -179,7 +179,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
                     ],
                 ],
                 'finalState' => PendingAction::STATE_ERROR,
-                'output' => 'Error'
+                'output' => 'Error',
             ],
             [
                 'handler' => ServiceHandlerTest::$handlerDefault,
@@ -191,12 +191,11 @@ class ProcessPendingsCommandTest extends KernelTestCase
                     ),
                 ],
                 'finalState' => PendingAction::STATE_ERROR,
-                'output' => 'Error'
+                'output' => 'Error',
             ],
         ];
 
-        foreach ($tests as $key => $test)
-        {
+        foreach ($tests as $key => $test) {
             $action = $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
                 $test['handler'],
                 $test['params'],
@@ -223,10 +222,9 @@ class ProcessPendingsCommandTest extends KernelTestCase
         ));
 
         $output = $commandTester->getDisplay();
-        foreach ($tests as $test)
-        {
+        foreach ($tests as $test) {
             $action = $this->getKernel()->getContainer()->get('doctrine')->getRepository('PendingActionsBundle:PendingAction')->find($test['actionId']);
-            $this->assertContains('Action '.$action->getId().' : ' . $test['output'], $output);
+            $this->assertContains('Action '.$action->getId().' : '.$test['output'], $output);
             $this->assertEquals($test['finalState'], $action->getState());
         }
 
