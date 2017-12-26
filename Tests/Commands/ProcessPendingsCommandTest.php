@@ -14,6 +14,7 @@ namespace ClaviculaNox\PendingActionsBundle\Tests\Commands;
 use ClaviculaNox\PendingActionsBundle\Command\ProcessPendingsCommand;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService;
+use ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Command\FakeCommand;
 use ClaviculaNox\PendingActionsBundle\Tests\Handlers\CommandHandlerTest;
 use ClaviculaNox\PendingActionsBundle\Tests\Handlers\EventHandlerTest;
 use ClaviculaNox\PendingActionsBundle\Tests\Handlers\ServiceHandlerTest;
@@ -213,6 +214,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
         $alreadyRunningActionId = $alreadyRunningAction->getId();
 
         $application->add(new ProcessPendingsCommand());
+        $application->add(new FakeCommand());
 
         $command = $application->find('cn:pending-actions:process');
         $commandTester = new CommandTester($command);

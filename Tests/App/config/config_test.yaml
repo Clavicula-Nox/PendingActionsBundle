@@ -22,15 +22,18 @@ doctrine:
 
 services:
     fake.service:
-         class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService
+        class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeService
+        public: true
 
     fake.event.listener:
-         class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeEventListener
-         tags:
-             - { name: kernel.event_subscriber }
+        class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeEventListener
+        public: true
+        tags:
+            - { name: kernel.event_subscriber }
 
     cn_pending_actions.pending_actions.fake_handler:
         class: ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeHandler
+        public: true
 
 pending_actions:
     handlers:
