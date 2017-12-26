@@ -23,6 +23,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class PendingActionsServiceTest extends WebTestCase
 {
     public static $group = 'countGroup';
+
     public static $count = 5;
 
     /**

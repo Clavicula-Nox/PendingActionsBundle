@@ -21,6 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class PendingActionsExtensionTest extends KernelTestCase
 {
     public static $injectionHandler = 'injectionHandler';
+
     public static $injectionHandlerValue = 'injectionHandlerValue';
 
     public function testInjection()

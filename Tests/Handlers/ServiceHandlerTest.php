@@ -31,7 +31,9 @@ class ServiceHandlerTest extends WebTestCase
     ];
 
     public static $handlerDefault = 'ServiceHandler';
+
     public static $handlerConfig = 'ServiceHandlerConfig';
+
     public static $group = 'testGroup';
 
     /**

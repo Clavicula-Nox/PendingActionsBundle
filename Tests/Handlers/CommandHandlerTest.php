@@ -35,8 +35,10 @@ class CommandHandlerTest extends WebTestCase
 
     /* @var string */
     public static $handlerDefault = 'CommandHandler';
+
     /* @var string */
     public static $handlerConfig = 'CommandHandlerConfig';
+
     /* @var string */
     public static $group = 'testGroup';
 

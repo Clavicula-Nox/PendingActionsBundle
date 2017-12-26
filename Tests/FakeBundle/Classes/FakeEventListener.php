@@ -19,6 +19,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class FakeEventListener implements EventSubscriberInterface
 {
     const MODE = 'defaultMode';
+
     const TITLE = 'defaultTitle';
 
     public function __construct()
