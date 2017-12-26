@@ -17,6 +17,7 @@ namespace ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes;
 class FakeService
 {
     const ARG_A = 'defaultMode';
+
     const ARG_B = 'defaultTitle';
 
     /**

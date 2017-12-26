@@ -19,9 +19,11 @@ use Symfony\Component\EventDispatcher\Event;
 class FakeEvent extends Event
 {
     const ARG_A = 'a';
+
     const ARG_B = 'b';
 
     public $argA;
+
     public $argB;
 
     public function __construct($argA, $argB)

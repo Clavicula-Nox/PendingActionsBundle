@@ -20,10 +20,15 @@ use Doctrine\ORM\Mapping as ORM;
 class PendingAction
 {
     const STATE_WAITING = 0;
+
     const STATE_PROCESSING = 1;
+
     const STATE_PROCESSED = 2;
+
     const STATE_ERROR = 3;
+
     const STATE_UNKNOWN_HANDLER = 4;
+
     const STATE_HANDLER_ERROR = 5;
 
     public static $labels = [

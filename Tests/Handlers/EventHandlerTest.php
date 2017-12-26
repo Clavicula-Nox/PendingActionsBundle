@@ -41,7 +41,9 @@ class EventHandlerTest extends WebTestCase
     ];
 
     public static $handlerDefault = 'EventHandler';
+
     public static $handlerConfig = 'EventHandlerConfig';
+
     public static $group = 'testGroup';
 
     /**
