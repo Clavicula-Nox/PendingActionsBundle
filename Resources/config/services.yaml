@@ -1,6 +1,7 @@
 services:
     cn_pending_actions.pending_actions_service:
         class: ClaviculaNox\PendingActionsBundle\Classes\Services\PendingActionsService
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "%pending_actions.handlers%"
@@ -9,6 +10,7 @@ services:
 
     cn_pending_actions.pending_actions.service_handler:
         class: ClaviculaNox\PendingActionsBundle\Classes\Handlers\ServiceHandler
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
         calls:
@@ -16,9 +18,11 @@ services:
 
     cn_pending_actions.pending_actions.event_handler:
         class: ClaviculaNox\PendingActionsBundle\Classes\Handlers\EventHandler
+        public: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@event_dispatcher"
 
     cn_pending_actions.pending_actions.command_handler:
         class: ClaviculaNox\PendingActionsBundle\Classes\Handlers\CommandHandler
+        public: true
