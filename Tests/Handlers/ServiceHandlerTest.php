@@ -42,6 +42,7 @@ class ServiceHandlerTest extends WebTestCase
 
     /**
      * @param array $options
+     *
      * @return KernelInterface
      */
     private function getKernel($options = []): KernelInterface

@@ -50,7 +50,7 @@ class CommandHandler implements HandlerInterface
             if ('command' == $argument->getName()) {
                 continue;
             }
-            
+
             if ($argument->isRequired() && !isset($params['arguments'][$argument->getName()])) {
                 return false;
             }
