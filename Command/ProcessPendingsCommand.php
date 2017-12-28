@@ -41,6 +41,10 @@ EOT
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {

@@ -50,7 +50,7 @@ class CommandHandler implements HandlerInterface
             if ('command' == $argument->getName()) {
                 continue;
             }
-
+            
             if ($argument->isRequired() && !isset($params['arguments'][$argument->getName()])) {
                 return false;
             }
@@ -81,6 +81,8 @@ class CommandHandler implements HandlerInterface
      * @param OutputInterface        $output
      *
      * @return int
+     *
+     * @throws \Exception
      */
     public function process(PendingAction $PendingAction,
                             ProcessPendingsCommand $ProcessPendingsCommand = null,

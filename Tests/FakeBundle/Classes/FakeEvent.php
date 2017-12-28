@@ -26,7 +26,12 @@ class FakeEvent extends Event
 
     public $argB;
 
-    public function __construct($argA, $argB)
+    /**
+     * FakeEvent constructor.
+     * @param string $argA
+     * @param string $argB
+     */
+    public function __construct(string $argA, string $argB)
     {
         $this->argA = $argA;
         $this->argB = $argB;

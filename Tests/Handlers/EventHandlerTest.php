@@ -22,6 +22,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class EventHandlerTest extends WebTestCase
 {
+    /* @var array */
     public static $params = [
         'eventClassName' => "\ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeEvent",
         'eventId' => 'fake_event.fake_method',
@@ -31,6 +32,7 @@ class EventHandlerTest extends WebTestCase
         ],
     ];
 
+    /* @var array */
     public static $paramsException = [
         'eventClassName' => "\ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes\FakeEvent",
         'eventId' => 'fake_event.fake_method_exception',
@@ -40,10 +42,13 @@ class EventHandlerTest extends WebTestCase
         ],
     ];
 
+    /* @var string */
     public static $handlerDefault = 'EventHandler';
 
+    /* @var string */
     public static $handlerConfig = 'EventHandlerConfig';
 
+    /* @var string */
     public static $group = 'testGroup';
 
     /**
@@ -56,6 +61,9 @@ class EventHandlerTest extends WebTestCase
 
     /**
      * @return PendingAction
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     private function getExceptionPendingAction(): PendingAction
     {
@@ -67,9 +75,14 @@ class EventHandlerTest extends WebTestCase
     }
 
     /**
+     * @param string $handler
+     *
      * @return PendingAction
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    private function getPendingAction($handler): PendingAction
+    private function getPendingAction(string $handler): PendingAction
     {
         return $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
             $handler,
@@ -78,6 +91,10 @@ class EventHandlerTest extends WebTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testRegistrationDefault(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);
@@ -85,6 +102,10 @@ class EventHandlerTest extends WebTestCase
         $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testRegistrationConfig(): void
     {
         $Action = $this->getPendingAction(self::$handlerConfig);
@@ -92,6 +113,10 @@ class EventHandlerTest extends WebTestCase
         $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testHandlerDefault(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);
@@ -99,6 +124,10 @@ class EventHandlerTest extends WebTestCase
         $this->assertEquals(self::$handlerDefault, $Action->getHandler());
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testHandlerConfig(): void
     {
         $Action = $this->getPendingAction(self::$handlerConfig);
@@ -106,6 +135,10 @@ class EventHandlerTest extends WebTestCase
         $this->assertEquals(self::$handlerConfig, $Action->getHandler());
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testGroup(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);
@@ -113,6 +146,10 @@ class EventHandlerTest extends WebTestCase
         $this->assertEquals(self::$group, $Action->getActionGroup());
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testPendingAction(): void
     {
         $Action = $this->getExceptionPendingAction();

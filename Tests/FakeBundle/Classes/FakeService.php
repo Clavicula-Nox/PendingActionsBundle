@@ -26,7 +26,7 @@ class FakeService
      *
      * @return bool
      */
-    public function fakeMethod($argA, $argB): bool
+    public function fakeMethod(string $argA, string $argB): bool
     {
         return self::ARG_A == $argA && self::ARG_B == $argB;
     }

@@ -46,8 +46,11 @@ class PendingActionsService implements ContainerAwareInterface
      * @param bool        $groupSimilarAction
      *
      * @return array
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function getPendingActions($group = null, bool $groupSimilarAction = false): array
+    public function getPendingActions(string $group = null, bool $groupSimilarAction = false): array
     {
         $actions = $this->EntityManager->getRepository('PendingActionsBundle:PendingAction')->get($group, PendingAction::STATE_WAITING);
 
@@ -76,11 +79,14 @@ class PendingActionsService implements ContainerAwareInterface
     /**
      * @param string      $handler
      * @param array       $params
-     * @param null|string $group
+     * @param string|null $group
      *
      * @return PendingAction
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function register(string $handler, array $params = [], $group = null): PendingAction
+    public function register(string $handler, array $params = [], string $group = null): PendingAction
     {
         $PendingAction = new PendingAction();
         $PendingAction->setHandler($handler);
@@ -98,6 +104,9 @@ class PendingActionsService implements ContainerAwareInterface
     /**
      * @param PendingAction $PendingAction
      * @param int           $stateId
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function setState(PendingAction $PendingAction, int $stateId): void
     {
@@ -111,6 +120,9 @@ class PendingActionsService implements ContainerAwareInterface
      * @param PendingAction $PendingAction
      *
      * @return int
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function process(PendingAction $PendingAction): int
     {

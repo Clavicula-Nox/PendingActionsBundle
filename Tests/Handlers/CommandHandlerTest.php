@@ -51,9 +51,14 @@ class CommandHandlerTest extends WebTestCase
     }
 
     /**
+     * @param string $handler
+     *
      * @return PendingAction
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    private function getPendingAction($handler): PendingAction
+    private function getPendingAction(string $handler): PendingAction
     {
         return $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
             $handler,
@@ -62,6 +67,10 @@ class CommandHandlerTest extends WebTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testRegistrationDefault(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);
@@ -69,6 +78,10 @@ class CommandHandlerTest extends WebTestCase
         $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testRegistrationConfig(): void
     {
         $Action = $this->getPendingAction(self::$handlerConfig);
@@ -76,6 +89,10 @@ class CommandHandlerTest extends WebTestCase
         $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testHandlerDefault(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);
@@ -83,6 +100,10 @@ class CommandHandlerTest extends WebTestCase
         $this->assertEquals(self::$handlerDefault, $Action->getHandler());
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testHandlerConfig(): void
     {
         $Action = $this->getPendingAction(self::$handlerConfig);
@@ -90,6 +111,10 @@ class CommandHandlerTest extends WebTestCase
         $this->assertEquals(self::$handlerConfig, $Action->getHandler());
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testGroup(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);

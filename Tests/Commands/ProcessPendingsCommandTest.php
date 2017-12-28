@@ -45,6 +45,8 @@ class ProcessPendingsCommandTest extends KernelTestCase
     ];
 
     /**
+     * @param array $options
+     *
      * @return KernelInterface
      */
     private function getKernel($options = []): KernelInterface
@@ -52,6 +54,10 @@ class ProcessPendingsCommandTest extends KernelTestCase
         return $this->bootKernel($options);
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testCommand(): void
     {
         self::bootKernel();

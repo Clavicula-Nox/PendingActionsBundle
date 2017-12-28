@@ -30,9 +30,14 @@ class PendingActionTest extends WebTestCase
     }
 
     /**
+     * @param string $handler
+     *
      * @return PendingAction
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    private function getPendingAction($handler): PendingAction
+    private function getPendingAction(string $handler): PendingAction
     {
         return $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
             $handler,
@@ -41,6 +46,10 @@ class PendingActionTest extends WebTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testState(): void
     {
         $Action = $this->getPendingAction(CommandHandlerTest::$handlerDefault);

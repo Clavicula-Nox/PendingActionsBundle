@@ -8,9 +8,11 @@ framework:
 
 doctrine:
     dbal:
-        driver:   pdo_sqlite
-        charset:  UTF8
-        path:     '%database_path%'
+        driver:    pdo_sqlite
+        charset:   UTF8
+        logging:   false
+        profiling: false
+        path:      '%database_path%'
     orm:
         auto_generate_proxy_classes: true
         auto_mapping: false

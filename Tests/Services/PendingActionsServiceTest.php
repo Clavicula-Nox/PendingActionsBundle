@@ -22,11 +22,15 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class PendingActionsServiceTest extends WebTestCase
 {
+    /* @var string */
     public static $group = 'countGroup';
 
+    /* @var int */
     public static $count = 5;
 
     /**
+     * @param array $options
+     *
      * @return KernelInterface
      */
     private function getKernel($options = []): KernelInterface
@@ -34,6 +38,10 @@ class PendingActionsServiceTest extends WebTestCase
         return $this->bootKernel($options);
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testGetPendingActions(): void
     {
         $actions = $this
@@ -74,6 +82,10 @@ class PendingActionsServiceTest extends WebTestCase
         $this->assertEquals(2, count($actions));
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testRegisterPendingActionsAndStates(): void
     {
         $action = $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(

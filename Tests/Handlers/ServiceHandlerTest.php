@@ -21,6 +21,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class ServiceHandlerTest extends WebTestCase
 {
+    /* @var array */
     public static $params = [
         'serviceId' => 'fake.service',
         'method' => 'fakeMethod',
@@ -30,13 +31,17 @@ class ServiceHandlerTest extends WebTestCase
         ),
     ];
 
+    /* @var string */
     public static $handlerDefault = 'ServiceHandler';
 
+    /* @var string */
     public static $handlerConfig = 'ServiceHandlerConfig';
 
+    /* @var string */
     public static $group = 'testGroup';
 
     /**
+     * @param array $options
      * @return KernelInterface
      */
     private function getKernel($options = []): KernelInterface
@@ -45,9 +50,14 @@ class ServiceHandlerTest extends WebTestCase
     }
 
     /**
+     * @param string $handler
+     *
      * @return PendingAction
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    private function getPendingAction($handler): PendingAction
+    private function getPendingAction(string $handler): PendingAction
     {
         return $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
             $handler,
@@ -56,6 +66,10 @@ class ServiceHandlerTest extends WebTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testRegistrationDefault(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);
@@ -63,6 +77,10 @@ class ServiceHandlerTest extends WebTestCase
         $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testRegistrationConfig(): void
     {
         $Action = $this->getPendingAction(self::$handlerConfig);
@@ -70,6 +88,10 @@ class ServiceHandlerTest extends WebTestCase
         $this->assertInstanceOf('\ClaviculaNox\PendingActionsBundle\Entity\PendingAction', $Action);
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testHandlerDefault(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);
@@ -77,6 +99,10 @@ class ServiceHandlerTest extends WebTestCase
         $this->assertEquals(self::$handlerDefault, $Action->getHandler());
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testHandlerConfig(): void
     {
         $Action = $this->getPendingAction(self::$handlerConfig);
@@ -84,6 +110,10 @@ class ServiceHandlerTest extends WebTestCase
         $this->assertEquals(self::$handlerConfig, $Action->getHandler());
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testGroup(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);
@@ -91,6 +121,10 @@ class ServiceHandlerTest extends WebTestCase
         $this->assertEquals(self::$group, $Action->getActionGroup());
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testPendingAction(): void
     {
         $Action = $this->getPendingAction(self::$handlerDefault);

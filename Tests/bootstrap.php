@@ -28,6 +28,7 @@ if (is_dir(__DIR__.'/../build')) {
     }
 }
 
+//Create new build dir
 $fs->mkdir(__DIR__.'/../build');
 
 AnnotationRegistry::registerLoader(function ($class) use ($autoload) {
@@ -47,16 +48,22 @@ if ($fs->exists($databaseFile)) {
     $fs->remove($databaseFile);
 }
 
-// Create database
-$command = new CreateDatabaseDoctrineCommand();
-$application->add($command);
-$input = new ArrayInput(['command' => 'doctrine:database:create']);
-$command->run($input, new ConsoleOutput());
+try {
+    // Create database
+    $command = new CreateDatabaseDoctrineCommand();
+    $application->add($command);
+    $input = new ArrayInput(['command' => 'doctrine:database:create']);
+    $command->run($input, new ConsoleOutput());
 
-// Create database schema
-$command = new CreateSchemaDoctrineCommand();
-$application->add($command);
-$input = new ArrayInput(['command' => 'doctrine:schema:create']);
-$command->run($input, new ConsoleOutput());
+    // Create database schema
+    $command = new CreateSchemaDoctrineCommand();
+    $application->add($command);
+    $input = new ArrayInput(['command' => 'doctrine:schema:create']);
+    $command->run($input, new ConsoleOutput());
+} catch (\Exception $exception) {
+    echo "Unable to create the database\n";
+    $kernel->shutdown();
+    exit();
+}
 
 $kernel->shutdown();
