@@ -19,7 +19,7 @@ use Doctrine\ORM\EntityRepository;
 class PendingActionRepository extends EntityRepository
 {
     /**
-     * @param string $group
+     * @param string   $group
      * @param int|null $state
      *
      * @return array

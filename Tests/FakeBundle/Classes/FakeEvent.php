@@ -28,6 +28,7 @@ class FakeEvent extends Event
 
     /**
      * FakeEvent constructor.
+     *
      * @param string $argA
      * @param string $argB
      */
