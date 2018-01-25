@@ -9,6 +9,11 @@
 
     <php>
         <server name="KERNEL_DIR" value="./Tests/App/" />
+        <server name="KERNEL_CLASS" value="\AppKernel" />
+        <ini name="error_reporting" value="E_ALL" />
+        <ini name="display_errors" value="1" />
+        <ini name="display_startup_errors" value="1" />
+        <ini name="memory_limit" value="-1" />
     </php>
 
     <filter>
