@@ -23,12 +23,12 @@ Issues and feature requests are tracked in the Github issue tracker.
 
 ## Main Documentation
 
-  * [Installation](docs/installation.md)
-  * [Documentation](docs/documentation.md)
+  * [Installation](Docs/installation.md)
+  * [Documentation](Docs/documentation.md)
 
 ## Handlers Documentation
 
-  * [Service Handler](docs/service-handler.md)
-  * [Event Handler](docs/event-handler.md)
-  * [Command Handler](docs/command-handler.md)
-  * [Custom Handler](docs/custom-handler.md)
+  * [Service Handler](Docs/service-handler.md)
+  * [Event Handler](Docs/event-handler.md)
+  * [Command Handler](Docs/command-handler.md)
+  * [Custom Handler](Docs/custom-handler.md)
