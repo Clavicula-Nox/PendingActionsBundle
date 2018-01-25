@@ -14,7 +14,7 @@ PendingActionsBundle
 **Requirements**
 
   * php 7.1
-  * Symfony 3.x applications
+  * Symfony 3.4 and 4.x applications
   * Doctrine ORM entities
 
 **Reporting an issue or a feature request**
