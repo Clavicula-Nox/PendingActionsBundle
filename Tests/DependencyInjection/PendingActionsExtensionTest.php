@@ -24,6 +24,9 @@ class PendingActionsExtensionTest extends KernelTestCase
 
     public static $injectionHandlerValue = 'injectionHandlerValue';
 
+    /**
+     * @throws \Exception
+     */
     public function testInjection()
     {
         $builder = new ContainerBuilder();

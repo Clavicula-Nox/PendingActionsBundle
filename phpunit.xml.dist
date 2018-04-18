@@ -22,12 +22,6 @@
             <directory suffix=".php">./DependencyInjection</directory>
             <directory suffix=".php">./Handlers</directory>
             <directory suffix=".php">./Services</directory>
-            <exclude>
-                <directory>./Resources</directory>
-                <directory>./build</directory>
-                <directory>./Tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
         </whitelist>
     </filter>
 
