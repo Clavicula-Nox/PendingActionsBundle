@@ -203,6 +203,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
         ];
 
         foreach ($tests as $key => $test) {
+            /* @var $action PendingAction */
             $action = $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
                 $test['handler'],
                 $test['params'],
@@ -211,6 +212,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
             $tests[$key]['actionId'] = $action->getId();
         }
 
+        /* @var $alreadyRunningAction PendingAction */
         $alreadyRunningAction = $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
             ServiceHandlerTest::$handlerDefault,
             ServiceHandlerTest::$params,
@@ -231,6 +233,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
 
         $output = $commandTester->getDisplay();
         foreach ($tests as $test) {
+            /* @var $action PendingAction */
             $action = $this->getKernel()->getContainer()->get('doctrine')->getRepository('PendingActionsBundle:PendingAction')->find($test['actionId']);
             $this->assertContains('Action '.$action->getId().' : '.$test['output'], $output);
             $this->assertEquals($test['finalState'], $action->getState());
