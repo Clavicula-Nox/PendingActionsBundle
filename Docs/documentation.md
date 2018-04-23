@@ -26,4 +26,4 @@ To register a new PendingAction, you should use the following code :
 php bin/console cn:pending-actions:process --env=your_env 
 ```
 
-See [States](Docs/states.md) for more details about the lifecycle of a PendingAction.
+See [States](states.md) for more details about the lifecycle of a PendingAction.

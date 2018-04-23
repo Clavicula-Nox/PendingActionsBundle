@@ -33,4 +33,4 @@ You can then register a PendingAction with your custom handler using the followi
 
 The Interface has 2 methods : 
 - checkPendingAction : Used to check if the PendingAction can be processed. Returns true if the PendingAction can be processed, false otherwise.
-- process : Used to process the PendingAction. Returns a PendingAction [state](Docs/states.md), depending on the result.
+- process : Used to process the PendingAction. Returns a PendingAction [state](states.md), depending on the result.
