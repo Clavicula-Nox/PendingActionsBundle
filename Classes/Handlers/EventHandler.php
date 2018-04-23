@@ -61,6 +61,8 @@ class EventHandler implements HandlerInterface
      * @param PendingAction $PendingAction
      *
      * @return int
+     *
+     * @throws \ReflectionException
      */
     public function process(PendingAction $PendingAction): int
     {
