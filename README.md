@@ -25,6 +25,7 @@ Issues and feature requests are tracked in the Github issue tracker.
 
   * [Installation](Docs/installation.md)
   * [Documentation](Docs/documentation.md)
+  * [States](Docs/states.md)
 
 ## Handlers Documentation
 
