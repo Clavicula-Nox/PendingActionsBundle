@@ -9,7 +9,7 @@ PendingActionsBundle
 [![Build Status](https://travis-ci.org/Clavicula-Nox/PendingActionsBundle.svg?branch=master)](https://travis-ci.org/Clavicula-Nox/PendingActionsBundle)
 [![codecov](https://codecov.io/gh/Clavicula-Nox/PendingActionsBundle/branch/master/graph/badge.svg)](https://codecov.io/gh/Clavicula-Nox/PendingActionsBundle)
 
-*This bundle provides an easy way to delay and schedule the execution of heavy tasks for [Symfony](http://symfony.com/)-based projects.*
+*This bundle provides a simple way to delay and schedule the execution of heavy tasks for [Symfony](http://symfony.com/)-based projects.*
 
 **Requirements**
 
