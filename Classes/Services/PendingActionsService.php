@@ -47,37 +47,12 @@ class PendingActionsService implements ContainerAwareInterface
 
     /**
      * @param string|null $group
-     * @param bool        $groupSimilarAction
      *
      * @return array
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function getPendingActions(string $group = null, bool $groupSimilarAction = false): array
+    public function getPendingActions(string $group = null): array
     {
-        $actions = $this->EntityManager->getRepository('PendingActionsBundle:PendingAction')->get($group, PendingAction::STATE_WAITING);
-
-        if ($groupSimilarAction) {
-            $returnActions = [];
-
-            foreach ($actions as $action) {
-                /* @var PendingAction $action */
-                $key = sha1($action->getHandler().$action->getActionGroup().$action->getActionParams());
-                if (array_key_exists($key, $returnActions)) {
-                    $this->EntityManager->remove($action);
-                } else {
-                    $returnActions[$key] = $action;
-                }
-            }
-
-            $this->EntityManager->flush();
-            $returnActions = array_values($returnActions);
-
-            return $returnActions;
-        }
-
-        return $actions;
+        return $this->EntityManager->getRepository('PendingActionsBundle:PendingAction')->get($group, PendingAction::STATE_WAITING);
     }
 
     /**
