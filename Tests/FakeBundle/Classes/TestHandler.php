@@ -11,13 +11,14 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Tests\FakeBundle\Classes;
 
+use ClaviculaNox\PendingActionsBundle\Classes\Exceptions\HandlerErrorException;
 use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerInterface;
 use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerRegisterInterface;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Class TestHandler.
+ * Class TestHandler
  */
 class TestHandler implements HandlerInterface, HandlerRegisterInterface
 {
@@ -25,7 +26,7 @@ class TestHandler implements HandlerInterface, HandlerRegisterInterface
     protected $EntityManager;
 
     /**
-     * ServiceHandlerService constructor.
+     * TestHandler constructor.
      *
      * @param EntityManager $EntityManager
      */
@@ -48,10 +49,12 @@ class TestHandler implements HandlerInterface, HandlerRegisterInterface
      * @param PendingAction $PendingAction
      *
      * @return int
+     *
+     * @throws HandlerErrorException
      */
     public function process(PendingAction $PendingAction): int
     {
-        return PendingAction::STATE_PROCESSED;
+        throw new HandlerErrorException("Nothing to see here.");
     }
 
     /**

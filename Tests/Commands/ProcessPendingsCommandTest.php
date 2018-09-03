@@ -197,8 +197,8 @@ class ProcessPendingsCommandTest extends KernelTestCase
             [
                 'handler' => "TestHandler",
                 'params' => [],
-                'finalState' => PendingAction::STATE_PROCESSED,
-                'output' => 'Processed',
+                'finalState' => PendingAction::STATE_ERROR,
+                'output' => 'Error',
             ],
         ];
 

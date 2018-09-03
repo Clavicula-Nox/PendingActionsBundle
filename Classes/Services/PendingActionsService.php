@@ -11,6 +11,7 @@
 
 namespace ClaviculaNox\PendingActionsBundle\Classes\Services;
 
+use ClaviculaNox\PendingActionsBundle\Classes\Exceptions\HandlerErrorException;
 use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerInterface;
 use ClaviculaNox\PendingActionsBundle\Classes\Interfaces\HandlerRegisterInterface;
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
@@ -160,7 +161,7 @@ class PendingActionsService implements ContainerAwareInterface
                     $this->setState($PendingAction, $return);
                 }
             }
-        } catch (\Exception $exception) {
+        } catch (HandlerErrorException $HandlerErrorException) {
             $this->setState($PendingAction, PendingAction::STATE_ERROR);
         }
 
