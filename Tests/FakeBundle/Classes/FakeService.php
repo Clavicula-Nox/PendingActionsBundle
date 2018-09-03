@@ -21,8 +21,8 @@ class FakeService
     const ARG_B = 'defaultTitle';
 
     /**
-     * @param string $mode
-     * @param string $title
+     * @param string $argA
+     * @param string $argB
      *
      * @return bool
      */
