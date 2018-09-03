@@ -144,20 +144,24 @@ class PendingActionsService implements ContainerAwareInterface
      */
     public function process(PendingAction $PendingAction): int
     {
-        if (!array_key_exists($PendingAction->getHandler(), $this->handlersList)) {
-            $this->setState($PendingAction, PendingAction::STATE_ERROR);
-        } elseif (!$this->container->has($this->handlersList[$PendingAction->getHandler()])) {
-            $this->setState($PendingAction, PendingAction::STATE_UNKNOWN_HANDLER);
-        } else {
-            $handler = $this->container->get($this->handlersList[$PendingAction->getHandler()]);
-            if (!$handler instanceof HandlerInterface) {
-                $this->setState($PendingAction, PendingAction::STATE_HANDLER_ERROR);
-            } elseif (!$this->container->get($this->handlersList[$PendingAction->getHandler()])->checkPendingAction($PendingAction)) {
+        try {
+            if (!array_key_exists($PendingAction->getHandler(), $this->handlersList)) {
                 $this->setState($PendingAction, PendingAction::STATE_ERROR);
+            } elseif (!$this->container->has($this->handlersList[$PendingAction->getHandler()])) {
+                $this->setState($PendingAction, PendingAction::STATE_UNKNOWN_HANDLER);
             } else {
-                $return = $this->container->get($this->handlersList[$PendingAction->getHandler()])->process($PendingAction);
-                $this->setState($PendingAction, $return);
+                $handler = $this->container->get($this->handlersList[$PendingAction->getHandler()]);
+                if (!$handler instanceof HandlerInterface) {
+                    $this->setState($PendingAction, PendingAction::STATE_HANDLER_ERROR);
+                } elseif (!$this->container->get($this->handlersList[$PendingAction->getHandler()])->checkPendingAction($PendingAction)) {
+                    $this->setState($PendingAction, PendingAction::STATE_ERROR);
+                } else {
+                    $return = $this->container->get($this->handlersList[$PendingAction->getHandler()])->process($PendingAction);
+                    $this->setState($PendingAction, $return);
+                }
             }
+        } catch (\Exception $exception) {
+            $this->setState($PendingAction, PendingAction::STATE_ERROR);
         }
 
         return $PendingAction->getState();
