@@ -27,9 +27,13 @@ Issues and feature requests are tracked in the Github issue tracker.
   * [Documentation](Docs/documentation.md)
   * [States](Docs/states.md)
 
-## Handlers Documentation
+## Default Handlers Documentation
 
   * [Service Handler](Docs/service-handler.md)
   * [Event Handler](Docs/event-handler.md)
   * [Command Handler](Docs/command-handler.md)
-  * [Custom Handler](Docs/custom-handler.md)
+
+## Custom Handlers Documentation
+
+  * [Create a custom Handler](Docs/custom-handler.md)
+  * [Custom Handler Overrides](Docs/custom-handler-overrides.md)
