@@ -195,7 +195,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
                 'output' => 'Error',
             ],
             [
-                'handler' => "TestHandler",
+                'handler' => 'TestHandler',
                 'params' => [],
                 'finalState' => PendingAction::STATE_ERROR,
                 'output' => 'Error',
@@ -212,7 +212,7 @@ class ProcessPendingsCommandTest extends KernelTestCase
                 );
                 $tests[$key]['actionId'] = $action->getId();
             } catch (\Exception $exception) {
-                $this->assertEquals("The handler \"FakeHandlerReallyFake\" is not registered as a service.", $exception->getMessage());
+                $this->assertEquals('The handler "FakeHandlerReallyFake" is not registered as a service.', $exception->getMessage());
                 unset($tests[$key]);
             }
         }

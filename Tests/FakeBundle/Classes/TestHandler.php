@@ -18,7 +18,7 @@ use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Class TestHandler
+ * Class TestHandler.
  */
 class TestHandler implements HandlerInterface, HandlerRegisterInterface
 {
@@ -54,11 +54,11 @@ class TestHandler implements HandlerInterface, HandlerRegisterInterface
      */
     public function process(PendingAction $PendingAction): int
     {
-        throw new HandlerErrorException("Nothing to see here.");
+        throw new HandlerErrorException('Nothing to see here.');
     }
 
     /**
-     * @param array $params
+     * @param array       $params
      * @param string|null $group
      *
      * @return PendingAction
@@ -69,7 +69,7 @@ class TestHandler implements HandlerInterface, HandlerRegisterInterface
     public function register(array $params = [], string $group = null): PendingAction
     {
         $PendingAction = new PendingAction();
-        $PendingAction->setHandler("TestHandler");
+        $PendingAction->setHandler('TestHandler');
         $PendingAction->setActionParams(json_encode($params));
         $PendingAction->setActionGroup($group);
         $PendingAction->setCreated(new \DateTime());
