@@ -18,7 +18,8 @@ class HandlerErrorException extends \Exception
 {
     /**
      * HandlerErrorException constructor.
-     * @param string $msg
+     *
+     * @param string          $msg
      * @param \Exception|null $previous
      */
     public function __construct(string $msg, \Exception $previous = null)
