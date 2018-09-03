@@ -130,12 +130,6 @@ class ProcessPendingsCommandTest extends KernelTestCase
                 'output' => 'Handler Error',
             ],
             [
-                'handler' => 'FakeHandlerInexistent', //$NoInterfaceHandlerId
-                'params' => [],
-                'finalState' => PendingAction::STATE_UNKNOWN_HANDLER,
-                'output' => 'Unknown Handler',
-            ],
-            [
                 'handler' => CommandHandlerTest::$handlerDefault, //$wrongCommandId
                 'params' => [
                     'command' => 'fake:command:reallyfake',
@@ -200,16 +194,27 @@ class ProcessPendingsCommandTest extends KernelTestCase
                 'finalState' => PendingAction::STATE_ERROR,
                 'output' => 'Error',
             ],
+            [
+                'handler' => "TestHandler",
+                'params' => [],
+                'finalState' => PendingAction::STATE_PROCESSED,
+                'output' => 'Processed',
+            ],
         ];
 
         foreach ($tests as $key => $test) {
-            /* @var $action PendingAction */
-            $action = $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
-                $test['handler'],
-                $test['params'],
-                self::$group
-            );
-            $tests[$key]['actionId'] = $action->getId();
+            try {
+                /* @var $action PendingAction */
+                $action = $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
+                    $test['handler'],
+                    $test['params'],
+                    self::$group
+                );
+                $tests[$key]['actionId'] = $action->getId();
+            } catch (\Exception $exception) {
+                $this->assertEquals("The handler \"FakeHandlerReallyFake\" is not registered as a service.", $exception->getMessage());
+                unset($tests[$key]);
+            }
         }
 
         /* @var $alreadyRunningAction PendingAction */
@@ -226,10 +231,10 @@ class ProcessPendingsCommandTest extends KernelTestCase
 
         $command = $application->find('cn:pending-actions:process');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array(
+        $commandTester->execute([
             'command' => $command->getName(),
             'actionGroup' => self::$group,
-        ));
+        ]);
 
         $output = $commandTester->getDisplay();
         foreach ($tests as $test) {
