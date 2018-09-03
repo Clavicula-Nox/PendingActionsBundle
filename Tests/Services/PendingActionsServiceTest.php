@@ -12,7 +12,6 @@
 namespace ClaviculaNox\PendingActionsBundle\Tests\Services;
 
 use ClaviculaNox\PendingActionsBundle\Entity\PendingAction;
-use ClaviculaNox\PendingActionsBundle\Tests\Handlers\EventHandlerTest;
 use ClaviculaNox\PendingActionsBundle\Tests\Handlers\ServiceHandlerTest;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
