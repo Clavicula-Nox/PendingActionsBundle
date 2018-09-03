@@ -65,21 +65,6 @@ class PendingActionsServiceTest extends WebTestCase
             ->get('cn_pending_actions.pending_actions_service')->getPendingActions(self::$group);
 
         $this->assertEquals(self::$count, count($actions));
-
-        for ($i = 1; $i <= self::$count; ++$i) {
-            $this->getKernel()->getContainer()->get('cn_pending_actions.pending_actions_service')->register(
-                EventHandlerTest::$handlerDefault,
-                EventHandlerTest::$params,
-                self::$group
-            );
-        }
-
-        $actions = $this
-            ->getKernel()
-            ->getContainer()
-            ->get('cn_pending_actions.pending_actions_service')->getPendingActions(self::$group, true);
-
-        $this->assertEquals(2, count($actions));
     }
 
     /**
