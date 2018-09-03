@@ -125,18 +125,10 @@ class PendingAction
     }
 
     /**
-     * @param array|string $actionParams
+     * @param string $actionParams
      */
-    public function setActionParams($actionParams)
+    public function setActionParams(string $actionParams)
     {
-        if (is_array($actionParams)) {
-            $actionParams = json_encode($actionParams);
-        }
-
-        if (!json_decode($actionParams)) {
-            $actionParams = '';
-        }
-
         $this->actionParams = $actionParams;
     }
 
