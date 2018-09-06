@@ -55,7 +55,7 @@ EOT
 
         $pendingActions = $this->getContainer()
             ->get('cn_pending_actions.pending_actions_service')
-            ->getPendingActions($input->getArgument('actionGroup'), true);
+            ->getPendingActions($input->getArgument('actionGroup'));
         $total = count($pendingActions);
 
         if ($total > 0) {
