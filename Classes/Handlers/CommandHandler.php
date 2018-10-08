@@ -95,9 +95,9 @@ class CommandHandler implements HandlerInterface
         $params = json_decode($PendingAction->getActionParams(), true);
 
         $command = $ProcessPendingsCommand->getApplication()->find($params['command']);
-        $commandArgs = array(
+        $commandArgs = [
             'command' => $params['command'],
-        );
+        ];
 
         foreach ($params['arguments'] as $key => $argument) {
             $commandArgs[$key] = $argument;

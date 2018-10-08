@@ -68,7 +68,7 @@ class ServiceHandler implements ContainerAwareInterface, HandlerInterface
     public function process(PendingAction $PendingAction): int
     {
         $params = json_decode($PendingAction->getActionParams(), true);
-        call_user_func_array(array($this->container->get($params['serviceId']), $params['method']), $params['args']);
+        call_user_func_array([$this->container->get($params['serviceId']), $params['method']], $params['args']);
 
         return PendingAction::STATE_PROCESSED;
     }
