@@ -5,7 +5,7 @@ PendingActionsBundle
 [![Latest Stable Version](https://poser.pugx.org/clavicula-nox/pendingactions-bundle/v/stable)](https://packagist.org/packages/clavicula-nox/pendingactions-bundle)
 [![License](https://poser.pugx.org/clavicula-nox/pendingactions-bundle/license)](https://packagist.org/packages/clavicula-nox/pendingactions-bundle)
 [![Total Downloads](https://poser.pugx.org/clavicula-nox/pendingactions-bundle/downloads)](https://packagist.org/packages/clavicula-nox/pendingactions-bundle)
-[![Symfony](https://img.shields.io/badge/Symfony-%203.4%20&%204.x-green.svg "Supports Symfony 3.4 & 4.x")](https://symfony.com/)
+[![Symfony](https://img.shields.io/badge/Symfony-%203.4%20&%204.x-green.svg "Supports Symfony 3.4")](https://symfony.com/)
 [![Build Status](https://travis-ci.org/Clavicula-Nox/PendingActionsBundle.svg?branch=master)](https://travis-ci.org/Clavicula-Nox/PendingActionsBundle)
 [![codecov](https://codecov.io/gh/Clavicula-Nox/PendingActionsBundle/branch/master/graph/badge.svg)](https://codecov.io/gh/Clavicula-Nox/PendingActionsBundle)
 
@@ -14,7 +14,7 @@ PendingActionsBundle
 **Requirements**
 
   * php 7.1+
-  * Symfony 3.4 and 4.x applications
+  * Symfony 3.4 applications
   * Doctrine ORM entities
 
 **Reporting an issue or a feature request**
