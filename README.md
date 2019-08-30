@@ -5,7 +5,7 @@ PendingActionsBundle
 [![Latest Stable Version](https://poser.pugx.org/clavicula-nox/pendingactions-bundle/v/stable)](https://packagist.org/packages/clavicula-nox/pendingactions-bundle)
 [![License](https://poser.pugx.org/clavicula-nox/pendingactions-bundle/license)](https://packagist.org/packages/clavicula-nox/pendingactions-bundle)
 [![Total Downloads](https://poser.pugx.org/clavicula-nox/pendingactions-bundle/downloads)](https://packagist.org/packages/clavicula-nox/pendingactions-bundle)
-[![Symfony](https://img.shields.io/badge/Symfony-%203.4%20-green.svg "Supports Symfony 3.4")](https://symfony.com/)
+[![Symfony](https://img.shields.io/badge/Symfony-%203.4-green.svg"Supports Symfony 3.4")](https://symfony.com/)
 [![Build Status](https://travis-ci.org/Clavicula-Nox/PendingActionsBundle.svg?branch=master)](https://travis-ci.org/Clavicula-Nox/PendingActionsBundle)
 [![codecov](https://codecov.io/gh/Clavicula-Nox/PendingActionsBundle/branch/master/graph/badge.svg)](https://codecov.io/gh/Clavicula-Nox/PendingActionsBundle)
 
